@@ -126,6 +126,7 @@ class ChromeBrowser(unittest.TestCase):
         except NoSuchElementException:
             print("EMAIL field NOT DISPLAYED")
 
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 def tearDown(self):
     self.driver.quit()
