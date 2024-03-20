@@ -83,25 +83,27 @@ class ChromeBrowser(unittest.TestCase):
         self.driver.quit()
 
     # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    # ...............  NP-TC5: "Verify  the optional text field 'How will you use the APIs?'."  ......
+    # ...............  NP-T6: "Verify  the 'Signup' button"  ......
 
-    def test5_optional_field_search(self):
-        driver5 = self.driver
+    def test6_signup_button_search(self):
+        driver6 = self.driver
         url = "https://api.nasa.gov/"
-        driver5.get(url)
-        driver5.maximize_window()
+        driver6.get(url)
+        driver6.maximize_window()
         delay()
         try:
-            # ...... OPTIONAL: 'HOW WILL YOU...'. Execute JavaScript to access shadow DOM and get the field ...
-            element = driver5.execute_script(
+            # ...... SIGNUP button. Execute JavaScript to access shadow DOM and get the element ...
+            element = driver6.execute_script(
                 'return document.querySelector(".api-umbrella-signup-embed-content-container").shadowRoot'
-                '.querySelector("#user_use_description")')
-            print("OPTIONAL field Found")
+                '.querySelector(".btn.btn-lg.btn-primary")')
+            # element = driver6.execute_script('return document.querySelector(
+            # ".api-umbrella-signup-embed-content-container").shadowRoot.querySelector(".btn.btn-lg.btn-primary")')
+            print("SIGNUP button Found")
             # # ....... Now you can interact with the element ......
             # # ....... For example, to input text:
             # element.send_keys('Your text here')
         except NoSuchElementException:
-            print("OPTIONAL field NOT DISPLAYED")
+            print("SIGNUP button NOT DISPLAYED")
 
 
 def tearDown(self):
