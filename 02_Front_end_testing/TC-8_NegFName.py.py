@@ -49,68 +49,35 @@ class ChromeBrowser(unittest.TestCase):
         self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
         self.driver.maximize_window()
 
-    # ......Verify the webpage is accessible.........................
-    # ......(Methods in UnitTest should start from "test" keyword).......
-    def test0_webpage_search(self):
-        driver1 = self.driver
-
-        # .........Check that an element is present on the DOM of a page and visible.
-        url = "https://api.nasa.gov/"
-        driver1.get(url)
-        driver1.maximize_window()
-        driver1.minimize_window()
-        driver1.maximize_window()
-
-        # ................API testing from Selenium....................
-        print("Webpage Url has", requests.get(url).status_code, "as status Code")
-        code = requests.get(url).status_code
-        if code == 200:
-            print("API response code is OK")
-        else:
-            print("API response code is not 200", "Current code is:", code)
-
-        # .................Check current webpage Title with Exception functionality
-        try:
-            assert "NASA Open APIs" in driver1.title
-            print("Webpage is CORRECT. Current Title is: ", driver1.title)
-        except WDE:
-            print("Webpage is different, current Title is: ", driver1.title)
-
-        # Delay all actions from 1 to 3 sec
-        delay()
-
-    def tearDown(self):
-        self.driver.quit()
-
     # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    # ...............  NP-T7: "Verify The system generates an API key..."  ......
-
-    def test7_complete_form_search(self):
-        driver7 = self.driver
+    # ...............  NP-T8: "Verify  that an error message when "First Name" left empty."  ......
+    # .......................(Methods in UnitTest should start from "test" keyword).....
+    def test8_firstName_empty(self):
+        driver8 = self.driver
         url = "https://api.nasa.gov/"
-        driver7.get(url)
-        driver7.maximize_window()
+        driver8.get(url)
+        driver8.maximize_window()
         delay()
-        try:
-            # ...... FIRST NAME. Execute JavaScript to access shadow DOM and get the field .....
-            FName = fake.first_name()
-
-            element = driver7.execute_script(
-                'return document.querySelector(".api-umbrella-signup-embed-content-container").shadowRoot'
-                '.querySelector("#user_first_name")').send_keys(FName)
-            print("First Name: ", FName)
-            # # ....... Now you can interact with the element ......
-            # # ....... For example, to input text:
-            # element.send_keys('Your text here')
-        except NoSuchElementException:
-            print("FIRST NAME field NOT DISPLAYED")
+        # try:
+        #     # ...... FIRST NAME. Execute JavaScript to access shadow DOM and get the field .....
+        #     FName = fake.first_name()
+        #
+        #     element = driver8.execute_script(
+        #         'return document.querySelector(".api-umbrella-signup-embed-content-container").shadowRoot'
+        #         '.querySelector("#user_first_name")').send_keys(FName)
+        #     print("First Name: ", FName)
+        #     # # ....... Now you can interact with the element ......
+        #     # # ....... For example, to input text:
+        #     # element.send_keys('Your text here')
+        # except NoSuchElementException:
+        #     print("FIRST NAME field NOT DISPLAYED")
 
         try:
             # ....... LAST NAME. Execute JavaScript to access shadow DOM and get the field .....
 
             LName = fake.last_name()
 
-            element = driver7.execute_script(
+            element = driver8.execute_script(
                 'return document.querySelector(".api-umbrella-signup-embed-content-container").shadowRoot'
                 '.querySelector("#user_last_name")').send_keys(LName)
             print("Last Name: ", LName)  # For the records.
@@ -122,7 +89,7 @@ class ChromeBrowser(unittest.TestCase):
             # ....... EMAIL. Execute JavaScript to access shadow DOM and get the field .....
             email = fake.email()
 
-            element = driver7.execute_script(
+            element = driver8.execute_script(
                 'return document.querySelector(".api-umbrella-signup-embed-content-container").shadowRoot'
                 '.querySelector("#user_email")').send_keys(email)
             print(email)  # For the records.
@@ -132,12 +99,26 @@ class ChromeBrowser(unittest.TestCase):
 
         try:
             # ...... SIGNUP button. Execute JavaScript to access shadow DOM and get the element ...
-            element = driver7.execute_script(
+            element = driver8.execute_script(
                 'return document.querySelector(".api-umbrella-signup-embed-content-container").shadowRoot'
                 '.querySelector(".btn.btn-lg.btn-primary")').click()
 
         except NoSuchElementException:
             print("SIGNUP button NOT DISPLAYED")
+
+        # ............. Verify the ERROR Message ........................
+        try:
+            # Execute JavaScript to access shadow DOM and get the "Fill out this field" message .....
+            feedback_element = driver8.execute_script(
+                'return document.querySelector(".api-umbrella-signup-embed-content-container").shadowRoot'
+                '.querySelector("#user_first_name_feedback")')
+
+            # Now you can interact with the feedback element
+            # ... Get the text of the error message:
+            feedback_text = feedback_element.text
+            print("Error message: ", "'", feedback_text, "'")
+        except NoSuchElementException:
+            print("No Error Message Displayed.")
 
 
 delay()

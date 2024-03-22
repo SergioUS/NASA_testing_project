@@ -68,7 +68,7 @@ class ChromeBrowser(unittest.TestCase):
     # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     # ......  Verify preconditions: the webpage is accessible   .....................
     # ...................(Methods in UnitTest should start from "test" keyword).......
-    def test1_webpage_search(self):
+    def test0_webpage_search(self):
         driver1 = self.driver
 
         # .........Check that an element is present on the DOM of a page and visible.
@@ -102,7 +102,7 @@ class ChromeBrowser(unittest.TestCase):
     # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     # .........  NP-T2: "Verify the form's TITLE is “Generate API Key”  .............
 
-    def test3_title_search(self):
+    def test2_title_search(self):
 
         driver3 = self.driver
         url = "https://api.nasa.gov/"

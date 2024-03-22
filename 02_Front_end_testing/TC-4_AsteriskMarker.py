@@ -52,7 +52,7 @@ class ChromeBrowser(unittest.TestCase):
 
     # ......Verify the webpage is accessible.........................
     # ......(Methods in UnitTest should start from "test" keyword).......
-    def test1_webpage_search(self):
+    def test0_webpage_search(self):
         driver1 = self.driver
 
         # .........Check that an element is present on the DOM of a page and visible.
@@ -86,7 +86,7 @@ class ChromeBrowser(unittest.TestCase):
     # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     # ......NP T4: Verify that mandatory input fields are marked with an asterisk (*)..............
 
-    def test2_asterisk_search(self):
+    def test4_asterisk_search(self):
 
         driver2 = self.driver
         url = "https://api.nasa.gov/"
