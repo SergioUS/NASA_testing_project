@@ -123,6 +123,8 @@ class ChromeBrowser(unittest.TestCase):
 
         # ................  Verify the presence of the header "Report Generated!" ............
         try:
+            WebDriverWait(driver1, 50).until(EC.presence_of_element_located((By.XPATH, "//h2[contains(text(),'Report "
+                                                                                      "Generated!')]")))
             driver1.find_element(By.XPATH, "//h2[contains(text(),'Report Generated!')]")
             print("Report Generated!")
 
@@ -164,7 +166,7 @@ class ChromeBrowser(unittest.TestCase):
                 driver1.find_element(By.XPATH,
                                      "//p[contains(.,'Almost done! Check your e-mail for a validation link.Click on it "
                                      "to activate your account.')]")
-                print("Message: 'Check your e-mail!'")
+                print("SUCCESS! 'Check your e-mail for a validation link'")
 
             except NoSuchElementException:
                 print("Message is MISSING!")
