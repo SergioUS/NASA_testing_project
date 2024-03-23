@@ -52,7 +52,7 @@ class ChromeBrowser(unittest.TestCase):
     # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     # ...............  NP-T8: "Verify  that an error message when "First Name" left empty."  ......
     # .......................(Methods in UnitTest should start from "test" keyword).....
-    def test9_lastName_empty(self):
+    def test8_firstName_empty(self):
         driver8 = self.driver
         url = "https://api.nasa.gov/"
         driver8.get(url)
