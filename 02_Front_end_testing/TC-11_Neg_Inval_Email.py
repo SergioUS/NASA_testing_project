@@ -15,6 +15,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
+import json
 
 # import HtmlTestRunner
 
@@ -62,56 +63,16 @@ class ChromeBrowser(unittest.TestCase):
 
         # >>>>>>>   Invalid email addresses:   >>>>>>>>>>>>>>
 
-        # 1. john.doe.example.com                (missing "@" symbol)
-        # 2. jane_smith123@                     (missing domain)
-        # 3. @company.com                       (missing username)
-        # 4. bob.smith@com                      (incorrect domain format)
-        # 5. .john.doe@example.com              (incorrect format)
-        # 6. bob@smith@example.com              (multiple "@" symbols)
-        # 7. jane_smith123@-emailprovider.com    (hyphen at the beginning of the domain name)
-        # 8. john.doe@example..com              (multiple consecutive dots in the domain name)
-        # 9. jane_smith123@emailprovider.       (trailing dot in the domain name)
+        # ............Read the list from the JSON file  .............
+        with open("../../NASA_testing_project/02_Front_end_testing/tc_11_invalid_emails.json", "r") as json_file:
+            loaded_invalid_emails = json.load(json_file)
 
-        badEmail = ["john.doe.example.com",
-                    "jane_smith123@",
-                    "@company.com",
-                    ".john.doe@example.com",
-                    "bob@smith@example.com",
-                    "jane_smith123@-emailprovider.com",
-                    "john.doe@example..com",
-                    "jane_smith123@emailprovider.",
-                    "bob.smith@com"]
+        # .......Input the loaded invalid email addresses one by one .....
 
-        for email in badEmail:
-            print("----------------------------------")
-            try:
-                # ...... FIRST NAME. Execute JavaScript to access shadow DOM and get the field .....
-                FName = fake.first_name()
+        for email, reason in loaded_invalid_emails.items():
+            print("========================================")
 
-                element = driver8.execute_script(
-                    'return document.querySelector(".api-umbrella-signup-embed-content-container").shadowRoot'
-                    '.querySelector("#user_first_name")').send_keys(FName)
-                print("First Name: ", FName)
-                # # ....... Now you can interact with the element ......
-                # # ....... For example, to input text:
-                # element.send_keys('Your text here')
-            except NoSuchElementException:
-                print("FIRST NAME field NOT DISPLAYED")
-
-            try:
-                # ....... LAST NAME. Execute JavaScript to access shadow DOM and get the field .....
-
-                LName = fake.last_name()
-
-                element = driver8.execute_script(
-                    'return document.querySelector(".api-umbrella-signup-embed-content-container").shadowRoot'
-                    '.querySelector("#user_last_name")').send_keys(LName)
-                print("Last Name: ", LName)  # For the records.
-
-            except NoSuchElementException:
-                print("LAST NAME field NOT DISPLAYED")
-
-            # ?????????????????????????????? for email in badEmail:
+            # .......  Input invalid email address  ...............
             try:
                 inputBox = driver8.execute_script(
                     'return document.querySelector(".api-umbrella-signup-embed-content-container").shadowRoot'
@@ -124,6 +85,32 @@ class ChromeBrowser(unittest.TestCase):
             except NoSuchElementException:
                 print("EMAIL field NOT DISPLAYED")
 
+            # ...... FIRST NAME. Execute JavaScript to access shadow DOM and get the field .....
+            try:
+                FName = fake.first_name()
+
+                element = driver8.execute_script(
+                    'return document.querySelector(".api-umbrella-signup-embed-content-container").shadowRoot'
+                    '.querySelector("#user_first_name")').send_keys(FName)
+                print("First Name: ", FName)
+                # # ....... Now you can interact with the element ......
+                # # ....... For example, to input text:
+                # element.send_keys('Your text here')
+            except NoSuchElementException:
+                print("FIRST NAME field NOT DISPLAYED")
+
+            # ....... LAST NAME. Execute JavaScript to access shadow DOM and get the field .....
+            try:
+                LName = fake.last_name()
+
+                element = driver8.execute_script(
+                    'return document.querySelector(".api-umbrella-signup-embed-content-container").shadowRoot'
+                    '.querySelector("#user_last_name")').send_keys(LName)
+                print("Last Name: ", LName)  # For the records.
+
+            except NoSuchElementException:
+                print("LAST NAME field NOT DISPLAYED")
+
             try:
                 # ...... SIGNUP button. Execute JavaScript to access shadow DOM and get the element ...
                 element = driver8.execute_script(
@@ -132,7 +119,7 @@ class ChromeBrowser(unittest.TestCase):
             except WDE:
                 print("SIGNUP button NOT DISPLAYED")
 
-                # ............. Verify the ERROR Message ........................
+            # ............. Verify the ERROR Message ........................
             try:
                 # Execute JavaScript to access shadow DOM and get the "Enter an email address." message .....
                 feedback_element = driver8.execute_script(
@@ -143,21 +130,20 @@ class ChromeBrowser(unittest.TestCase):
                 # ... Get the text of the error message:
                 feedback_text = feedback_element.text
                 if feedback_text != "":
-                    print("Error message: ", "'", feedback_text, "'")
-                    print("As Expected.")
-                    print("PASSED")
+                    print(f"Error message: '{feedback_text}'\nAs Expected.\n* PASSED *")
+
                 else:
-                    print("==> Invalid format", email, " accepted.")
-                    print("=======> BUG! <==========")
+                    print("  \n<== BUG ==> Invalid format accepted.")
+
+                    # Print the invalid email addresses with the reason  ............
+                    print(f"Invalid email:   {email}\nReason:          {reason}")
             except NoSuchElementException:
                 print("No Error Message Displayed.")
 
             driver8.back()
             driver8.forward()
 
+    delay()
 
-delay()
-
-
-def tearDown(self):
-    self.driver.quit()
+    def tearDown(self):
+        self.driver.quit()
