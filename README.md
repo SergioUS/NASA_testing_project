@@ -1,6 +1,16 @@
 <div align="center"><h2>
-🚀 "QA for NASA APIs by QASV.US Students" 🌌  
-  </h2></div>
+  
+![online-video-cutter com1-ezgif com-video-to-gif-converter (1)](https://github.com/SergioUS/NASA_testing_project/assets/157445917/51c6f227-6b77-465a-9821-ccbe9a16b40a)
+
+  
+</h2></div>
+
+
+
+
+
+
+
 
 ---
 <div align="center"><h2>
@@ -17,7 +27,6 @@
 </h2></div>
 
 ---
-<div align="center"><h2>
 
 Welcome to the QA for NASA APIs project! 🛰 In this repository, we aim to ensure the quality and reliability of the NASA APIs website by conducting comprehensive testing.
 
@@ -37,6 +46,5 @@ Welcome to the QA for NASA APIs project! 🛰 In this repository, we aim to ensu
 - Documentation: Contains detailed test plans, milestones, and responsibilities.
 - Tests: Houses the test suites for Front-End, API, and Back-End testing.
 
-  </h2></div>
 
                                                                                       Thank you for visiting our project!🔭
