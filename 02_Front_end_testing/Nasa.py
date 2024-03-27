@@ -11,7 +11,6 @@ class ChromeSearchTest(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Chrome()
 
-
     def test_nasa_chrome(self):
         driver = self.driver
         driver.get("http://www.google.com")
