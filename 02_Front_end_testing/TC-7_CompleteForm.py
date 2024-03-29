@@ -51,7 +51,7 @@ class ChromeBrowser(unittest.TestCase):
 
     # ......Verify the webpage is accessible.........................
     # ......(Methods in UnitTest should start from "test" keyword).......
-    def test1_webpage_search(self):
+    def test0_webpage_search(self):
         driver1 = self.driver
 
         # .........Check that an element is present on the DOM of a page and visible.
@@ -83,27 +83,64 @@ class ChromeBrowser(unittest.TestCase):
         self.driver.quit()
 
     # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    # ...............  NP-T6: "Verify  the 'Signup' button"  ......
+    # ...............  NP-T7: "Verify The system generates an API key..."  ......
 
-    def test6_signup_button_search(self):
-        driver6 = self.driver
+    def test7_complete_form_search(self):
+        driver7 = self.driver
         url = "https://api.nasa.gov/"
-        driver6.get(url)
-        driver6.maximize_window()
+        driver7.get(url)
+        driver7.maximize_window()
         delay()
         try:
-            # ...... SIGNUP button. Execute JavaScript to access shadow DOM and get the element ...
-            element = driver6.execute_script(
+            # ...... FIRST NAME. Execute JavaScript to access shadow DOM and get the field .....
+            FName = fake.first_name()
+
+            element = driver7.execute_script(
                 'return document.querySelector(".api-umbrella-signup-embed-content-container").shadowRoot'
-                '.querySelector(".btn.btn-lg.btn-primary")')
-            # element = driver6.execute_script('return document.querySelector(
-            # ".api-umbrella-signup-embed-content-container").shadowRoot.querySelector(".btn.btn-lg.btn-primary")')
-            print("SIGNUP button Found")
+                '.querySelector("#user_first_name")').send_keys(FName)
+            print("First Name: ", FName)
             # # ....... Now you can interact with the element ......
             # # ....... For example, to input text:
             # element.send_keys('Your text here')
         except NoSuchElementException:
+            print("FIRST NAME field NOT DISPLAYED")
+
+        try:
+            # ....... LAST NAME. Execute JavaScript to access shadow DOM and get the field .....
+
+            LName = fake.last_name()
+
+            element = driver7.execute_script(
+                'return document.querySelector(".api-umbrella-signup-embed-content-container").shadowRoot'
+                '.querySelector("#user_last_name")').send_keys(LName)
+            print("Last Name: ", LName)  # For the records.
+
+        except NoSuchElementException:
+            print("LAST NAME field NOT DISPLAYED")
+
+        try:
+            # ....... EMAIL. Execute JavaScript to access shadow DOM and get the field .....
+            email = fake.email()
+
+            element = driver7.execute_script(
+                'return document.querySelector(".api-umbrella-signup-embed-content-container").shadowRoot'
+                '.querySelector("#user_email")').send_keys(email)
+            print(email)  # For the records.
+
+        except NoSuchElementException:
+            print("EMAIL field NOT DISPLAYED")
+
+        try:
+            # ...... SIGNUP button. Execute JavaScript to access shadow DOM and get the element ...
+            element = driver7.execute_script(
+                'return document.querySelector(".api-umbrella-signup-embed-content-container").shadowRoot'
+                '.querySelector(".btn.btn-lg.btn-primary")').click()
+
+        except NoSuchElementException:
             print("SIGNUP button NOT DISPLAYED")
+
+
+delay()
 
 
 def tearDown(self):

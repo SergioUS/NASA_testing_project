@@ -39,6 +39,7 @@ def delay():
     # # from selenium.webdriver.firefox.service import Service
     # # from selenium.webdriver.edge.service import Service
 
+
 # ...........ChromeBrowser:........................................
 
 
@@ -50,7 +51,7 @@ class ChromeBrowser(unittest.TestCase):
 
     # ......Verify the webpage is accessible.........................
     # ......(Methods in UnitTest should start from "test" keyword).......
-    def test1_webpage_search(self):
+    def test0_webpage_search(self):
         driver1 = self.driver
 
         # .........Check that an element is present on the DOM of a page and visible.
@@ -81,52 +82,4 @@ class ChromeBrowser(unittest.TestCase):
     def tearDown(self):
         self.driver.quit()
 
-    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    # ...............  NP-T3: "Verify The form displays mandatory input fields"  ......
-
-    def test3_all_fields_search(self):
-        driver3 = self.driver
-        url = "https://api.nasa.gov/"
-        driver3.get(url)
-        driver3.maximize_window()
-        delay()
-        try:
-            # ...... FIRST NAME. Execute JavaScript to access shadow DOM and get the field .....
-            element = driver3.execute_script(
-                'return document.querySelector(".api-umbrella-signup-embed-content-container").shadowRoot'
-                '.querySelector("#user_first_name")')
-            print("FIRST NAME field Found")
-            # # ....... Now you can interact with the element ......
-            # # ....... For example, to input text:
-            # element.send_keys('Your text here')
-        except NoSuchElementException:
-            print("FIRST NAME field NOT DISPLAYED")
-
-        try:
-            # ....... LAST NAME. Execute JavaScript to access shadow DOM and get the field .....
-            element = driver3.execute_script(
-                'return document.querySelector(".api-umbrella-signup-embed-content-container").shadowRoot'
-                '.querySelector("#user_last_name")')
-            print("LAST NAME field Found")
-            # # ....... Now you can interact with the element ......
-            # # ....... For example, to input text:
-            # element.send_keys('Your text here')
-        except NoSuchElementException:
-            print("LAST NAME field NOT DISPLAYED")
-
-        try:
-            # ....... EMAIL. Execute JavaScript to access shadow DOM and get the field .....
-            element = driver3.execute_script(
-                'return document.querySelector(".api-umbrella-signup-embed-content-container").shadowRoot'
-                '.querySelector("#user_email")')
-            print("EMAIL field Found")
-            # # ....... Now you can interact with the element ......
-            # # ....... For example, to input text:
-            # element.send_keys('Your text here')
-        except NoSuchElementException:
-            print("EMAIL field NOT DISPLAYED")
-
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-def tearDown(self):
-    self.driver.quit()
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

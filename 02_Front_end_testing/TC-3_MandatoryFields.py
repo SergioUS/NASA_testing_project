@@ -1,19 +1,3 @@
-"""
-Cross-browser UnitTest framework script for User API Key Management Form
-with Waiting and API functional and Webdriver-Manager functionality
-for Chrome, FireFox and Edge browsers
-......................
-Ensure that:
-Selenium is upgraded to v4.0.0:
-
-         pip3 install -U selenium
-
-Webdriver Manager for Python is installed:
-
-            pip3 install webdriver-manager
-
-For Tutorial "How to use Webdriver Manager" go to: https://github.com/SergioUS/webdriver_manager
-"""
 import time
 import requests
 from faker import Faker
@@ -49,12 +33,11 @@ fake = Faker()
 def delay():
     time.sleep(random.randint(1, 3))  # Delay all actions from 1 to 3 sec
 
-
-# .............Cross browser.............................................
-# from webdriver_manager.firefox import GeckoDriverManager
-# from webdriver_manager.microsoft import EdgeChromiumDriverManager
-# from selenium.webdriver.firefox.service import Service
-# from selenium.webdriver.edge.service import Service
+    # # .............Cross browser.............................................
+    # # from webdriver_manager.firefox import GeckoDriverManager
+    # # from webdriver_manager.microsoft import EdgeChromiumDriverManager
+    # # from selenium.webdriver.firefox.service import Service
+    # # from selenium.webdriver.edge.service import Service
 
 # ...........ChromeBrowser:........................................
 
@@ -65,10 +48,9 @@ class ChromeBrowser(unittest.TestCase):
         self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
         self.driver.maximize_window()
 
-    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    # ......  Verify preconditions: the webpage is accessible   .....................
-    # ...................(Methods in UnitTest should start from "test" keyword).......
-    def test1_webpage_search(self):
+    # ......Verify the webpage is accessible.........................
+    # ......(Methods in UnitTest should start from "test" keyword).......
+    def test0_webpage_search(self):
         driver1 = self.driver
 
         # .........Check that an element is present on the DOM of a page and visible.
@@ -99,22 +81,52 @@ class ChromeBrowser(unittest.TestCase):
     def tearDown(self):
         self.driver.quit()
 
-    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    # .........  NP-T2: "Verify the form's TITLE is “Generate API Key”  .............
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    # ...............  NP-T3: "Verify The form displays mandatory input fields"  ......
 
-    def test3_title_search(self):
-
+    def test3_all_fields_search(self):
         driver3 = self.driver
         url = "https://api.nasa.gov/"
         driver3.get(url)
         driver3.maximize_window()
+        delay()
+        try:
+            # ...... FIRST NAME. Execute JavaScript to access shadow DOM and get the field .....
+            element = driver3.execute_script(
+                'return document.querySelector(".api-umbrella-signup-embed-content-container").shadowRoot'
+                '.querySelector("#user_first_name")')
+            print("FIRST NAME field Found")
+            # # ....... Now you can interact with the element ......
+            # # ....... For example, to input text:
+            # element.send_keys('Your text here')
+        except NoSuchElementException:
+            print("FIRST NAME field NOT DISPLAYED")
 
         try:
-            driver3.find_element(By.XPATH, "//h2[contains(.,'Generate API Key')]")
-            print("The Form Title is DISPLAYED")
+            # ....... LAST NAME. Execute JavaScript to access shadow DOM and get the field .....
+            element = driver3.execute_script(
+                'return document.querySelector(".api-umbrella-signup-embed-content-container").shadowRoot'
+                '.querySelector("#user_last_name")')
+            print("LAST NAME field Found")
+            # # ....... Now you can interact with the element ......
+            # # ....... For example, to input text:
+            # element.send_keys('Your text here')
         except NoSuchElementException:
-            print("The Form Title NOT PRESENT")
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+            print("LAST NAME field NOT DISPLAYED")
+
+        try:
+            # ....... EMAIL. Execute JavaScript to access shadow DOM and get the field .....
+            element = driver3.execute_script(
+                'return document.querySelector(".api-umbrella-signup-embed-content-container").shadowRoot'
+                '.querySelector("#user_email")')
+            print("EMAIL field Found")
+            # # ....... Now you can interact with the element ......
+            # # ....... For example, to input text:
+            # element.send_keys('Your text here')
+        except NoSuchElementException:
+            print("EMAIL field NOT DISPLAYED")
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 def tearDown(self):
     self.driver.quit()
