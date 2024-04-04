@@ -14,7 +14,6 @@ class ChromePositiveTestCase(unittest.TestCase):
 
     def test_nasa_chrome(self):
         driver = self.driver
-        driver = webdriver.Chrome()
         driver.get("https://api.nasa.gov/")
         driver.maximize_window()
         driver.minimize_window()
@@ -54,7 +53,6 @@ class ChromePositiveTestCase(unittest.TestCase):
 
     def test_nasa_chrome1(self):
         driver = self.driver
-        driver = webdriver.Chrome()
         driver.get("https://api.nasa.gov/")
         driver.maximize_window()
         driver.minimize_window()
@@ -84,7 +82,6 @@ class ChromePositiveTestCase(unittest.TestCase):
 
     def test_nasa_chrome2(self):
         driver = self.driver
-        driver = webdriver.Chrome()
         driver.get("https://api.nasa.gov/")
         driver.maximize_window()
         driver.minimize_window()
@@ -134,7 +131,6 @@ class ChromePositiveTestCase(unittest.TestCase):
 
     def test_nasa_chrome3(self):
         driver = self.driver
-        driver = webdriver.Chrome()
         driver.get("https://api.nasa.gov/")
         driver.maximize_window()
         driver.minimize_window()
@@ -170,7 +166,6 @@ class ChromePositiveTestCase(unittest.TestCase):
 
     def test_nasa_chrome4(self):
         driver = self.driver
-        driver = webdriver.Chrome()
         driver.get("https://api.nasa.gov/")
         driver.maximize_window()
         driver.minimize_window()
@@ -208,7 +203,6 @@ class ChromePositiveTestCase(unittest.TestCase):
 
     def test_nasa_chrome5(self):
         driver = self.driver
-        driver = webdriver.Chrome()
         driver.get("https://api.nasa.gov/")
         driver.maximize_window()
         driver.minimize_window()
@@ -240,7 +234,6 @@ class ChromePositiveTestCase(unittest.TestCase):
 
     def test_nasa_chrome6(self):
         driver = self.driver
-        driver = webdriver.Chrome()
         driver.get("https://api.nasa.gov/")
         driver.maximize_window()
         driver.minimize_window()
@@ -287,7 +280,6 @@ class FirefoxPositiveTestCase(unittest.TestCase):
 
     def test_nasa_firefox(self):
         driver = self.driver
-        driver = webdriver.Firefox()
         driver.get("https://api.nasa.gov/")
         driver.maximize_window()
         driver.minimize_window()
@@ -327,7 +319,6 @@ class FirefoxPositiveTestCase(unittest.TestCase):
 
     def test_nasa_firefox1(self):
         driver = self.driver
-        driver = webdriver.Firefox()
         driver.get("https://api.nasa.gov/")
         driver.maximize_window()
         driver.minimize_window()
@@ -359,7 +350,6 @@ class FirefoxPositiveTestCase(unittest.TestCase):
 
     def test_nasa_firefox2(self):
         driver = self.driver
-        driver = webdriver.Firefox()
         driver.get("https://api.nasa.gov/")
         driver.maximize_window()
         driver.minimize_window()
@@ -411,7 +401,6 @@ class FirefoxPositiveTestCase(unittest.TestCase):
 
     def test_nasa_firefox3(self):
         driver = self.driver
-        driver = webdriver.Firefox()
         driver.get("https://api.nasa.gov/")
         driver.maximize_window()
         driver.minimize_window()
@@ -449,7 +438,6 @@ class FirefoxPositiveTestCase(unittest.TestCase):
 
     def test_nasa_firefox4(self):
         driver = self.driver
-        driver = webdriver.Firefox()
         driver.get("https://api.nasa.gov/")
         driver.maximize_window()
         driver.minimize_window()
@@ -489,7 +477,6 @@ class FirefoxPositiveTestCase(unittest.TestCase):
 
     def test_nasa_firefox5(self):
         driver = self.driver
-        driver = webdriver.Firefox()
         driver.get("https://api.nasa.gov/")
         driver.maximize_window()
         driver.minimize_window()
@@ -523,7 +510,6 @@ class FirefoxPositiveTestCase(unittest.TestCase):
 
     def test_nasa_firefox6(self):
         driver = self.driver
-        driver = webdriver.Firefox()
         driver.get("https://api.nasa.gov/")
         driver.maximize_window()
         driver.minimize_window()
