@@ -1,39 +1,46 @@
 # Cross-Browser test with Chrome and FireFox. 2 same tests for each Browser
 
 from selenium.common.exceptions import NoSuchElementException
-from selenium.webdriver.chrome.options import Options
 import unittest
 import time
 from selenium import webdriver
 from selenium.webdriver.support.wait import WebDriverWait
-from selenium.common.exceptions import WebDriverException as WDE
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 
 
-class ChromeSearch(unittest.TestCase):
+class Chrome(unittest.TestCase):
+
+    options = Options()
+    options.page_load_strategy = 'eager'
+    svc = Service(ChromeDriverManager().install())
+    driver = webdriver.Chrome(service=svc, options=options)
 
     def setUp(self):
         self.driver = webdriver.Chrome()
         self.driver.maximize_window()
 
-    def test_check_sub_menus_chrome(self):
+    def test_check_driver_and_url_firefox(self):
         driver = self.driver
         driver.get("https://api.nasa.gov")
-        wait = WebDriverWait(driver, 5)
+        wait = WebDriverWait(driver, 2)
         wait.until(EC.visibility_of_element_located((By.XPATH, "//h2[contains(.,'{ NASA APIs }')]")))
         print(driver.title)
         print(driver.current_url)
         time.sleep(1)  # simulate long-running test
 
-        chrome_options = Options()
-        chrome_options.add_argument("--headless")
-        chrome_options.add_argument("--no-sandbox")
-        chrome_options.add_argument("--disable-dev-shm-usage")
-
+        # maximize and minimize window
         driver.maximize_window()
         driver.minimize_window()
         driver.maximize_window()
+
+    # check if a header and URL are correct and present
+    def test_check_browse_api_header_firefox(self):
+        driver = self.driver
+        driver.get("https://api.nasa.gov")
 
         try:
             driver.find_element(By.XPATH, "(//span[contains(.,'Browse APIs')])[1]").click()
@@ -47,7 +54,17 @@ class ChromeSearch(unittest.TestCase):
 
         print("Header is correct")
 
+    def test_check_nasa_img_vid_lib_firefox(self):
+        driver = self.driver
+        driver.get("https://api.nasa.gov")
+
         # check if the NASA Image and Video Library sub-menu works
+        try:
+            driver.find_element(By.XPATH, "(//span[contains(.,'Browse APIs')])[1]").click()
+        except NoSuchElementException:
+            print("'Browse APIs' button is absent")
+
+        wait = WebDriverWait(driver, 2)
         wait.until(EC.visibility_of_element_located((By.XPATH, "//button[@id='nasa-image-and-video-library']")))
         print("Sub-menu 'NASA Image and Video Library' is visible")
         wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@id='nasa-image-and-video-library']")))
@@ -65,7 +82,19 @@ class ChromeSearch(unittest.TestCase):
 
         driver.find_element(By.XPATH, "//button[@id='nasa-image-and-video-library']").click()
 
+    def test_check_techtransfer_firefox(self):
+        driver = self.driver
+        driver.get("https://api.nasa.gov")
+
         # check if the TechTransfer sub-menu works
+
+        try:
+            driver.find_element(By.XPATH, "(//span[contains(.,'Browse APIs')])[1]").click()
+        except NoSuchElementException:
+            print("'Browse APIs' button is absent")
+
+        wait = WebDriverWait(driver, 2)
+
         wait.until(EC.visibility_of_element_located((By.XPATH, "//button[@id='techtransfer']")))
         print("Sub-menu 'TechTransfer' is visible")
         wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@id='techtransfer']")))
@@ -73,7 +102,19 @@ class ChromeSearch(unittest.TestCase):
 
         driver.find_element(By.XPATH, "//button[@id='techtransfer']").click()
 
+    def test_check_satellite_situation_center_firefox(self):
+        driver = self.driver
+        driver.get("https://api.nasa.gov")
+
         # check if the Satellite Situation Center sub-menu works
+
+        try:
+            driver.find_element(By.XPATH, "(//span[contains(.,'Browse APIs')])[1]").click()
+        except NoSuchElementException:
+            print("'Browse APIs' button is absent")
+
+        wait = WebDriverWait(driver, 2)
+
         wait.until(EC.visibility_of_element_located((By.XPATH, "//button[@id='satellite-situation-center']")))
         print("Sub-menu 'Satellite Situation Center' is visible")
         wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@id='satellite-situation-center']")))
@@ -81,7 +122,19 @@ class ChromeSearch(unittest.TestCase):
 
         driver.find_element(By.XPATH, "//button[@id='satellite-situation-center']").click()
 
+    def test_check_ssd_cneos_firefox(self):
+        driver = self.driver
+        driver.get("https://api.nasa.gov")
+
         # check if the SSD/CNEOS sub-menu works
+
+        try:
+            driver.find_element(By.XPATH, "(//span[contains(.,'Browse APIs')])[1]").click()
+        except NoSuchElementException:
+            print("'Browse APIs' button is absent")
+
+        wait = WebDriverWait(driver, 2)
+
         wait.until(EC.visibility_of_element_located((By.XPATH, "//button[@id='ssd-cneos']")))
         print("Sub-menu 'SSD/CNEOS' is visible")
         wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@id='ssd-cneos']")))
@@ -89,31 +142,53 @@ class ChromeSearch(unittest.TestCase):
 
         driver.find_element(By.XPATH, "//button[@id='ssd-cneos']").click()
 
+    def test_check_techport_firefox(self):
+        driver = self.driver
+        driver.get("https://api.nasa.gov")
+
         # check if the Techport sub-menu works
+
+        try:
+            driver.find_element(By.XPATH, "(//span[contains(.,'Browse APIs')])[1]").click()
+        except NoSuchElementException:
+            print("'Browse APIs' button is absent")
+
+        wait = WebDriverWait(driver, 2)
+
         wait.until(EC.visibility_of_element_located((By.XPATH, "//button[@id='techport']")))
         print("Sub-menu 'Techport' is visible")
         wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@id='techport']")))
         print("Sub-menu 'Techport' is clickable")
 
+    def tearDown(self):
+        self.driver.quit()
 
-class FirefoxSearch(unittest.TestCase):
+
+class Firefox(unittest.TestCase):
 
     def setUp(self):
         self.driver = webdriver.Firefox()
         self.driver.maximize_window()
 
-    def test_check_sub_menus_firefox(self):
+    def test_check_driver_and_url_firefox(self):
         driver = self.driver
         driver.get("https://api.nasa.gov")
-        wait = WebDriverWait(driver, 5)
+        wait = WebDriverWait(driver, 2)
         wait.until(EC.visibility_of_element_located((By.XPATH, "//h2[contains(.,'{ NASA APIs }')]")))
         print(driver.title)
         print(driver.current_url)
         time.sleep(1)  # simulate long-running test
 
+        # maximize and minimize window
         driver.maximize_window()
         driver.minimize_window()
         driver.maximize_window()
+
+    # check if a header and URL are correct and present
+
+    def test_check_browse_api_header_firefox(self):
+        driver = self.driver
+        driver.get("https://api.nasa.gov")
 
         try:
             driver.find_element(By.XPATH, "(//span[contains(.,'Browse APIs')])[1]").click()
@@ -127,7 +202,19 @@ class FirefoxSearch(unittest.TestCase):
 
         print("Header is correct")
 
+    def test_check_nasa_img_vid_lib_firefox(self):
+        driver = self.driver
+        driver.get("https://api.nasa.gov")
+
         # check if the NASA Image and Video Library sub-menu works
+
+        try:
+            driver.find_element(By.XPATH, "(//span[contains(.,'Browse APIs')])[1]").click()
+        except NoSuchElementException:
+            print("'Browse APIs' button is absent")
+
+        wait = WebDriverWait(driver, 2)
+
         wait.until(EC.visibility_of_element_located((By.XPATH, "//button[@id='nasa-image-and-video-library']")))
         print("Sub-menu 'NASA Image and Video Library' is visible")
         wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@id='nasa-image-and-video-library']")))
@@ -145,7 +232,19 @@ class FirefoxSearch(unittest.TestCase):
 
         driver.find_element(By.XPATH, "//button[@id='nasa-image-and-video-library']").click()
 
+    def test_check_techtransfer_firefox(self):
+        driver = self.driver
+        driver.get("https://api.nasa.gov")
+
         # check if the TechTransfer sub-menu works
+
+        try:
+            driver.find_element(By.XPATH, "(//span[contains(.,'Browse APIs')])[1]").click()
+        except NoSuchElementException:
+            print("'Browse APIs' button is absent")
+
+        wait = WebDriverWait(driver, 2)
+
         wait.until(EC.visibility_of_element_located((By.XPATH, "//button[@id='techtransfer']")))
         print("Sub-menu 'TechTransfer' is visible")
         wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@id='techtransfer']")))
@@ -153,7 +252,19 @@ class FirefoxSearch(unittest.TestCase):
 
         driver.find_element(By.XPATH, "//button[@id='techtransfer']").click()
 
+    def test_check_satellite_situation_center_firefox(self):
+        driver = self.driver
+        driver.get("https://api.nasa.gov")
+
         # check if the Satellite Situation Center sub-menu works
+
+        try:
+            driver.find_element(By.XPATH, "(//span[contains(.,'Browse APIs')])[1]").click()
+        except NoSuchElementException:
+            print("'Browse APIs' button is absent")
+
+        wait = WebDriverWait(driver, 2)
+
         wait.until(EC.visibility_of_element_located((By.XPATH, "//button[@id='satellite-situation-center']")))
         print("Sub-menu 'Satellite Situation Center' is visible")
         wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@id='satellite-situation-center']")))
@@ -161,7 +272,19 @@ class FirefoxSearch(unittest.TestCase):
 
         driver.find_element(By.XPATH, "//button[@id='satellite-situation-center']").click()
 
+    def test_check_ssd_cneos_firefox(self):
+        driver = self.driver
+        driver.get("https://api.nasa.gov")
+
         # check if the SSD/CNEOS sub-menu works
+
+        try:
+            driver.find_element(By.XPATH, "(//span[contains(.,'Browse APIs')])[1]").click()
+        except NoSuchElementException:
+            print("'Browse APIs' button is absent")
+
+        wait = WebDriverWait(driver, 2)
+
         wait.until(EC.visibility_of_element_located((By.XPATH, "//button[@id='ssd-cneos']")))
         print("Sub-menu 'SSD/CNEOS' is visible")
         wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@id='ssd-cneos']")))
@@ -169,7 +292,19 @@ class FirefoxSearch(unittest.TestCase):
 
         driver.find_element(By.XPATH, "//button[@id='ssd-cneos']").click()
 
+    def test_check_techport_firefox(self):
+        driver = self.driver
+        driver.get("https://api.nasa.gov")
+
         # check if the Techport sub-menu works
+
+        try:
+            driver.find_element(By.XPATH, "(//span[contains(.,'Browse APIs')])[1]").click()
+        except NoSuchElementException:
+            print("'Browse APIs' button is absent")
+
+        wait = WebDriverWait(driver, 2)
+
         wait.until(EC.visibility_of_element_located((By.XPATH, "//button[@id='techport']")))
         print("Sub-menu 'Techport' is visible")
         wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@id='techport']")))
