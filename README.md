@@ -46,5 +46,5 @@ Welcome to the QA for NASA APIs project! 🛰 In this repository, we aim to ensu
 - Documentation: Contains detailed test plans, milestones, and responsibilities.
 - Tests: Houses the test suites for Front-End, API, and Back-End testing.
 
-
-                                                                                      Thank you for visiting our project!🔭
+---
+Thank you for visiting our project!🔭
