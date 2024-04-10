@@ -64,7 +64,7 @@ class ChromeBrowser(unittest.TestCase):
         # >>>>>>>   Invalid email addresses:   >>>>>>>>>>>>>>
 
         # ............Read the list from the JSON file  .............
-        with open("../../NASA_testing_project/02_Front_end_testing/tc_11_invalid_emails.json", "r") as json_file:
+        with open("tc_11_invalid_emails.json", "r") as json_file:
             loaded_invalid_emails = json.load(json_file)
 
         # .......Input the loaded invalid email addresses one by one .....
