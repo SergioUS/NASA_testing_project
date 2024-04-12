@@ -1,5 +1,5 @@
 """
-To run tests and generate reports: run the COMMAND from the CURRENT directory:
+To run the tests and generate reports: run the COMMAND from the CURRENT directory:
 
 >> Python NASA_Positive_Tests.py
 
