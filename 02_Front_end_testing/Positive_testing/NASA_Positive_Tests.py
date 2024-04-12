@@ -1,3 +1,9 @@
+"""
+To run tests and generate reports: run the COMMAND from the CURRENT directory:
+
+>> Python NASA_Positive_Tests.py
+
+"""
 import time
 import requests
 from faker import Faker
@@ -8,6 +14,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome import ChromeDriverManager
+from selenium.webdriver.firefox import GeckoDriverManager
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import WebDriverException as WDE
 from selenium.webdriver.support.wait import WebDriverWait
@@ -17,6 +24,11 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 
 fake = Faker()
+
+
+def delay():
+    time.sleep(random.randint(1, 3))  # Delay all actions from 1 to 3 sec
+
 
 # # ==========    Cross browser   ========================================
 # # from webdriver_manager.firefox import GeckoDriverManager
@@ -40,12 +52,11 @@ driver = webdriver.Chrome(service=webdriver_service, options=chrome_options)
 
 # ................................................................
 
-
-def delay():
-    time.sleep(random.randint(1, 3))  # Delay all actions from 1 to 3 sec
-
-
 class ChromeBrowser(unittest.TestCase):
+    options = Options()
+    options.page_load_strategy = 'eager'
+    svc = Service(ChromeDriverManager().install())
+    driver = webdriver.Chrome(service=svc, options=options)
 
     def setUp(self):
         self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
@@ -272,17 +283,8 @@ class ChromeBrowser(unittest.TestCase):
         except NoSuchElementException:
             print("SIGNUP button NOT DISPLAYED")
 
-    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-
-# coding=utf8
-# Two-browser test for Google and Firefox with Waiting functionality and screenshots
-
-class ChromeNASATest(unittest.TestCase):
-
-    def setUp(self):
-        self.driver = webdriver.Chrome()
-        self.driver.maximize_window()
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    # .........  TC-?: "-------------------------------"  ......
 
     def test_NASA_1(self):
         driver = self.driver
@@ -358,6 +360,8 @@ class ChromeNASATest(unittest.TestCase):
             driver.get_screenshot_as_file("google_page_loading_error.png")
             driver.save_screenshot('google_page_loading_error.png')
 
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    # .........  TC-?: "-------------------------------"  ......
     def test_NASA_2(self):
         driver = self.driver
         driver.get("https://api.nasa.gov/")
@@ -386,6 +390,8 @@ class ChromeNASATest(unittest.TestCase):
             driver.get_screenshot_as_file("google_page_loading_error.png")
             driver.save_screenshot('google_page_loading_error.png')
 
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    # .........  TC-?: "-------------------------------"  ......
     def test_NASA_3(self):
         driver = self.driver
         driver.get("https://api.nasa.gov/")
@@ -409,6 +415,8 @@ class ChromeNASATest(unittest.TestCase):
             driver.get_screenshot_as_file("google_page_loading_error.png")
             driver.save_screenshot('google_page_loading_error.png')
 
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    # .........  TC-?: "-------------------------------"  ......
     def test_NASA_4(self):
         driver = self.driver
         driver.get("https://api.nasa.gov/")
@@ -432,15 +440,429 @@ class ChromeNASATest(unittest.TestCase):
             driver.get_screenshot_as_file("google_page_loading_error.png")
             driver.save_screenshot('google_page_loading_error.png')
 
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    # .........  TC-?: "-------------------------------"  ......
+    def test_nasa_chrome0(self):
+        driver = self.driver
+        driver.get("https://api.nasa.gov/")
+        driver.maximize_window()
+
+        # wait 2 sec, then proceed with a script
+        time.sleep(2)
+
+        # Check if the search returns any result
+        try:
+            assert "NASA Open APIs" in driver.title
+        except AssertionError:
+            print("Driver title in Chrome is:", driver.title)
+
+        # find in the "Browse APIs" menu submenu "Epic"
+        search = driver.find_element(By.XPATH, "(//span[contains(.,'Browse APIs')])[1]")
+        search.click()
+        search = driver.find_element(By.XPATH, "//input[@id='search-field-big']")
+        search.send_keys("EPIC")
+        search = driver.find_element(By.XPATH, "//button[@id='epic']")
+        search.click()
+        time.sleep(1)
+
+        # Checking the information from the submenu "Epic"
+        driver.find_element(By.XPATH, "//h3[contains(text(),'Retrievable Metadata')]").click()
+        time.sleep(1)
+        driver.find_element(By.XPATH, "(//strong[contains(.,'Example image:')])[3]").click()
+        time.sleep(1)
+        driver.find_element(By.XPATH, "//img[contains(@src,'KEY')]").click()
+        time.sleep(1)
+        driver.find_element(By.XPATH, "//h3[contains(text(),'Querying by Date(s)')]").click()
+        time.sleep(1)
+        driver.find_element(By.XPATH, "(//h3[contains(@id,'example-query')])[8]").click()
+        time.sleep(1)
+
+        # Open the site page
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    # .........  TC-?: "-------------------------------"  ......
+    def test_nasa_chrome1(self):
+        driver = self.driver
+        driver.get("https://api.nasa.gov/")
+        driver.maximize_window()
+
+        # wait 2 sec, then proceed with a script
+        time.sleep(2)
+
+        # Check if the search returns any result
+        assert "NASA Open APIs" in driver.title
+        print("NASA Open APIs Page Title is: ", driver.title)
+
+        # find in the "Browse APIs" menu submenu "Exoplanet"
+        search = driver.find_element(By.XPATH, "(//span[contains(.,'Browse APIs')])[1]")
+        search.click()
+        search = driver.find_element(By.XPATH, "//input[@id='search-field-big']")
+        search.send_keys("Exoplanet")
+        search = driver.find_element(By.XPATH, "//button[@id='exoplanet']")
+        search.click()
+        time.sleep(1)
+
+        # Checking the information from the submenu "Exoplanet"
+        driver.find_element(By.XPATH, "//h2[@id='exoPlanetIntro']").click()
+        time.sleep(1)
+        driver.find_element(By.XPATH, "//h2[@id='exoPlanetExamples']").click()
+        time.sleep(1)
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    # .........  TC-?: "-------------------------------"  ......
+    def test_nasa_chrome2(self):
+        driver = self.driver
+        driver.get("https://api.nasa.gov/")
+        driver.maximize_window()
+
+        # wait 2 sec, then proceed with a script
+        time.sleep(2)
+
+        # Check if the search returns any result
+        assert "NASA Open APIs" in driver.title
+        print("NASA Open APIs Page Title is: ", driver.title)
+
+        # find in the "Browse APIs" menu submenu "Open Science Data Repository"
+        search = driver.find_element(By.XPATH, "(//span[contains(.,'Browse APIs')])[1]")
+        search.click()
+        search = driver.find_element(By.XPATH, "//input[@id='search-field-big']")
+        search.send_keys("Open Science Data Repository")
+        search = driver.find_element(By.XPATH, "//button[@id='open-science-data-repository']")
+        search.click()
+        time.sleep(1)
+
+        # Checking the information from the submenu "Open Science Data Repository"
+        driver.find_element(By.XPATH, "//h2[contains(.,'Study')]").click()
+        time.sleep(1)
+        driver.find_element(By.XPATH, "//h4[contains(.,'Example Requests:')]").click()
+        time.sleep(1)
+        driver.find_element(By.XPATH, "//h3[contains(.,'Study Metadata API')]").click()
+        time.sleep(1)
+        driver.find_element(By.XPATH, "(//h4[contains(.,'Returns: JSON-formatted response')])[2]").click()
+        time.sleep(1)
+        driver.find_element(By.XPATH, "//h3[contains(.,'Study Dataset Search API')]").click()
+        time.sleep(1)
+        driver.find_element(By.XPATH, "//h4[contains(text(),'Syntax 2 (returns HTML response):')]").click()
+        time.sleep(1)
+        driver.find_element(By.XPATH, "//h2[@id='other']").click()
+        time.sleep(1)
+        driver.find_element(By.XPATH, "//h3[contains(text(),'Format:')]").click()
+        time.sleep(1)
+        driver.find_element(By.XPATH, "//h3[contains(text(),'Examples:')]").click()
+        time.sleep(1)
+        driver.find_element(By.XPATH, "//h4[contains(text(),'Single Vehicle Call')]").click()
+        time.sleep(1)
+        driver.find_element(By.XPATH, "//h2[contains(.,'API Requests with Python')]").click()
+        time.sleep(1)
+        driver.find_element(By.XPATH, "//h2[contains(.,'Resources')]").click()
+        time.sleep(1)
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    # .........  TC-?: "-------------------------------"  ......
+    def test_nasa_chrome3(self):
+        driver = self.driver
+        driver.get("https://api.nasa.gov/")
+        driver.maximize_window()
+
+        # wait 2 sec, then proceed with a script
+        time.sleep(2)
+
+        # Check if the search returns any result
+        assert "NASA Open APIs" in driver.title
+        print("NASA Open APIs Page Title is: ", driver.title)
+
+        #  find in the "Browse APIs" menu submenu "Insight"
+        search = driver.find_element(By.XPATH, "(//span[contains(.,'Browse APIs')])[1]")
+        search.click()
+        search = driver.find_element(By.XPATH, "//input[@id='search-field-big']")
+        search.send_keys("Insight")
+        search = driver.find_element(By.XPATH, "//button[@id='insight']")
+        search.click()
+        time.sleep(1)
+
+        # Checking the information from the submenu "Insight"
+        driver.find_element(By.XPATH, "//h1[@id='insight_weather']").click()
+        time.sleep(1)
+        driver.find_element(By.XPATH, "//img[@src='assets/img/general/insight_photo.png']").click()
+        time.sleep(1)
+        driver.find_element(By.XPATH, "(//h3[contains(@id,'http-request')])[3]").click()
+        time.sleep(1)
+        driver.find_element(By.XPATH, "(//h3[contains(@id,'query-parameters')])[6]").click()
+        time.sleep(1)
+        driver.find_element(By.XPATH, "//img[@src='./assets/insight/insight_mars_wind_rose.png']").click()
+        time.sleep(1)
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    # .........  TC-?: "-------------------------------"  ......
+    def test_nasa_chrome4(self):
+        driver = self.driver
+        driver.get("https://api.nasa.gov/")
+        driver.maximize_window()
+
+        # wait 2 sec, then proceed with a script
+        time.sleep(2)
+
+        # Check if the search returns any result
+        assert "NASA Open APIs" in driver.title
+        print("NASA Open APIs Page Title is: ", driver.title)
+
+        #  find in the "Browse APIs" menu submenu "Mars Rover Photos"
+        search = driver.find_element(By.XPATH, "(//span[contains(.,'Browse APIs')])[1]")
+        search.click()
+        search = driver.find_element(By.XPATH, "//input[@id='search-field-big']")
+        search.send_keys("Mars Rover Photos")
+        search = driver.find_element(By.XPATH, "//button[@id='mars-rover-photos']")
+        search.click()
+        time.sleep(1)
+
+        # Checking the information from the submenu "Mars Rover Photos"
+        driver.find_element(By.XPATH, "//h3[contains(text(),'Rover Cameras')]").click()
+        time.sleep(1)
+        driver.find_element(By.XPATH, "//h3[contains(text(),'Querying by Martian sol')]").click()
+        time.sleep(1)
+        driver.find_element(By.XPATH, "(//h3[contains(@id,'example-query')])[11]").click()
+        time.sleep(1)
+        driver.find_element(By.XPATH, "//h3[contains(.,'Querying by Earth date')]").click()
+        time.sleep(1)
+        driver.find_element(By.XPATH, "(//h3[contains(@id,'example-query')])[13]").click()
+        time.sleep(1)
+        driver.find_element(By.XPATH, "//h3[contains(.,'Mission Manifest')]").click()
+        time.sleep(1)
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    # .........  TC-?: "-------------------------------"  ......
+    def test_nasa_chrome5(self):
+        driver = self.driver
+        driver.get("https://api.nasa.gov/")
+        driver.maximize_window()
+
+        # wait 2 sec, then proceed with a script
+        time.sleep(2)
+
+        # Check if the search returns any result
+        assert "NASA Open APIs" in driver.title
+        print("NASA Open APIs Page Title is: ", driver.title)
+
+        #  find in the "Browse APIs" menu submenu "TLE API"
+        search = driver.find_element(By.XPATH, "(//span[contains(.,'Browse APIs')])[1]")
+        search.click()
+        search = driver.find_element(By.XPATH, "//input[@id='search-field-big']")
+        search.send_keys("TLE API")
+        search = driver.find_element(By.XPATH, "//button[@id='tle-api']")
+        search.click()
+        time.sleep(1)
+
+        # Checking the information from the submenu "TLE API"
+        driver.find_element(By.XPATH, "//h1[contains(.,'TLE API')]").click()
+        time.sleep(1)
+        driver.find_element(By.XPATH, "//h3[@id='tle-http-request']").click()
+        time.sleep(1)
+        driver.find_element(By.XPATH, "(//h3[contains(@id,'example-query')])[15]").click()
+        time.sleep(1)
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    # .........  TC-?: "-------------------------------"  ......
+    def test_nasa_chrome6(self):
+        driver = self.driver
+        driver.get("https://api.nasa.gov/")
+        driver.maximize_window()
+
+        # wait 2 sec, then proceed with a script
+        time.sleep(2)
+
+        # Check if the search returns any result
+        assert "NASA Open APIs" in driver.title
+        print("NASA Open APIs Page Title is: ", driver.title)
+
+        #  find in the "Browse APIs" menu submenu "Vesta/Moon/Mars Trek WMTS"
+        search = driver.find_element(By.XPATH, "(//span[contains(.,'Browse APIs')])[1]")
+        search.click()
+        search = driver.find_element(By.XPATH, "//input[@id='search-field-big']")
+        search.send_keys("Vesta/Moon/Mars Trek WMTS")
+        search = driver.find_element(By.XPATH, "//button[@id='vesta-moon-mars-trek-wmts']")
+        search.click()
+        time.sleep(1)
+
+        # Checking the information from the submenu "Vesta/Moon/Mars Trek WMTS"
+        driver.find_element(By.XPATH, "//h1[@id='trek']").click()
+        time.sleep(1)
+        driver.find_element(By.XPATH, "//h3[contains(text(),'Available Moon Mosaics')]").click()
+        time.sleep(1)
+        driver.find_element(By.XPATH, "//h3[contains(text(),'Available Mars Mosaics')]").click()
+        time.sleep(1)
+        driver.find_element(By.XPATH, "//h3[contains(text(),'Available Vesta Mosaics')]").click()
+        time.sleep(1)
+
+        # closing the browser
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    # .........  TC-?: "-------------------------------"  ......
+
+    # check if a header and URL are correct and present
+    def test_check_browse_api_header_chrome(self):
+        driver = self.driver
+        driver.get("https://api.nasa.gov")
+
+        try:
+            driver.find_element(By.XPATH, "(//span[contains(.,'Browse APIs')])[1]").click()
+        except NoSuchElementException:
+            print("'Browse APIs' button is absent")
+
+        try:
+            driver.find_element(By.XPATH, "//h2[contains(.,'Browse APIs')]")
+        except NoSuchElementException:
+            print("Header is different.")
+
+        print("Header is correct")
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    # .........  TC-?: "-------------------------------"  ......
+
+    def test_check_nasa_img_vid_lib_chrome(self):
+        driver = self.driver
+        driver.get("https://api.nasa.gov")
+
+        # check if the NASA Image and Video Library sub-menu works
+        try:
+            driver.find_element(By.XPATH, "(//span[contains(.,'Browse APIs')])[1]").click()
+        except NoSuchElementException:
+            print("'Browse APIs' button is absent")
+
+        wait = WebDriverWait(driver, 2)
+        wait.until(EC.visibility_of_element_located((By.XPATH, "//button[@id='nasa-image-and-video-library']")))
+        print("Sub-menu 'NASA Image and Video Library' is visible")
+        wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@id='nasa-image-and-video-library']")))
+        print("Sub-menu 'NASA Image and Video Library' is clickable")
+
+        # check if the table is present
+        try:
+            driver.find_element(By.XPATH,
+                                "//body/main[@id='main-content']/section[@id='browseAPI']/div[1]/ul[1]/li[1]/div["
+                                "1]/table[1]")
+        except NoSuchElementException:
+            print("Table is absent.")
+
+        print("Table is present")
+
+        driver.find_element(By.XPATH, "//button[@id='nasa-image-and-video-library']").click()
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    # .........  TC-?: "-------------------------------"  ......
+
+    def test_check_techtransfer_chrome(self):
+        driver = self.driver
+        driver.get("https://api.nasa.gov")
+
+        # check if the TechTransfer sub-menu works
+
+        try:
+            driver.find_element(By.XPATH, "(//span[contains(.,'Browse APIs')])[1]").click()
+        except NoSuchElementException:
+            print("'Browse APIs' button is absent")
+
+        wait = WebDriverWait(driver, 2)
+
+        wait.until(EC.visibility_of_element_located((By.XPATH, "//button[@id='techtransfer']")))
+        print("Sub-menu 'TechTransfer' is visible")
+        wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@id='techtransfer']")))
+        print("Sub-menu 'TechTransfer' is clickable")
+
+        driver.find_element(By.XPATH, "//button[@id='techtransfer']").click()
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    # .........  TC-?: "-------------------------------"  ......
+
+    def test_check_satellite_situation_center_chrome(self):
+        driver = self.driver
+        driver.get("https://api.nasa.gov")
+
+        # check if the Satellite Situation Center sub-menu works
+
+        try:
+            driver.find_element(By.XPATH, "(//span[contains(.,'Browse APIs')])[1]").click()
+        except NoSuchElementException:
+            print("'Browse APIs' button is absent")
+
+        wait = WebDriverWait(driver, 2)
+
+        wait.until(EC.visibility_of_element_located((By.XPATH, "//button[@id='satellite-situation-center']")))
+        print("Sub-menu 'Satellite Situation Center' is visible")
+        wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@id='satellite-situation-center']")))
+        print("Sub-menu 'Satellite Situation Center' is clickable")
+
+        driver.find_element(By.XPATH, "//button[@id='satellite-situation-center']").click()
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    # .........  TC-?: "-------------------------------"  ......
+
+    def test_check_ssd_cneos_chrome(self):
+        driver = self.driver
+        driver.get("https://api.nasa.gov")
+
+        # check if the SSD/CNEOS sub-menu works
+
+        try:
+            driver.find_element(By.XPATH, "(//span[contains(.,'Browse APIs')])[1]").click()
+        except NoSuchElementException:
+            print("'Browse APIs' button is absent")
+
+        wait = WebDriverWait(driver, 2)
+
+        wait.until(EC.visibility_of_element_located((By.XPATH, "//button[@id='ssd-cneos']")))
+        print("Sub-menu 'SSD/CNEOS' is visible")
+        wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@id='ssd-cneos']")))
+        print("Sub-menu 'SSD/CNEOS' is clickable")
+
+        driver.find_element(By.XPATH, "//button[@id='ssd-cneos']").click()
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    # .........  TC-?: "-------------------------------"  ......
+
+    def test_check_techport_chrome(self):
+        driver = self.driver
+        driver.get("https://api.nasa.gov")
+
+        # check if the Techport submenu works
+
+        try:
+            driver.find_element(By.XPATH, "(//span[contains(.,'Browse APIs')])[1]").click()
+        except NoSuchElementException:
+            print("'Browse APIs' button is absent")
+
+        wait = WebDriverWait(driver, 2)
+
+        wait.until(EC.visibility_of_element_located((By.XPATH, "//button[@id='techport']")))
+        print("Sub-menu 'Techport' is visible")
+        wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@id='techport']")))
+        print("Sub-menu 'Techport' is clickable")
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     def tearDown(self):
         self.driver.quit()
 
 
-class FirefoxNASATest(unittest.TestCase):
+# =========================================================================
+# ...........FirefoxBrowser:........................................
+# =========================================================================
+# ...............Setup Firefox options
+firefox_options = Options()
+firefox_options.add_argument("--headless")  # Ensure GUI is off
+firefox_options.add_argument("--no-sandbox")
+firefox_options.add_argument("--disable-dev-shm-usage")
+
+# ..............Set path to chromedriver as per your configuration
+webdriver_service = Service(GeckoDriverManager().install())
+driver = webdriver.Firefox(service=webdriver_service, options=chrome_options)
+
+
+class FirefoxNASATests(unittest.TestCase):
 
     def setUp(self):
         self.driver = webdriver.Firefox()
         self.driver.maximize_window()
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    # .........  TC-?: "-------------------------------"  ......
 
     def test_NASA_1(self):
         driver = self.driver
@@ -515,6 +937,9 @@ class FirefoxNASATest(unittest.TestCase):
             driver.get_screenshot_as_file("google_page_loading_error.png")
             driver.save_screenshot('google_page_loading_error.png')
 
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    # .........  TC-?: "-------------------------------"  ......
+
     def test_NASA_2(self):
         driver = self.driver
         driver.get("https://api.nasa.gov/")
@@ -543,6 +968,9 @@ class FirefoxNASATest(unittest.TestCase):
             driver.get_screenshot_as_file("google_page_loading_error.png")
             driver.save_screenshot('google_page_loading_error.png')
 
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    # .........  TC-?: "-------------------------------"  ......
+
     def test_NASA_3(self):
         driver = self.driver
         driver.get("https://api.nasa.gov/")
@@ -565,6 +993,9 @@ class FirefoxNASATest(unittest.TestCase):
             print("Generate API Key form not presented")
             driver.get_screenshot_as_file("google_page_loading_error.png")
             driver.save_screenshot('google_page_loading_error.png')
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    # .........  TC-?: "-------------------------------"  ......
 
     def test_NASA_4(self):
         driver = self.driver
@@ -589,293 +1020,15 @@ class FirefoxNASATest(unittest.TestCase):
             driver.get_screenshot_as_file("google_page_loading_error.png")
             driver.save_screenshot('google_page_loading_error.png')
 
-    # Delay all actions from 1 to 3 sec
-    delay()
-
-
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-class ChromePositiveTestCase(unittest.TestCase):
-
-    def setUp(self):
-        self.driver = webdriver.Chrome()
-
-        # Open the site page
-
-    def test_nasa_chrome(self):
-        driver = self.driver
-        driver.get("https://api.nasa.gov/")
-        driver.maximize_window()
-        driver.minimize_window()
-        driver.maximize_window()
-
-        # wait 2 sec, then proceed with script
-        time.sleep(2)
-
-        # Check if the search returns any result
-        try:
-            assert "NASA Open APIs" in driver.title
-        except AssertionError:
-            print("Driver title in Chrome is:", driver.title)
-
-        # find in the "Browse APIs" menu submenu "Epic"
-        search = driver.find_element(By.XPATH, "(//span[contains(.,'Browse APIs')])[1]")
-        search.click()
-        search = driver.find_element(By.XPATH, "//input[@id='search-field-big']")
-        search.send_keys("EPIC")
-        search = driver.find_element(By.XPATH, "//button[@id='epic']")
-        search.click()
-        time.sleep(1)
-
-        # Checking the information from the submenu "Epic"
-        driver.find_element(By.XPATH, "//h3[contains(text(),'Retrievable Metadata')]").click()
-        time.sleep(1)
-        driver.find_element(By.XPATH, "(//strong[contains(.,'Example image:')])[3]").click()
-        time.sleep(1)
-        driver.find_element(By.XPATH, "//img[contains(@src,'KEY')]").click()
-        time.sleep(1)
-        driver.find_element(By.XPATH, "//h3[contains(text(),'Querying by Date(s)')]").click()
-        time.sleep(1)
-        driver.find_element(By.XPATH, "(//h3[contains(@id,'example-query')])[8]").click()
-        time.sleep(1)
-
-        # Open the site page
-
-    def test_nasa_chrome1(self):
-        driver = self.driver
-        driver.get("https://api.nasa.gov/")
-        driver.maximize_window()
-        driver.minimize_window()
-        driver.maximize_window()
-
-        # wait 2 sec, then proceed with script
-        time.sleep(2)
-
-        # Check if the search returns any result
-        assert "NASA Open APIs" in driver.title
-        print("NASA Open APIs Page Title is: ", driver.title)
-
-        # find in the "Browse APIs" menu submenu "Exoplanet"
-        search = driver.find_element(By.XPATH, "(//span[contains(.,'Browse APIs')])[1]")
-        search.click()
-        search = driver.find_element(By.XPATH, "//input[@id='search-field-big']")
-        search.send_keys("Exoplanet")
-        search = driver.find_element(By.XPATH, "//button[@id='exoplanet']")
-        search.click()
-        time.sleep(1)
-
-        # Checking the information from the submenu "Exoplanet"
-        driver.find_element(By.XPATH, "//h2[@id='exoPlanetIntro']").click()
-        time.sleep(1)
-        driver.find_element(By.XPATH, "//h2[@id='exoPlanetExamples']").click()
-        time.sleep(1)
-
-    def test_nasa_chrome2(self):
-        driver = self.driver
-        driver.get("https://api.nasa.gov/")
-        driver.maximize_window()
-        driver.minimize_window()
-        driver.maximize_window()
-
-        # wait 2 sec, then proceed with script
-        time.sleep(2)
-
-        # Check if the search returns any result
-        assert "NASA Open APIs" in driver.title
-        print("NASA Open APIs Page Title is: ", driver.title)
-
-        # find in the "Browse APIs" menu submenu "Open Science Data Repository"
-        search = driver.find_element(By.XPATH, "(//span[contains(.,'Browse APIs')])[1]")
-        search.click()
-        search = driver.find_element(By.XPATH, "//input[@id='search-field-big']")
-        search.send_keys("Open Science Data Repository")
-        search = driver.find_element(By.XPATH, "//button[@id='open-science-data-repository']")
-        search.click()
-        time.sleep(1)
-
-        # Checking the information from the submenu "Open Science Data Repository"
-        driver.find_element(By.XPATH, "//h2[contains(.,'Study')]").click()
-        time.sleep(1)
-        driver.find_element(By.XPATH, "//h4[contains(.,'Example Requests:')]").click()
-        time.sleep(1)
-        driver.find_element(By.XPATH, "//h3[contains(.,'Study Metadata API')]").click()
-        time.sleep(1)
-        driver.find_element(By.XPATH, "(//h4[contains(.,'Returns: JSON-formatted response')])[2]").click()
-        time.sleep(1)
-        driver.find_element(By.XPATH, "//h3[contains(.,'Study Dataset Search API')]").click()
-        time.sleep(1)
-        driver.find_element(By.XPATH, "//h4[contains(text(),'Syntax 2 (returns HTML response):')]").click()
-        time.sleep(1)
-        driver.find_element(By.XPATH, "//h2[@id='other']").click()
-        time.sleep(1)
-        driver.find_element(By.XPATH, "//h3[contains(text(),'Format:')]").click()
-        time.sleep(1)
-        driver.find_element(By.XPATH, "//h3[contains(text(),'Examples:')]").click()
-        time.sleep(1)
-        driver.find_element(By.XPATH, "//h4[contains(text(),'Single Vehicle Call')]").click()
-        time.sleep(1)
-        driver.find_element(By.XPATH, "//h2[contains(.,'API Requests with Python')]").click()
-        time.sleep(1)
-        driver.find_element(By.XPATH, "//h2[contains(.,'Resources')]").click()
-        time.sleep(1)
-
-    def test_nasa_chrome3(self):
-        driver = self.driver
-        driver.get("https://api.nasa.gov/")
-        driver.maximize_window()
-        driver.minimize_window()
-        driver.maximize_window()
-
-        # wait 2 sec, then proceed with script
-        time.sleep(2)
-
-        # Check if the search returns any result
-        assert "NASA Open APIs" in driver.title
-        print("NASA Open APIs Page Title is: ", driver.title)
-
-        #  find in the "Browse APIs" menu submenu "Insight"
-        search = driver.find_element(By.XPATH, "(//span[contains(.,'Browse APIs')])[1]")
-        search.click()
-        search = driver.find_element(By.XPATH, "//input[@id='search-field-big']")
-        search.send_keys("Insight")
-        search = driver.find_element(By.XPATH, "//button[@id='insight']")
-        search.click()
-        time.sleep(1)
-
-        # Checking the information from the submenu "Insight"
-        driver.find_element(By.XPATH, "//h1[@id='insight_weather']").click()
-        time.sleep(1)
-        driver.find_element(By.XPATH, "//img[@src='assets/img/general/insight_photo.png']").click()
-        time.sleep(1)
-        driver.find_element(By.XPATH, "(//h3[contains(@id,'http-request')])[3]").click()
-        time.sleep(1)
-        driver.find_element(By.XPATH, "(//h3[contains(@id,'query-parameters')])[6]").click()
-        time.sleep(1)
-        driver.find_element(By.XPATH, "//img[@src='./assets/insight/insight_mars_wind_rose.png']").click()
-        time.sleep(1)
-
-    def test_nasa_chrome4(self):
-        driver = self.driver
-        driver.get("https://api.nasa.gov/")
-        driver.maximize_window()
-        driver.minimize_window()
-        driver.maximize_window()
-
-        # wait 2 sec, then proceed with script
-        time.sleep(2)
-
-        # Check if the search returns any result
-        assert "NASA Open APIs" in driver.title
-        print("NASA Open APIs Page Title is: ", driver.title)
-
-        #  find in the "Browse APIs" menu submenu "Mars Rover Photos"
-        search = driver.find_element(By.XPATH, "(//span[contains(.,'Browse APIs')])[1]")
-        search.click()
-        search = driver.find_element(By.XPATH, "//input[@id='search-field-big']")
-        search.send_keys("Mars Rover Photos")
-        search = driver.find_element(By.XPATH, "//button[@id='mars-rover-photos']")
-        search.click()
-        time.sleep(1)
-
-        # Checking the information from the submenu "Mars Rover Photos"
-        driver.find_element(By.XPATH, "//h3[contains(text(),'Rover Cameras')]").click()
-        time.sleep(1)
-        driver.find_element(By.XPATH, "//h3[contains(text(),'Querying by Martian sol')]").click()
-        time.sleep(1)
-        driver.find_element(By.XPATH, "(//h3[contains(@id,'example-query')])[11]").click()
-        time.sleep(1)
-        driver.find_element(By.XPATH, "//h3[contains(.,'Querying by Earth date')]").click()
-        time.sleep(1)
-        driver.find_element(By.XPATH, "(//h3[contains(@id,'example-query')])[13]").click()
-        time.sleep(1)
-        driver.find_element(By.XPATH, "//h3[contains(.,'Mission Manifest')]").click()
-        time.sleep(1)
-
-    def test_nasa_chrome5(self):
-        driver = self.driver
-        driver.get("https://api.nasa.gov/")
-        driver.maximize_window()
-        driver.minimize_window()
-        driver.maximize_window()
-
-        # wait 2 sec, then proceed with script
-        time.sleep(2)
-
-        # Check if the search returns any result
-        assert "NASA Open APIs" in driver.title
-        print("NASA Open APIs Page Title is: ", driver.title)
-
-        #  find in the "Browse APIs" menu submenu "TLE API"
-        search = driver.find_element(By.XPATH, "(//span[contains(.,'Browse APIs')])[1]")
-        search.click()
-        search = driver.find_element(By.XPATH, "//input[@id='search-field-big']")
-        search.send_keys("TLE API")
-        search = driver.find_element(By.XPATH, "//button[@id='tle-api']")
-        search.click()
-        time.sleep(1)
-
-        # Checking the information from the submenu "TLE API"
-        driver.find_element(By.XPATH, "//h1[contains(.,'TLE API')]").click()
-        time.sleep(1)
-        driver.find_element(By.XPATH, "//h3[@id='tle-http-request']").click()
-        time.sleep(1)
-        driver.find_element(By.XPATH, "(//h3[contains(@id,'example-query')])[15]").click()
-        time.sleep(1)
-
-    def test_nasa_chrome6(self):
-        driver = self.driver
-        driver.get("https://api.nasa.gov/")
-        driver.maximize_window()
-        driver.minimize_window()
-        driver.maximize_window()
-
-        # wait 2 sec, then proceed with script
-        time.sleep(2)
-
-        # Check if the search returns any result
-        assert "NASA Open APIs" in driver.title
-        print("NASA Open APIs Page Title is: ", driver.title)
-
-        #  find in the "Browse APIs" menu submenu "Vesta/Moon/Mars Trek WMTS"
-        search = driver.find_element(By.XPATH, "(//span[contains(.,'Browse APIs')])[1]")
-        search.click()
-        search = driver.find_element(By.XPATH, "//input[@id='search-field-big']")
-        search.send_keys("Vesta/Moon/Mars Trek WMTS")
-        search = driver.find_element(By.XPATH, "//button[@id='vesta-moon-mars-trek-wmts']")
-        search.click()
-        time.sleep(1)
-
-        # Checking the information from the submenu "Vesta/Moon/Mars Trek WMTS"
-        driver.find_element(By.XPATH, "//h1[@id='trek']").click()
-        time.sleep(1)
-        driver.find_element(By.XPATH, "//h3[contains(text(),'Available Moon Mosaics')]").click()
-        time.sleep(1)
-        driver.find_element(By.XPATH, "//h3[contains(text(),'Available Mars Mosaics')]").click()
-        time.sleep(1)
-        driver.find_element(By.XPATH, "//h3[contains(text(),'Available Vesta Mosaics')]").click()
-        time.sleep(1)
-
-        # closing the browser
-
-    def tearDown(self):
-        self.driver.quit()
-
-
-class FirefoxPositiveTestCase(unittest.TestCase):
-
-    def setUp(self):
-        self.driver = webdriver.Firefox()
-
-        # Open the site page
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    # .........  TC-?: "-------------------------------"  ......
 
     def test_nasa_firefox(self):
         driver = self.driver
         driver.get("https://api.nasa.gov/")
         driver.maximize_window()
-        driver.minimize_window()
-        driver.maximize_window()
 
-        # wait 2 sec, then proceed with script
+        # wait 2 sec, then proceed with a script
         time.sleep(2)
 
         # Check if the search returns any result
@@ -907,14 +1060,15 @@ class FirefoxPositiveTestCase(unittest.TestCase):
 
         # Open the site page
 
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    # .........  TC-?: "-------------------------------"  ......
+
     def test_nasa_firefox1(self):
         driver = self.driver
         driver.get("https://api.nasa.gov/")
         driver.maximize_window()
-        driver.minimize_window()
-        driver.maximize_window()
 
-        # wait 2 sec, then proceed with script
+        # wait 2 sec, then proceed with a script
         time.sleep(2)
 
         # Check if the search returns any result
@@ -938,14 +1092,15 @@ class FirefoxPositiveTestCase(unittest.TestCase):
 
         # Open the site page
 
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    # .........  TC-?: "-------------------------------"  ......
+
     def test_nasa_firefox2(self):
         driver = self.driver
         driver.get("https://api.nasa.gov/")
         driver.maximize_window()
-        driver.minimize_window()
-        driver.maximize_window()
 
-        # wait 2 sec, then proceed with script
+        # wait 2 sec, then proceed with a script
         time.sleep(2)
 
         # Check if the search returns any result
@@ -987,13 +1142,12 @@ class FirefoxPositiveTestCase(unittest.TestCase):
         driver.find_element(By.XPATH, "//h2[contains(.,'Resources')]").click()
         time.sleep(1)
 
-        # Open the site page
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    # .........  TC-?: "-------------------------------"  ......
 
     def test_nasa_firefox3(self):
         driver = self.driver
         driver.get("https://api.nasa.gov/")
-        driver.maximize_window()
-        driver.minimize_window()
         driver.maximize_window()
 
         # wait 2 sec, then proceed with script
@@ -1026,14 +1180,15 @@ class FirefoxPositiveTestCase(unittest.TestCase):
 
         # Open the site page
 
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    # .........  TC-?: "-------------------------------"  ......
+
     def test_nasa_firefox4(self):
         driver = self.driver
         driver.get("https://api.nasa.gov/")
         driver.maximize_window()
-        driver.minimize_window()
-        driver.maximize_window()
 
-        # wait 2 sec, then proceed with script
+        # wait 2 sec, then proceed with a script
         time.sleep(2)
 
         # Check if the search returns any result
@@ -1065,14 +1220,15 @@ class FirefoxPositiveTestCase(unittest.TestCase):
 
         # Open the site page
 
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    # .........  TC-?: "-------------------------------"  ......
+
     def test_nasa_firefox5(self):
         driver = self.driver
         driver.get("https://api.nasa.gov/")
         driver.maximize_window()
-        driver.minimize_window()
-        driver.maximize_window()
 
-        # wait 2 sec, then proceed with script
+        # wait 2 sec, then proceed with a script
         time.sleep(2)
 
         # Check if the search returns any result
@@ -1098,14 +1254,15 @@ class FirefoxPositiveTestCase(unittest.TestCase):
 
         # Open the site page
 
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    # .........  TC-?: "-------------------------------"  ......
+
     def test_nasa_firefox6(self):
         driver = self.driver
         driver.get("https://api.nasa.gov/")
         driver.maximize_window()
-        driver.minimize_window()
-        driver.maximize_window()
 
-        # wait 2 sec, then proceed with script
+        # wait 2 sec, then proceed with a script
         time.sleep(2)
 
         # Check if the search returns any result
@@ -1131,179 +1288,8 @@ class FirefoxPositiveTestCase(unittest.TestCase):
         driver.find_element(By.XPATH, "//h3[contains(text(),'Available Vesta Mosaics')]").click()
         time.sleep(1)
 
-
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-class Chrome(unittest.TestCase):
-    options = Options()
-    options.page_load_strategy = 'eager'
-    svc = Service(ChromeDriverManager().install())
-    driver = webdriver.Chrome(service=svc, options=options)
-
-    def setUp(self):
-        self.driver = webdriver.Chrome()
-        self.driver.maximize_window()
-
-    def test_check_driver_and_url_firefox(self):
-        driver = self.driver
-        driver.get("https://api.nasa.gov")
-        wait = WebDriverWait(driver, 2)
-        wait.until(EC.visibility_of_element_located((By.XPATH, "//h2[contains(.,'{ NASA APIs }')]")))
-        print(driver.title)
-        print(driver.current_url)
-        time.sleep(1)  # simulate long-running test
-
-        # maximize and minimize window
-        driver.maximize_window()
-        driver.minimize_window()
-        driver.maximize_window()
-
-    # check if a header and URL are correct and present
-    def test_check_browse_api_header_firefox(self):
-        driver = self.driver
-        driver.get("https://api.nasa.gov")
-
-        try:
-            driver.find_element(By.XPATH, "(//span[contains(.,'Browse APIs')])[1]").click()
-        except NoSuchElementException:
-            print("'Browse APIs' button is absent")
-
-        try:
-            driver.find_element(By.XPATH, "//h2[contains(.,'Browse APIs')]")
-        except NoSuchElementException:
-            print("Header is different.")
-
-        print("Header is correct")
-
-    def test_check_nasa_img_vid_lib_firefox(self):
-        driver = self.driver
-        driver.get("https://api.nasa.gov")
-
-        # check if the NASA Image and Video Library sub-menu works
-        try:
-            driver.find_element(By.XPATH, "(//span[contains(.,'Browse APIs')])[1]").click()
-        except NoSuchElementException:
-            print("'Browse APIs' button is absent")
-
-        wait = WebDriverWait(driver, 2)
-        wait.until(EC.visibility_of_element_located((By.XPATH, "//button[@id='nasa-image-and-video-library']")))
-        print("Sub-menu 'NASA Image and Video Library' is visible")
-        wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@id='nasa-image-and-video-library']")))
-        print("Sub-menu 'NASA Image and Video Library' is clickable")
-
-        # check if the table is present
-        try:
-            driver.find_element(By.XPATH,
-                                "//body/main[@id='main-content']/section[@id='browseAPI']/div[1]/ul[1]/li[1]/div["
-                                "1]/table[1]")
-        except NoSuchElementException:
-            print("Table is absent.")
-
-        print("Table is present")
-
-        driver.find_element(By.XPATH, "//button[@id='nasa-image-and-video-library']").click()
-
-    def test_check_techtransfer_firefox(self):
-        driver = self.driver
-        driver.get("https://api.nasa.gov")
-
-        # check if the TechTransfer sub-menu works
-
-        try:
-            driver.find_element(By.XPATH, "(//span[contains(.,'Browse APIs')])[1]").click()
-        except NoSuchElementException:
-            print("'Browse APIs' button is absent")
-
-        wait = WebDriverWait(driver, 2)
-
-        wait.until(EC.visibility_of_element_located((By.XPATH, "//button[@id='techtransfer']")))
-        print("Sub-menu 'TechTransfer' is visible")
-        wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@id='techtransfer']")))
-        print("Sub-menu 'TechTransfer' is clickable")
-
-        driver.find_element(By.XPATH, "//button[@id='techtransfer']").click()
-
-    def test_check_satellite_situation_center_firefox(self):
-        driver = self.driver
-        driver.get("https://api.nasa.gov")
-
-        # check if the Satellite Situation Center sub-menu works
-
-        try:
-            driver.find_element(By.XPATH, "(//span[contains(.,'Browse APIs')])[1]").click()
-        except NoSuchElementException:
-            print("'Browse APIs' button is absent")
-
-        wait = WebDriverWait(driver, 2)
-
-        wait.until(EC.visibility_of_element_located((By.XPATH, "//button[@id='satellite-situation-center']")))
-        print("Sub-menu 'Satellite Situation Center' is visible")
-        wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@id='satellite-situation-center']")))
-        print("Sub-menu 'Satellite Situation Center' is clickable")
-
-        driver.find_element(By.XPATH, "//button[@id='satellite-situation-center']").click()
-
-    def test_check_ssd_cneos_firefox(self):
-        driver = self.driver
-        driver.get("https://api.nasa.gov")
-
-        # check if the SSD/CNEOS sub-menu works
-
-        try:
-            driver.find_element(By.XPATH, "(//span[contains(.,'Browse APIs')])[1]").click()
-        except NoSuchElementException:
-            print("'Browse APIs' button is absent")
-
-        wait = WebDriverWait(driver, 2)
-
-        wait.until(EC.visibility_of_element_located((By.XPATH, "//button[@id='ssd-cneos']")))
-        print("Sub-menu 'SSD/CNEOS' is visible")
-        wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@id='ssd-cneos']")))
-        print("Sub-menu 'SSD/CNEOS' is clickable")
-
-        driver.find_element(By.XPATH, "//button[@id='ssd-cneos']").click()
-
-    def test_check_techport_firefox(self):
-        driver = self.driver
-        driver.get("https://api.nasa.gov")
-
-        # check if the Techport sub-menu works
-
-        try:
-            driver.find_element(By.XPATH, "(//span[contains(.,'Browse APIs')])[1]").click()
-        except NoSuchElementException:
-            print("'Browse APIs' button is absent")
-
-        wait = WebDriverWait(driver, 2)
-
-        wait.until(EC.visibility_of_element_located((By.XPATH, "//button[@id='techport']")))
-        print("Sub-menu 'Techport' is visible")
-        wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@id='techport']")))
-        print("Sub-menu 'Techport' is clickable")
-
-    def tearDown(self):
-        self.driver.quit()
-
-
-class Firefox(unittest.TestCase):
-
-    def setUp(self):
-        self.driver = webdriver.Firefox()
-        self.driver.maximize_window()
-
-    def test_check_driver_and_url_firefox(self):
-        driver = self.driver
-        driver.get("https://api.nasa.gov")
-        wait = WebDriverWait(driver, 2)
-        wait.until(EC.visibility_of_element_located((By.XPATH, "//h2[contains(.,'{ NASA APIs }')]")))
-        print(driver.title)
-        print(driver.current_url)
-        time.sleep(1)  # simulate long-running test
-
-        # maximize and minimize window
-        driver.maximize_window()
-        driver.minimize_window()
-        driver.maximize_window()
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    # .........  TC-?: "-------------------------------"  ......
 
     # check if a header and URL are correct and present
 
@@ -1322,6 +1308,9 @@ class Firefox(unittest.TestCase):
             print("Header is different.")
 
         print("Header is correct")
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    # .........  TC-?: "-------------------------------"  ......
 
     def test_check_nasa_img_vid_lib_firefox(self):
         driver = self.driver
@@ -1353,6 +1342,9 @@ class Firefox(unittest.TestCase):
 
         driver.find_element(By.XPATH, "//button[@id='nasa-image-and-video-library']").click()
 
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    # .........  TC-?: "-------------------------------"  ......
+
     def test_check_techtransfer_firefox(self):
         driver = self.driver
         driver.get("https://api.nasa.gov")
@@ -1372,6 +1364,9 @@ class Firefox(unittest.TestCase):
         print("Sub-menu 'TechTransfer' is clickable")
 
         driver.find_element(By.XPATH, "//button[@id='techtransfer']").click()
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    # .........  TC-?: "-------------------------------"  ......
 
     def test_check_satellite_situation_center_firefox(self):
         driver = self.driver
@@ -1393,11 +1388,14 @@ class Firefox(unittest.TestCase):
 
         driver.find_element(By.XPATH, "//button[@id='satellite-situation-center']").click()
 
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    # .........  TC-?: "-------------------------------"  ......
+
     def test_check_ssd_cneos_firefox(self):
         driver = self.driver
         driver.get("https://api.nasa.gov")
 
-        # check if the SSD/CNEOS sub-menu works
+        # check if the SSD/CNEOS submenu works
 
         try:
             driver.find_element(By.XPATH, "(//span[contains(.,'Browse APIs')])[1]").click()
@@ -1412,6 +1410,9 @@ class Firefox(unittest.TestCase):
         print("Sub-menu 'SSD/CNEOS' is clickable")
 
         driver.find_element(By.XPATH, "//button[@id='ssd-cneos']").click()
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    # .........  TC-?: "-------------------------------"  ......
 
     def test_check_techport_firefox(self):
         driver = self.driver
@@ -1431,18 +1432,16 @@ class Firefox(unittest.TestCase):
         wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@id='techport']")))
         print("Sub-menu 'Techport' is clickable")
 
-    # def tearDown(self):
-    #     self.driver.quit()
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-
-def tearDown(self):
-    self.driver.quit()
+    def tearDown(self):
+        self.driver.quit()
 
 
 if __name__ == '__main__':
-    unittest.main(testRunner=HtmlTestRunner.HTMLTestRunner(output='./HtmlReports_POS_NASA_API_KEY',
-                                                           report_name='POS_NASA_test_report'))
+    unittest.main(testRunner=HtmlTestRunner.HTMLTestRunner(output='./HtmlReports_POS_NASA',
+                                                           report_name='POS_NASA_All_Tests'))
 
 # ==============================================================================
-# ...To run tests and generate reports: run the COMMAND from the current directory:
+# ...To run tests and generate reports: run the COMMAND from the CURRENT directory:
 # >> python NASA_Positive_Tests.py
