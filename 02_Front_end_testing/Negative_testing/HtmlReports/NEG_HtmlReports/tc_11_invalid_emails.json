@@ -1,0 +1,11 @@
+{
+    "john.doe.example.com": "missing '@' symbol",
+    "jane_smith123@": "missing domain",
+    "@company.com": "missing username",
+    "bob.smith@com": "incorrect domain format",
+    ".john.doe@example.com": "incorrect format",
+    "bob@smith@example.com": "multiple '@' symbols",
+    "jane_smith123@-emailprovider.com": "hyphen at the beginning of the domain name",
+    "john.doe@example..com": "multiple consecutive dots in the domain name",
+    "jane_smith123@emailprovider.": "trailing dot in the domain name"
+}
