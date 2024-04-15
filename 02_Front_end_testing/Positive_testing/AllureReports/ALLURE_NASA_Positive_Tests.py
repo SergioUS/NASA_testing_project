@@ -837,10 +837,235 @@ class FirefoxNASATests(unittest.TestCase):
         self.driver = webdriver.Firefox()
         self.driver.maximize_window()
 
-    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    # .........  TC-24: "Verify the header navigation bar"  ......
+    # ......TC-23: Verify the webpage is accessible.........................
+    # ......(Methods in UnitTest should start from "test" keyword).......
+    def test23_webpage_access(self):
+        driver1 = self.driver
 
-    def test24_NASA_1(self):
+        # .........Check that an element is present on the DOM of a page and visible.
+        url = "https://api.nasa.gov/"
+        driver1.get(url)
+        driver1.maximize_window()
+        driver1.minimize_window()
+        driver1.maximize_window()
+
+        # ................API testing from Selenium....................
+        print("Webpage Url has", requests.get(url).status_code, "as status Code")
+        code = requests.get(url).status_code
+        if code == 200:
+            print("API response code is OK")
+        else:
+            print("API response code is not 200", "Current code is:", code)
+
+        # .................Check current webpage Title with Exception functionality
+        try:
+            assert "NASA Open APIs" in driver1.title
+            print("Webpage is CORRECT. Current Title is: ", driver1.title)
+        except WDE:
+            print("Webpage is different, current Title is: ", driver1.title)
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    # .........  TC-24: "Verify the form's TITLE is “Generate API Key”  .............
+    def test24_form_title(self):
+
+        driver3 = self.driver
+        url = "https://api.nasa.gov/"
+        driver3.get(url)
+        driver3.maximize_window()
+
+        try:
+            driver3.find_element(By.XPATH, "//h2[contains(.,'Generate API Key')]")
+            print("The Form Title is DISPLAYED")
+            allure.attach(self.driver.get_screenshot_as_png(), name="Form_Title",
+                          attachment_type=AttachmentType.PNG)
+        except NoSuchElementException:
+            print("The Form Title NOT PRESENT")
+            allure.attach(self.driver.get_screenshot_as_png(), name="No_FormTitle",
+                          attachment_type=AttachmentType.PNG)
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    # ...... TC-25: "Verify The form displays mandatory input fields"  ......
+
+    def test25_all_fields_search(self):
+        driver3 = self.driver
+        url = "https://api.nasa.gov/"
+        driver3.get(url)
+        driver3.maximize_window()
+        delay()
+        try:
+            # ...... FIRST NAME. Execute JavaScript to access shadow DOM and get the field .....
+            element = driver3.execute_script(
+                'return document.querySelector(".api-umbrella-signup-embed-content-container").shadowRoot'
+                '.querySelector("#user_first_name")')
+            print("FIRST NAME field Found")
+            # # ....... Now you can interact with the element ......
+            # # ....... For example, to input text:
+            # element.send_keys('Your text here')
+        except NoSuchElementException:
+            print("FIRST NAME field NOT DISPLAYED")
+            allure.attach(self.driver.get_screenshot_as_png(), name="No_FirstName",
+                          attachment_type=AttachmentType.PNG)
+        try:
+            # ....... LAST NAME. Execute JavaScript to access shadow DOM and get the field .....
+            element = driver3.execute_script(
+                'return document.querySelector(".api-umbrella-signup-embed-content-container").shadowRoot'
+                '.querySelector("#user_last_name")')
+            print("LAST NAME field Found")
+            # # ....... Now you can interact with the element ......
+            # # ....... For example, to input text:
+            # element.send_keys('Your text here')
+        except NoSuchElementException:
+            print("LAST NAME field NOT DISPLAYED")
+            allure.attach(self.driver.get_screenshot_as_png(), name="No_FirstName",
+                          attachment_type=AttachmentType.PNG)
+        try:
+            # ....... EMAIL. Execute JavaScript to access shadow DOM and get the field
+            element = driver3.execute_script(
+                'return document.querySelector(".api-umbrella-signup-embed-content-container").shadowRoot'
+                '.querySelector("#user_email")')
+            print("EMAIL field Found")
+            # # ....... Now you can interact with the element ......
+            # # ....... For example, to input text:
+            # element.send_keys('Your text here')
+        except NoSuchElementException:
+            print("EMAIL field NOT DISPLAYED")
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    # ......TC-26: Verify that mandatory input fields are marked with an asterisk (*)..............
+
+    def test26_asterisk_search(self):
+
+        driver4 = self.driver
+        url = "https://api.nasa.gov/"
+        driver4.get(url)
+        driver4.maximize_window()
+
+        # ...............(1) Locate the host element..........
+
+        try:
+            driver4.find_element(By.CSS_SELECTOR, ".api-umbrella-signup-embed-content-container")
+            print("The Host Element Present")
+        except NoSuchElementException:
+            print("No Host Element Found")
+
+        # ................(2) Access the shadow root...................
+        try:
+            host_element = driver4.find_element(By.CSS_SELECTOR, ".api-umbrella-signup-embed-content-container")
+            shadow_root = driver4.execute_script('return arguments[0].shadowRoot', host_element)
+
+            # .....(Use JavaScript to access the shadow root and find elements within it)......
+            inner_element = driver4.execute_script(
+                'return arguments[0].shadowRoot.querySelector("div:nth-child(1) > '
+                'form:nth-child(2) > div:nth-child(1) > label:nth-child(1) > '
+                'abbr:nth-child('
+                '1)")', host_element)
+            print("A '*' Element Present as Required.")
+        except WDE:
+            print("No '*' Element Found")
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    # .........  TC-27: "Verify  the optional text field 'How will you use the APIs?'."  ......
+
+    def test27_optional_field_search(self):
+        driver5 = self.driver
+        url = "https://api.nasa.gov/"
+        driver5.get(url)
+        driver5.maximize_window()
+        delay()
+        try:
+            # ...... OPTIONAL: 'HOW WILL YOU...'. Execute JavaScript to access shadow DOM and get the field ...
+            element = driver5.execute_script(
+                'return document.querySelector(".api-umbrella-signup-embed-content-container").shadowRoot'
+                '.querySelector("#user_use_description")')
+            print("OPTIONAL field Found")
+            # # ....... Now you can interact with the element ......
+            # # ....... For example, to input text:
+            # element.send_keys('Your text here')
+        except NoSuchElementException:
+            print("OPTIONAL field NOT DISPLAYED")
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    # ..........  TC-28: "Verify  the 'Signup' button"  ......
+
+    def test28_signup_button_search(self):
+        driver6 = self.driver
+        url = "https://api.nasa.gov/"
+        driver6.get(url)
+        driver6.maximize_window()
+        delay()
+        try:
+            # ...... SIGNUP button. Execute JavaScript to access shadow DOM and get the element ...
+            element = driver6.execute_script(
+                'return document.querySelector(".api-umbrella-signup-embed-content-container").shadowRoot'
+                '.querySelector(".btn.btn-lg.btn-primary")')
+            print("SIGNUP button Found")
+            # # ....... Now you can interact with the element ......
+            # # ....... For example, to input text:
+            # element.send_keys('Your text here')
+        except NoSuchElementException:
+            print("SIGNUP button NOT DISPLAYED")
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    # .........  TC-29: "Verify The system generates an API key..."  ......
+
+    def test29_complete_form_search(self):
+        driver7 = self.driver
+        url = "https://api.nasa.gov/"
+        driver7.get(url)
+        driver7.maximize_window()
+        delay()
+        try:
+            # ...... FIRST NAME. Execute JavaScript to access shadow DOM and get the field .....
+            FName = fake.first_name()
+
+            element = driver7.execute_script(
+                'return document.querySelector(".api-umbrella-signup-embed-content-container").shadowRoot'
+                '.querySelector("#user_first_name")').send_keys(FName)
+            print("First Name: ", FName)
+            # # ....... Now you can interact with the element ......
+            # # ....... For example, to input text:
+            # element.send_keys('Your text here')
+        except NoSuchElementException:
+            print("FIRST NAME field NOT DISPLAYED")
+
+        try:
+            # ....... LAST NAME. Execute JavaScript to access shadow DOM and get the field .....
+
+            LName = fake.last_name()
+
+            element = driver7.execute_script(
+                'return document.querySelector(".api-umbrella-signup-embed-content-container").shadowRoot'
+                '.querySelector("#user_last_name")').send_keys(LName)
+            print("Last Name: ", LName)  # For the records.
+
+        except NoSuchElementException:
+            print("LAST NAME field NOT DISPLAYED")
+
+        try:
+            # ....... EMAIL. Execute JavaScript to access shadow DOM and get the field .....
+            email = fake.email()
+
+            element = driver7.execute_script(
+                'return document.querySelector(".api-umbrella-signup-embed-content-container").shadowRoot'
+                '.querySelector("#user_email")').send_keys(email)
+            print(email)  # For the records.
+
+        except NoSuchElementException:
+            print("EMAIL field NOT DISPLAYED")
+
+        try:
+            # ...... SIGNUP button. Execute JavaScript to access shadow DOM and get the element ...
+            element = driver7.execute_script(
+                'return document.querySelector(".api-umbrella-signup-embed-content-container").shadowRoot'
+                '.querySelector(".btn.btn-lg.btn-primary")').click()
+
+        except NoSuchElementException:
+            print("SIGNUP button NOT DISPLAYED")
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    # .........  TC-30: "Verify the header navigation bar"  ......
+
+    def test30_NASA_1(self):
         driver = self.driver
         driver.get("https://api.nasa.gov/")
 
@@ -914,9 +1139,9 @@ class FirefoxNASATests(unittest.TestCase):
             driver.save_screenshot('Browse_APIs_error.png')
 
     # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    # .........  TC-25: "Verify 'search' bar in the top menu"  ......
+    # .........  TC-31: "Verify 'search' bar in the top menu"  ......
 
-    def test25_NASA_2(self):
+    def test31_NASA_2(self):
         driver = self.driver
         driver.get("https://api.nasa.gov/")
 
@@ -945,9 +1170,9 @@ class FirefoxNASATests(unittest.TestCase):
             driver.save_screenshot('search_bar_error.png')
 
     # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    # .........  TC-26: "Verify “Get Started” button"  ......
+    # .........  TC-32: "Verify “Get Started” button"  ......
 
-    def test26_NASA_3(self):
+    def test32_NASA_3(self):
         driver = self.driver
         driver.get("https://api.nasa.gov/")
 
@@ -971,9 +1196,9 @@ class FirefoxNASATests(unittest.TestCase):
             driver.save_screenshot('Generate_API_error.png')
 
     # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    # .........  TC-27: "Verify “Browse APIs” button"  ......
+    # .........  TC-33: "Verify “Browse APIs” button"  ......
 
-    def test27_NASA_4(self):
+    def test33_NASA_4(self):
         driver = self.driver
         driver.get("https://api.nasa.gov/")
 
@@ -997,9 +1222,9 @@ class FirefoxNASATests(unittest.TestCase):
             driver.save_screenshot('Browse_error.png')
 
     # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    # .........  TC-28: "Verify submenu "Epic" in the "Browse APIs" menu"  ......
+    # .........  TC-34: "Verify submenu "Epic" in the "Browse APIs" menu"  ......
 
-    def test28_nasa_firefox(self):
+    def test34_nasa_firefox(self):
         driver = self.driver
         driver.get("https://api.nasa.gov/")
         driver.maximize_window()
@@ -1035,9 +1260,9 @@ class FirefoxNASATests(unittest.TestCase):
         time.sleep(1)
 
     # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    # .........  TC-29: "Verify submenu "Exoplanet" in the "Browse APIs" menu"  ......
+    # .........  TC-35: "Verify submenu "Exoplanet" in the "Browse APIs" menu"  ......
 
-    def test29_nasa_firefox1(self):
+    def test35_nasa_firefox1(self):
         driver = self.driver
         driver.get("https://api.nasa.gov/")
         driver.maximize_window()
@@ -1065,9 +1290,9 @@ class FirefoxNASATests(unittest.TestCase):
         time.sleep(1)
 
     # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    # .........  TC-30: "Verify submenu 'Open Science Data Repository'"  ......
+    # .........  TC-36: "Verify submenu 'Open Science Data Repository'"  ......
 
-    def test30_nasa_firefox2(self):
+    def test36_nasa_firefox2(self):
         driver = self.driver
         driver.get("https://api.nasa.gov/")
         driver.maximize_window()
@@ -1115,9 +1340,9 @@ class FirefoxNASATests(unittest.TestCase):
         time.sleep(1)
 
     # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    # .........  TC-31: "Verify submenu "Insight""  ......
+    # .........  TC-37: "Verify submenu "Insight""  ......
 
-    def test31_nasa_firefox3(self):
+    def test37_nasa_firefox3(self):
         driver = self.driver
         driver.get("https://api.nasa.gov/")
         driver.maximize_window()
@@ -1151,9 +1376,9 @@ class FirefoxNASATests(unittest.TestCase):
         time.sleep(1)
 
     # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    # .........  TC-32: "Verify submenu "Mars Rover Photos""  ......
+    # .........  TC-38: "Verify submenu "Mars Rover Photos""  ......
 
-    def test32_nasa_firefox4(self):
+    def test38_nasa_firefox4(self):
         driver = self.driver
         driver.get("https://api.nasa.gov/")
         driver.maximize_window()
@@ -1189,9 +1414,9 @@ class FirefoxNASATests(unittest.TestCase):
         time.sleep(1)
 
     # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    # .........  TC-33: "Verify submenu "TLE API""  ......
+    # .........  TC-39: "Verify submenu "TLE API""  ......
 
-    def test33_nasa_firefox5(self):
+    def test39_nasa_firefox5(self):
         driver = self.driver
         driver.get("https://api.nasa.gov/")
         driver.maximize_window()
@@ -1221,9 +1446,9 @@ class FirefoxNASATests(unittest.TestCase):
         time.sleep(1)
 
     # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    # .........  TC-34: "Verify submenu "Vesta/Moon/Mars Trek WMTS""  ......
+    # .........  TC-40: "Verify submenu "Vesta/Moon/Mars Trek WMTS""  ......
 
-    def test34_nasa_firefox6(self):
+    def test40_nasa_firefox6(self):
         driver = self.driver
         driver.get("https://api.nasa.gov/")
         driver.maximize_window()
@@ -1255,11 +1480,11 @@ class FirefoxNASATests(unittest.TestCase):
         time.sleep(1)
 
     # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    # .........  TC-35: "Verify the Header and URL on the 'Browse APIs' page"  ......
+    # .........  TC-41: "Verify the Header and URL on the 'Browse APIs' page"  ......
 
     # check if a header and URL are correct and present
 
-    def test35_check_browse_api_header_firefox(self):
+    def test41_check_browse_api_header_firefox(self):
         driver = self.driver
         driver.get("https://api.nasa.gov")
 
@@ -1276,9 +1501,9 @@ class FirefoxNASATests(unittest.TestCase):
         print("Header is correct")
 
     # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    # .........  TC-36: "Verify the NASA Image and Video Library submenu"  ......
+    # .........  TC-42: "Verify the NASA Image and Video Library submenu"  ......
 
-    def test36_check_nasa_img_vid_lib_firefox(self):
+    def test42_check_nasa_img_vid_lib_firefox(self):
         driver = self.driver
         driver.get("https://api.nasa.gov")
 
@@ -1309,9 +1534,9 @@ class FirefoxNASATests(unittest.TestCase):
         driver.find_element(By.XPATH, "//button[@id='nasa-image-and-video-library']").click()
 
     # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    # .........  TC-37: "Verify the TechTransfer submenu"  ......
+    # .........  TC-43: "Verify the TechTransfer submenu"  ......
 
-    def test37_check_techtransfer_firefox(self):
+    def test43_check_techtransfer_firefox(self):
         driver = self.driver
         driver.get("https://api.nasa.gov")
 
@@ -1332,9 +1557,9 @@ class FirefoxNASATests(unittest.TestCase):
         driver.find_element(By.XPATH, "//button[@id='techtransfer']").click()
 
     # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    # .........  TC-38: "Verify the Satellite Situation Center submenu"  ......
+    # .........  TC-44: "Verify the Satellite Situation Center submenu"  ......
 
-    def test38_check_satellite_situation_center_firefox(self):
+    def test44_check_satellite_situation_center_firefox(self):
         driver = self.driver
         driver.get("https://api.nasa.gov")
 
@@ -1355,9 +1580,9 @@ class FirefoxNASATests(unittest.TestCase):
         driver.find_element(By.XPATH, "//button[@id='satellite-situation-center']").click()
 
     # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    # .........  TC-39: "Verify the SSD/CNEOS submenu"  ......
+    # .........  TC-45: "Verify the SSD/CNEOS submenu"  ......
 
-    def test39_check_ssd_cneos_firefox(self):
+    def test45_check_ssd_cneos_firefox(self):
         driver = self.driver
         driver.get("https://api.nasa.gov")
 
@@ -1378,9 +1603,9 @@ class FirefoxNASATests(unittest.TestCase):
         driver.find_element(By.XPATH, "//button[@id='ssd-cneos']").click()
 
     # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    # .........  TC-40: "Verify the Techport submenu"  ......
+    # .........  TC-46: "Verify the Techport submenu"  ......
 
-    def test40_check_techport_firefox(self):
+    def test46_check_techport_firefox(self):
         driver = self.driver
         driver.get("https://api.nasa.gov")
 
@@ -1410,15 +1635,15 @@ class FirefoxNASATests(unittest.TestCase):
 
 # ==============================================================================
 # """
-# (1)............. To run tests, execute the command line:
+# (1)............. To run tests, execute the command line from the CURRENT DIRECTORY:
 #
-# >>   pytest -v -s  C:\Users\seror\PycharmProjects\NASA_PROJECT\TESTS\Reports_Allure\Pos_Unittests_NASA_Allure\ALLURE_NASA_Positive-Tests.py
+# >>   pytest -v -s ALLURE_NASA_Positive_Tests.py
 #
-# (2).............To run Allure reports:  ...............
+# (2).............To run Allure reports from the CURRENT DIRECTORY:  ...............
 #
-# >>    python -m pytest -v -s --alluredir="C:\Users\seror\PycharmProjects\NASA_PROJECT\TESTS\Reports_Allure\Pos_Unittests_NASA_Allure\reports" C:\Users\seror\PycharmProjects\NASA_PROJECT\TESTS\Reports_Allure\Pos_Unittests_NASA_Allure\ALLURE_NASA_Positive-Tests.py
+# >>    python -m pytest -v -s --alluredir="reports" ALLURE_NASA_Positive_Tests.py
 #
-# (3)..............To display the Allure reports:
+# (3)..............To display the Allure reports run the command from the CURRENT DIRECTORY:
 #
-# >> allure serve C:\Users\seror\PycharmProjects\NASA_PROJECT\TESTS\Reports_Allure\Pos_Unittests_NASA_Allure\reports
+# >> allure serve ./reports
 # """

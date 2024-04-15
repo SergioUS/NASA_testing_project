@@ -1,1 +1,1 @@
-https://allure-nasa-positive-tests.netlify.app/
+https://positive-allure-reports-complete.netlify.app/
