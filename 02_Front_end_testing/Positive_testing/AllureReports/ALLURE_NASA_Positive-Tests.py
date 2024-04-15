@@ -1412,11 +1412,11 @@ class FirefoxNASATests(unittest.TestCase):
 # """
 # (1)............. To run tests, execute the command line:
 #
-# >>   pytest -v -s  C:\Users\seror\PycharmProjects\NASA_PROJECT\TESTS\Reports_Allure\Pos_Unittests_NASA_Allure\ALLURE_NASA_Positive_Tests.py
+# >>   pytest -v -s  C:\Users\seror\PycharmProjects\NASA_PROJECT\TESTS\Reports_Allure\Pos_Unittests_NASA_Allure\ALLURE_NASA_Positive-Tests.py
 #
 # (2).............To run Allure reports:  ...............
 #
-# >>    python -m pytest -v -s --alluredir="C:\Users\seror\PycharmProjects\NASA_PROJECT\TESTS\Reports_Allure\Pos_Unittests_NASA_Allure\reports" C:\Users\seror\PycharmProjects\NASA_PROJECT\TESTS\Reports_Allure\Pos_Unittests_NASA_Allure\ALLURE_NASA_Positive_Tests.py
+# >>    python -m pytest -v -s --alluredir="C:\Users\seror\PycharmProjects\NASA_PROJECT\TESTS\Reports_Allure\Pos_Unittests_NASA_Allure\reports" C:\Users\seror\PycharmProjects\NASA_PROJECT\TESTS\Reports_Allure\Pos_Unittests_NASA_Allure\ALLURE_NASA_Positive-Tests.py
 #
 # (3)..............To display the Allure reports:
 #
