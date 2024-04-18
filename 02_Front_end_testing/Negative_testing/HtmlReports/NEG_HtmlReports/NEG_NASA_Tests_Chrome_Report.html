@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Unittest Results</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <h2 class="text-capitalize">Unittest Results</h2>
+                <p class='attribute'><strong>Start Time: </strong>2024-04-12 11:49:57</p>
+                <p class='attribute'><strong>Duration: </strong>45.42 s</p>
+                <p class='attribute'><strong>Summary: </strong>Total: 5, Pass: 4, Fail: 1</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-10 col-md-10">
+                <table class='table table-hover table-responsive'>
+                    <thead>
+                        <tr>
+                            <th>__main__.ChromeBrowser</th>
+                            <th>Status</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class='success'>
+                            <td class="col-xs-10">test00_webpage_access</td>
+                            <td class="col-xs-1">
+                                <span class="label label-success" style="display:block;width:40px;">Pass</span>
+                            </td>
+                            <td class="col-xs-1">
+                                <button class="btn btn-default btn-xs">View</button>
+                            </td>
+                        </tr>
+                        <tr style="display:none;">
+                            <td class="col-xs-9" colspan="3"><p>Webpage Url has 200 as status Code
+API response code is OK
+Webpage is CORRECT. Current Title is:  NASA Open APIs
+</p>
+                            </td>
+                        </tr>
+                        <tr class='success'>
+                            <td class="col-xs-10">test08_first_name_empty</td>
+                            <td class="col-xs-1">
+                                <span class="label label-success" style="display:block;width:40px;">Pass</span>
+                            </td>
+                            <td class="col-xs-1">
+                                <button class="btn btn-default btn-xs">View</button>
+                            </td>
+                        </tr>
+                        <tr style="display:none;">
+                            <td class="col-xs-9" colspan="3"><p>Last Name:  Diaz
+thomas63@example.net
+Error message:  ' Fill out this field. '
+</p>
+                            </td>
+                        </tr>
+                        <tr class='success'>
+                            <td class="col-xs-10">test09_last_name_empty</td>
+                            <td class="col-xs-1">
+                                <span class="label label-success" style="display:block;width:40px;">Pass</span>
+                            </td>
+                            <td class="col-xs-1">
+                                <button class="btn btn-default btn-xs">View</button>
+                            </td>
+                        </tr>
+                        <tr style="display:none;">
+                            <td class="col-xs-9" colspan="3"><p>First Name:  Margaret
+oking@example.com
+Error message:  ' Fill out this field. '
+</p>
+                            </td>
+                        </tr>
+                        <tr class='success'>
+                            <td class="col-xs-10">test10_email_empty</td>
+                            <td class="col-xs-1">
+                                <span class="label label-success" style="display:block;width:40px;">Pass</span>
+                            </td>
+                            <td class="col-xs-1">
+                                <button class="btn btn-default btn-xs">View</button>
+                            </td>
+                        </tr>
+                        <tr style="display:none;">
+                            <td class="col-xs-9" colspan="3"><p>First Name:  Matthew
+Last Name:  Shaw
+Email address:   None
+Error message:  ' Enter an email address. '
+</p>
+                            </td>
+                        </tr>
+                        <tr class='danger'>
+                            <td class="col-xs-10">test11_email_invalid</td>
+                            <td class="col-xs-1">
+                                <span class="label label-danger" style="display:block;width:40px;">Fail</span>
+                            </td>
+                            <td class="col-xs-1">
+                                <button class="btn btn-default btn-xs">View</button>
+                            </td>
+                        </tr>
+                        <tr style="display:none;">
+                            <td class="col-xs-9" colspan="3"><p>========================================</p>
+<p>Invalid Email Address:   john.doe.example.com</p>
+<p>First Name:  Jose</p>
+<p>Last Name:  Austin</p>
+<p>Error message: 'Enter an email address.'</p>
+<p>As Expected.</p>
+<p>* PASSED *</p>
+<p>========================================</p>
+<p>Invalid Email Address:   jane_smith123@</p>
+<p>First Name:  Holly</p>
+<p>Last Name:  Whitaker</p>
+<p>Error message: 'Enter an email address.'</p>
+<p>As Expected.</p>
+<p>* PASSED *</p>
+<p>========================================</p>
+<p>Invalid Email Address:   @company.com</p>
+<p>First Name:  Bruce</p>
+<p>Last Name:  Lawrence</p>
+<p>Error message: 'Enter an email address.'</p>
+<p>As Expected.</p>
+<p>* PASSED *</p>
+<p>========================================</p>
+<p>Invalid Email Address:   bob.smith@com</p>
+<p>First Name:  Gregory</p>
+<p>Last Name:  Cole</p>
+<p>AssertionError: Expected an error message. Error message is not displayed.</p>
+<p><== FAILED ==> Invalid format accepted.</p>
+<p>Invalid email:   bob.smith@com</p>
+<p>Reason:          incorrect domain format</p>
+<p>========================================</p>
+<p>Invalid Email Address:   .john.doe@example.com</p>
+<p>First Name:  Suzanne</p>
+<p>Last Name:  Garrett</p>
+<p>SIGNUP button NOT DISPLAYED</p>
+<p>AssertionError: Expected an error message. Error message is not displayed.</p>
+<p><== FAILED ==> Invalid format accepted.</p>
+<p>Invalid email:   .john.doe@example.com</p>
+<p>Reason:          incorrect format</p>
+<p>========================================</p>
+<p>Invalid Email Address:   bob@smith@example.com</p>
+<p>First Name:  Rose</p>
+<p>Last Name:  Smith</p>
+<p>SIGNUP button NOT DISPLAYED</p>
+<p>Error message: 'Enter an email address.'</p>
+<p>As Expected.</p>
+<p>* PASSED *</p>
+<p>========================================</p>
+<p>Invalid Email Address:   jane_smith123@-emailprovider.com</p>
+<p>First Name:  John</p>
+<p>Last Name:  Evans</p>
+<p>SIGNUP button NOT DISPLAYED</p>
+<p>Error message: 'Enter an email address.'</p>
+<p>As Expected.</p>
+<p>* PASSED *</p>
+<p>========================================</p>
+<p>Invalid Email Address:   john.doe@example..com</p>
+<p>First Name:  Tonya</p>
+<p>Last Name:  Bond</p>
+<p>SIGNUP button NOT DISPLAYED</p>
+<p>Error message: 'Enter an email address.'</p>
+<p>As Expected.</p>
+<p>* PASSED *</p>
+<p>========================================</p>
+<p>Invalid Email Address:   jane_smith123@emailprovider.</p>
+<p>First Name:  Tyler</p>
+<p>Last Name:  Johnson</p>
+<p>SIGNUP button NOT DISPLAYED</p>
+<p>Error message: 'Enter an email address.'</p>
+<p>As Expected.</p>
+<p>* PASSED *</p>
+<p>========================================</p>
+</p>
+<p style="color:maroon;">AssertionError: Number of bugs found = 2
+</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                Total: 5, Pass: 4, Fail: 1 -- Duration: 45.42 s
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('td').on('click', '.btn', function(e){
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                var $this = $(this);
+                var $nextRow = $this.closest('tr').next('tr');
+                $nextRow.slideToggle("fast");
+                $this.text(function(i, text){
+                    if (text === 'View') {
+                        return 'Hide';
+                    } else {
+                        return 'View';
+                    };
+                });
+            });
+        });
+    </script>
+</body>
+</html>
