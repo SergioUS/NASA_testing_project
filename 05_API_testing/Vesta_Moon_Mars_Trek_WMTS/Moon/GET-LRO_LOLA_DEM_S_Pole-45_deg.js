@@ -15,7 +15,7 @@ pm.test("The response data length must be greater than zero", function () {
     const responseData = pm.response.json();
     pm.expect(Object.keys(responseData.response).length).to.be.above(0, "Response data should not be empty");
 });
-// Test 5: Verify that each image URL in the response is valid
+
 // Test 5: Verify that each image URL in the response is valid
 pm.test("Each image URL in the response is valid", function () {
     const responseData = pm.response.json();
