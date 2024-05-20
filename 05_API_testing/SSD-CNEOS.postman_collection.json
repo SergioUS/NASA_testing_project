@@ -1,0 +1,349 @@
+{
+	"info": {
+		"_postman_id": "033953c8-5485-4613-82a4-a289a6b385d2",
+		"name": "SSD/CNEOS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28411502"
+	},
+	"item": [
+		{
+			"name": "close_approach_bodies",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// ==============================================================\r",
+							"\r",
+							"// ........... This API provides access to current close-approach to planets\r",
+							"\r",
+							"// =============================================================\r",
+							"\r",
+							"// Test 1: Validate status code (should be 200)\r",
+							"pm.test(\"Test 1: Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"// Test 2: Validate the response time (should be less than 500)\r",
+							"pm.test(\"Test 2: Response time is less than 600ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(600);\r",
+							"});\r",
+							"// Test 3: Validate the response size (should be less than 2KB)\r",
+							"pm.test(\"Test 3: Response size is less than 2500 B\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(2500);\r",
+							"});\r",
+							"//  Test 4: Response should be okay to process\r",
+							"pm.test(\"Test 4: Response should be okay to process\", function () {\r",
+							"    pm.response.to.not.be.error;\r",
+							"    pm.response.to.be.withBody;\r",
+							"    pm.response.to.be.json;\r",
+							"    pm.response.to.not.have.jsonBody(\"error\");\r",
+							"});\r",
+							"// Test 5: Verify the length of the response data\r",
+							"pm.test(\"Test 5: The response data length must be greater than zero\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    pm.expect(Object.keys(responseData).length).to.be.above(0, \"Response data should not be empty\");\r",
+							"});\r",
+							"// .................................................\r",
+							"\r",
+							"// Test 6: Verify response headers.\r",
+							"pm.test(\"Test 6: Verify the header keys are present\", function () {\r",
+							"    pm.response.to.have.header(\"Date\");\r",
+							"    pm.response.to.have.header(\"Content-Type\", \"application/json\");\r",
+							"    pm.response.to.have.header(\"Server\");\r",
+							"    pm.response.to.have.header(\"Transfer-Encoding\");\r",
+							"    pm.response.to.have.header(\"Connection\");\r",
+							"    pm.response.to.have.header(\"Set-Cookie\");\r",
+							"});\r",
+							"// ...........................................................\r",
+							"\r",
+							"pm.test(\"Test 7: Verify response body format\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"\r",
+							"    // Check for top-level fields\r",
+							"    pm.expect(responseData).to.have.property('signature');\r",
+							"    pm.expect(responseData).to.have.property('count');\r",
+							"    pm.expect(responseData).to.have.property('signature').that.is.an('object');\r",
+							"\r",
+							"    // Check 'signature' object\r",
+							"    pm.expect(responseData.signature).to.have.property('source', 'NASA/JPL SBDB Close Approach Data API');\r",
+							"    pm.expect(responseData.signature).to.have.property('version', '1.5');\r",
+							"\r",
+							"    // Check count value\r",
+							"    const count = responseData.count;\r",
+							"    pm.expect(count).to.be.a('number');\r",
+							"\r",
+							"    if (count > 0) {\r",
+							"        // Check 'fields' array\r",
+							"        pm.expect(responseData).to.have.property('fields').that.is.an('array').that.is.not.empty;\r",
+							"     \r",
+							"        // Check 'data' array\r",
+							"        pm.expect(responseData).to.have.property('data').that.is.an('array').that.is.not.empty;\r",
+							"\r",
+							"    \r",
+							"        // Log number of records\r",
+							"        console.log(\"Number of records:\", count);\r",
+							"    \r",
+							"    } else {\r",
+							"        // Check for zero count response\r",
+							"        pm.test(\"Test 7a: Verify zero-count result format\", function () {\r",
+							"            pm.expect(responseData).to.not.have.property('fields');\r",
+							"            pm.expect(responseData).to.not.have.property('data');\r",
+							"        });\r",
+							"\r",
+							"        // Log zero count\r",
+							"        console.log(\"Number of records: 0\");\r",
+							"    }\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.environment.clear();\r",
+							"\r",
+							"// Create an array of the planets to randomly select from:\r",
+							"const planets = [\"Merc\", \"Venus\", \"Earth\", \"Mars\", \"Juptr\", \"Satrn\", \"Urnus\", \"Neptn\", \"Pluto\", \"Moon\"];\r",
+							"\r",
+							"// Get a random Planet within the range of the array length\r",
+							"const randomIndex = Math.floor(Math.random() * planets.length);\r",
+							"\r",
+							"// Get the random Planet from the array using the random index\r",
+							"const randomPlanet = planets[randomIndex];\r",
+							"\r",
+							"// Set the random Planet value as an environment variable for later use\r",
+							"pm.environment.set(\"aPlanet\", randomPlanet);\r",
+							"\r",
+							"// Log the random Planet to the console\r",
+							"console.log(\"aPlanet: \", randomPlanet);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://ssd-api.jpl.nasa.gov/cad.api?body={{aPlanet}}",
+					"protocol": "https",
+					"host": [
+						"ssd-api",
+						"jpl",
+						"nasa",
+						"gov"
+					],
+					"path": [
+						"cad.api"
+					],
+					"query": [
+						{
+							"key": "body",
+							"value": "{{aPlanet}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "close_approach_since_date",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// ==============================================================",
+							"",
+							"// .....The Earth close-approach data for NEOs within 10 lunar distances on or after a random date from 2020-Jan-01 until now, sorted by distance",
+							"",
+							"// =============================================================",
+							"",
+							"// Test 1: Validate status code (should be 200)",
+							"pm.test(\"Test 1: Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"// Test 2: Validate the response time (should be less than 500)",
+							"pm.test(\"Test 2: Response time is less than 600ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(600);",
+							"});",
+							"// Test 3: Validate the response size (should be less than 2KB)",
+							"pm.test(\"Test 3: Response size is less than 2500 B\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(2500);",
+							"});",
+							"//  Test 4: Response should be okay to process",
+							"pm.test(\"Test 4: Response should be okay to process\", function () {",
+							"    pm.response.to.not.be.error;",
+							"    pm.response.to.be.withBody;",
+							"    pm.response.to.be.json;",
+							"    pm.response.to.not.have.jsonBody(\"error\");",
+							"});",
+							"// Test 5: Verify the length of the response data",
+							"pm.test(\"Test 5: The response data length must be greater than zero\", function () {",
+							"    const responseData = pm.response.json();",
+							"    pm.expect(Object.keys(responseData).length).to.be.above(0, \"Response data should not be empty\");",
+							"});",
+							"// .................................................",
+							"",
+							"// Test 6: Verify response headers.",
+							"pm.test(\"Test 6: Verify the header keys are present\", function () {",
+							"    pm.response.to.have.header(\"Date\");",
+							"    pm.response.to.have.header(\"Content-Type\", \"application/json\");",
+							"    pm.response.to.have.header(\"Server\");",
+							"    pm.response.to.have.header(\"Transfer-Encoding\");",
+							"    pm.response.to.have.header(\"Connection\");",
+							"    pm.response.to.have.header(\"Set-Cookie\");",
+							"});",
+							"// ...........................................................",
+							"",
+							"pm.test(\"Test 7: Verify response body format\", function () {",
+							"    const responseData = pm.response.json();",
+							"",
+							"    // Check for top-level fields",
+							"    pm.expect(responseData).to.have.property('signature');",
+							"    pm.expect(responseData).to.have.property('count');",
+							"    pm.expect(responseData).to.have.property('signature').that.is.an('object');",
+							"",
+							"    // Check 'signature' object",
+							"    pm.expect(responseData.signature).to.have.property('source', 'NASA/JPL SBDB Close Approach Data API');",
+							"    pm.expect(responseData.signature).to.have.property('version', '1.5');",
+							"",
+							"    // Check count value",
+							"    const count = responseData.count;",
+							"    pm.expect(count).to.be.a('number');",
+							"",
+							"    if (count > 0) {",
+							"        // Check 'fields' array",
+							"        pm.expect(responseData).to.have.property('fields').that.is.an('array').that.is.not.empty;",
+							"     ",
+							"        // Check 'data' array",
+							"        pm.expect(responseData).to.have.property('data').that.is.an('array').that.is.not.empty;",
+							"",
+							"    ",
+							"        // Log number of records",
+							"        console.log(\"Number of records:\", count);",
+							"    ",
+							"    } else {",
+							"        // Check for zero count response",
+							"        pm.test(\"Test 7a: Verify zero-count result format\", function () {",
+							"            pm.expect(responseData).to.not.have.property('fields');",
+							"            pm.expect(responseData).to.not.have.property('data');",
+							"        });",
+							"",
+							"        // Log zero count",
+							"        console.log(\"Number of records: 0\");",
+							"    }",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"//=====================================================\r",
+							"// ........  A random date from 2020-Jan-01 until now.\r",
+							"//=====================================================\r",
+							"// Function to generate a random date between two dates\r",
+							"function getRandomDate(start, end) {\r",
+							"    const date = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));\r",
+							"    return date;\r",
+							"}\r",
+							"\r",
+							"// Function to format date as 'YYYY-MM-DD'\r",
+							"function formatDate(date) {\r",
+							"    const year = date.getFullYear();\r",
+							"    const month = ('0' + (date.getMonth() + 1)).slice(-2);\r",
+							"    const day = ('0' + date.getDate()).slice(-2);\r",
+							"    return `${year}-${month}-${day}`;\r",
+							"}\r",
+							"\r",
+							"// Generate a random date after 2020-Jan-01:\r",
+							"const startDate = new Date(2020, 0, 1); // Start date (January 1, 2020)\r",
+							"const endDate = new Date(); // End date (current date)\r",
+							"const randomDate = getRandomDate(startDate, endDate);\r",
+							"\r",
+							"// Format the random date in a required format:\r",
+							"const randomDateFormat1 = formatDate(randomDate);\r",
+							"\r",
+							"// Set the random dates as environment variables\r",
+							"pm.environment.set(\"dateMin\", randomDateFormat1);\r",
+							"\r",
+							"// Log the generated dates to the console\r",
+							"console.log(\"Random Date (YYYY-MM-DD):\", randomDateFormat1);\r",
+							"\r",
+							"\r",
+							"//===========================================================\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://ssd-api.jpl.nasa.gov/cad.api?dist-max=10LD&date-min={{dateMin}}&sort=dist",
+					"protocol": "https",
+					"host": [
+						"ssd-api",
+						"jpl",
+						"nasa",
+						"gov"
+					],
+					"path": [
+						"cad.api"
+					],
+					"query": [
+						{
+							"key": "dist-max",
+							"value": "10LD"
+						},
+						{
+							"key": "date-min",
+							"value": "{{dateMin}}"
+						},
+						{
+							"key": "sort",
+							"value": "dist"
+						}
+					]
+				},
+				"description": "\n### Get Layer Services\n\nThis API endpoint makes an HTTP GET request to retrieve layer services from the NASA Trek Services. It takes a query parameter `uuid` which represents the unique identifier of the layer services.\n\n#### Request Parameters\n- `uuid`: (string) The unique identifier for the layer services.\n\n#### Response\nUpon a successful execution, the API returns a JSON response with the following structure:\n```json\n{\n    \"responseHeader\": {\n        \"status\": 0,\n        \"QTime\": 0,\n        \"params\": {\n            \"q\": \"\",\n            \"indent\": \"\",\n            \"version\": \"\",\n            \"wt\": \"\"\n        }\n    },\n    \"response\": {\n        \"numFound\": 0,\n        \"start\": 0,\n        \"docs\": [\n            {\n                \"serviceType\": \"\",\n                \"endPoint\": \"\",\n                \"protocol\": \"\",\n                \"item_UUID\": \"\",\n                \"wmts_mode\": \"\",\n                \"layerId\": \"\",\n                \"item_DBID\": 0,\n                \"id\": \"\",\n                \"_version_\": 0\n            }\n        ]\n    }\n}\n```\n\n#### Usage\n- Provide the `uuid` query parameter to retrieve the specific layer services.\n\n#### Example\n```\nGET https://trek.nasa.gov/moon/TrekServices/ws/index/getLayerServices?uuid=e546b0ab-b8d7-48da-bddd-e4d82f5f05b4\n```\n"
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "dateMin",
+			"value": "dateMin"
+		}
+	]
+}
