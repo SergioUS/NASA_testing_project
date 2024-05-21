@@ -1,0 +1,1130 @@
+{
+	"info": {
+		"_postman_id": "df0bf1ab-cde8-4c23-b388-835d1a387f6e",
+		"name": "Techport",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28411502"
+	},
+	"item": [
+		{
+			"name": "api",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// -------------------------------------------------------\r",
+							"\r",
+							"// ........  Returns the swagger specification for the API. ....\r",
+							"\r",
+							"// ----------------------------------------------------------\r",
+							"\r",
+							"// Test 1: Validate status code (should be 200)\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"// Test 2: Validate the response time (should be less than 500)\r",
+							"pm.test(\"Response time is less than 500ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+							"});\r",
+							"// Test 3: Validate the response size (should be less than 2KB)\r",
+							"pm.test(\"Response size is less than 2KB\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(2500);\r",
+							"});\r",
+							"//  Test 4: Response should be okay to process\r",
+							"pm.test(\"Response should be okay to process\", function () {\r",
+							"    pm.response.to.not.be.error;\r",
+							"    pm.response.to.be.withBody;\r",
+							"    pm.response.to.be.json;\r",
+							"    pm.response.to.not.have.jsonBody(\"error\");\r",
+							"});\r",
+							"// Test 5: Verify the length of the response data\r",
+							"pm.test(\"The response data length must be greater than zero\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    pm.expect(Object.keys(responseData).length).to.be.above(0, \"Response data should not be empty\");\r",
+							"});\r",
+							"// .................................................\r",
+							"\r",
+							"// Test 6: Verify response headers.\r",
+							"pm.test(\"Test: Verify the header keys are present\", function () {\r",
+							"    pm.response.to.have.header(\"Date\");\r",
+							"    pm.response.to.have.header(\"X-Frame-Options\");\r",
+							"    pm.response.to.have.header(\"Server\");\r",
+							"    pm.response.to.have.header(\"Strict-Transport-Security\");\r",
+							"    pm.response.to.have.header(\"Expires\");\r",
+							"    pm.response.to.have.header(\"Content-Language\");\r",
+							"    pm.response.to.have.header(\"Content-Length\");\r",
+							"    pm.response.to.have.header(\"Connection\");\r",
+							"    pm.response.to.have.header(\"Pragma\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "accept",
+						"value": "*/*"
+					}
+				],
+				"url": {
+					"raw": "https://techport.nasa.gov/api",
+					"protocol": "https",
+					"host": [
+						"techport",
+						"nasa",
+						"gov"
+					],
+					"path": [
+						"api"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api_projects",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// ==============================================================\r",
+							"\r",
+							"// ........... Returns a list of available technology project IDs.\r",
+							"//   Filters the list of available ID values by their lastUpdated parameter.\r",
+							"\r",
+							"// =============================================================\r",
+							"\r",
+							"// Test 1: Validate status code (should be 200)\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"// Test 2: Validate the response time (should be less than 500)\r",
+							"pm.test(\"Response time is less than 500ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+							"});\r",
+							"// Test 3: Validate the response size (should be less than 2KB)\r",
+							"pm.test(\"Response size is less than 2KB\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(2500);\r",
+							"});\r",
+							"//  Test 4: Response should be okay to process\r",
+							"pm.test(\"Response should be okay to process\", function () {\r",
+							"    pm.response.to.not.be.error;\r",
+							"    pm.response.to.be.withBody;\r",
+							"    pm.response.to.be.json;\r",
+							"    pm.response.to.not.have.jsonBody(\"error\");\r",
+							"});\r",
+							"// Test 5: Verify the length of the response data\r",
+							"pm.test(\"The response data length must be greater than zero\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    pm.expect(Object.keys(responseData).length).to.be.above(0, \"Response data should not be empty\");\r",
+							"});\r",
+							"// .................................................\r",
+							"\r",
+							"// Test 6: Verify response headers.\r",
+							"pm.test(\"Test 22: Verify the header keys are present\", function () {\r",
+							"    pm.response.to.have.header(\"Date\");\r",
+							"    pm.response.to.have.header(\"X-Frame-Options\");\r",
+							"    pm.response.to.have.header(\"Server\");\r",
+							"    pm.response.to.have.header(\"Strict-Transport-Security\");\r",
+							"    pm.response.to.have.header(\"Expires\");\r",
+							"    pm.response.to.have.header(\"Content-Language\");\r",
+							"    pm.response.to.have.header(\"Content-Length\");\r",
+							"    pm.response.to.have.header(\"Connection\");\r",
+							"    pm.response.to.have.header(\"Pragma\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://techport.nasa.gov/api/projects?updatedSince =2024-04-01",
+					"protocol": "https",
+					"host": [
+						"techport",
+						"nasa",
+						"gov"
+					],
+					"path": [
+						"api",
+						"projects"
+					],
+					"query": [
+						{
+							"key": "updatedSince ",
+							"value": "2024-04-01"
+						},
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api_projects_search",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// ==============================================================\r",
+							"\r",
+							"// ........... Returns a list of projects matching the search term.\r",
+							"//   The specific ID of the project requested.\r",
+							"//   The term on which to search. Will check all project fields for the this term.\r",
+							"//   The mission directorate acronym of the projects. Used to filter.\r",
+							"//   ... and others....\r",
+							"\r",
+							"// =============================================================\r",
+							"\r",
+							"const responseData = pm.response.json();\r",
+							"\r",
+							"// Test 1: Validate status code (should be 200)\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"// Test 2: Validate the response time (should be less than 500)\r",
+							"pm.test(\"Response time is less than 500ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+							"});\r",
+							"// Test 3: Validate the response size (should be less than 2KB)\r",
+							"pm.test(\"Response size is less than 2.5 KB\", function () {\r",
+							"    pm.expect(pm.response.responseSize).to.be.below(2500);\r",
+							"});\r",
+							"//  Test 4: Response should be okay to process\r",
+							"pm.test(\"Response should be okay to process\", function () {\r",
+							"    pm.response.to.not.be.error;\r",
+							"    pm.response.to.be.withBody;\r",
+							"    pm.response.to.be.json;\r",
+							"    pm.response.to.not.have.jsonBody(\"error\");\r",
+							"});\r",
+							"// Test 5: Verify the length of the response data\r",
+							"pm.test(\"The response data length must be greater than zero\", function () {\r",
+							"    // const responseData = pm.response.json();\r",
+							"    pm.expect(Object.keys(responseData).length).to.be.above(0, \"Response data should not be empty\");\r",
+							"});\r",
+							"// .................................................\r",
+							"\r",
+							"// Test 6: Verify response headers.\r",
+							"pm.test(\"Test: Verify the header keys are present\", function () {\r",
+							"    pm.response.to.have.header(\"Date\");\r",
+							"    pm.response.to.have.header(\"X-Frame-Options\");\r",
+							"    pm.response.to.have.header(\"Server\");\r",
+							"    pm.response.to.have.header(\"Strict-Transport-Security\");\r",
+							"    pm.response.to.have.header(\"Expires\");\r",
+							"    pm.response.to.have.header(\"Content-Language\");\r",
+							"    pm.response.to.have.header(\"Content-Length\");\r",
+							"    pm.response.to.have.header(\"Connection\");\r",
+							"    pm.response.to.have.header(\"Pragma\");\r",
+							"});\r",
+							"// ...............................................\r",
+							"\r",
+							"pm.test(\"Test: Verify the presence of 'projects' array\", function () {\r",
+							"    // Check if 'projects' array exists\r",
+							"    pm.expect(responseData).to.have.property('projects').that.is.an('array');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Test: Verify the presence of 'acronym' in the first project\", function () {\r",
+							"    // Check if the first project has the 'acronym' property\r",
+							"    pm.expect(responseData.projects[0]).to.have.property('acronym');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Test: Verify the presence of 'projectId' in the first project\", function () {\r",
+							"    // Check if the first project has the 'projectId' property\r",
+							"    pm.expect(responseData.projects[0]).to.have.property('projectId');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Test: Verify the presence of 'title' in the first project\", function () {\r",
+							"    // Check if the first project has the 'title' property\r",
+							"    pm.expect(responseData.projects[0]).to.have.property('title');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Test: Verify that the 'title' property is not empty\", function () {\r",
+							"    // Check if the 'title' property in the first project is not empty\r",
+							"    pm.expect(responseData.projects[0].title).to.not.be.empty;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Test: Verify the presence of 'website' in the first project\", function () {\r",
+							"    // Check if the first project has the 'website' property\r",
+							"    pm.expect(responseData.projects[0]).to.have.property('website');\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// Create an array of the real Ids to randomly select from:\r",
+							"const ids = [\"116432\", \"94207\", \"94884\", \"97035\", \"146766\", \"94206\"];\r",
+							"\r",
+							"// Get a random index within the range of the array length\r",
+							"const randomIndex = Math.floor(Math.random() * ids.length);\r",
+							"\r",
+							"// Get the random Id from the array using the random index\r",
+							"const randomId = ids[randomIndex];\r",
+							"\r",
+							"// Set the random Id value as an environment variable for later use\r",
+							"pm.environment.set(\"projectId\", randomId);\r",
+							"\r",
+							"// Log the random Id to the console\r",
+							"console.log(\"projectId: \", randomId);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://techport.nasa.gov/api/projects/search?searchQuery&missionDirectorate&program&titleSearch=&projectId={{projectId}}",
+					"protocol": "https",
+					"host": [
+						"techport",
+						"nasa",
+						"gov"
+					],
+					"path": [
+						"api",
+						"projects",
+						"search"
+					],
+					"query": [
+						{
+							"key": "searchQuery",
+							"value": null
+						},
+						{
+							"key": "missionDirectorate",
+							"value": null
+						},
+						{
+							"key": "program",
+							"value": null
+						},
+						{
+							"key": "titleSearch",
+							"value": ""
+						},
+						{
+							"key": "projectId",
+							"value": "{{projectId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "__aaaaaaaa",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const responseData = pm.response.json();",
+							"// ...............................................",
+							"",
+							"// hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh",
+							"// Extract the 'project' object from the response JSON",
+							"const project = pm.response.json().project;",
+							"",
+							"// Iterate over the properties of the 'project' object",
+							"Object.keys(project).forEach(function(key) {",
+							"    // Log each property to the console",
+							"    console.log(key);",
+							"});",
+							"",
+							"pm.test(\"Test B: Verify the presence of properties in the response body\", function () {",
+							"    // Extract the 'project' object from the response JSON",
+							"    const responseData = pm.response.json().project;",
+							"",
+							"    // Check if the 'project' object exists and is not undefined",
+							"    pm.expect(responseData).to.not.be.undefined;",
+							"",
+							"    // Array of expected properties",
+							"    const expectedProperties = [",
+							"        'acronym',",
+							"        'projectId',",
+							"        'title',",
+							"        'primaryTaxonomyNodes',",
+							"        'startTrl',",
+							"        'currentTrl',",
+							"        'endTrl',",
+							"        'benefits',",
+							"        'description',",
+							"        'destinations',",
+							"        'startYear',",
+							"        'startMonth',",
+							"        'endYear',",
+							"        'endMonth',",
+							"        'statusDescription',",
+							"        'principalInvestigators',",
+							"        'programDirectors',",
+							"        'programExecutives',",
+							"        'projectManagers',",
+							"        'coInvestigators',",
+							"        'website',",
+							"        'libraryItems',",
+							"        'transitions',",
+							"        'primaryImage',",
+							"        'responsibleMd',",
+							"        'program',",
+							"        'leadOrganization',",
+							"        'statesWithWork',",
+							"        'lastUpdated',",
+							"        'releaseStatusString',",
+							"        'viewCount',",
+							"        'endDateString',",
+							"        'startDateString'",
+							"    ];",
+							"",
+							"    // Check if all expected properties exist in the response body",
+							"    expectedProperties.forEach(function(property) {",
+							"        pm.expect(responseData).to.have.property(property);",
+							"    });",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const values = [\"116432\", \"94207\", \"94884\", \"97035\", \"146766\", \"94206\"];\r",
+							"\r",
+							"// Get a random index within the range of the array length\r",
+							"const randomIndex = Math.floor(Math.random() * values.length);\r",
+							"\r",
+							"// Get the random value from the array using the random index\r",
+							"const randomValue = values[randomIndex];\r",
+							"\r",
+							"// Set the random value as an environment variable for later use\r",
+							"pm.environment.set(\"projectId\", randomValue);\r",
+							"\r",
+							"// Log the random value to the console\r",
+							"console.log(\"projectId: \", randomValue);\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://techport.nasa.gov/api/projects/{{projectId}}",
+					"protocol": "https",
+					"host": [
+						"techport",
+						"nasa",
+						"gov"
+					],
+					"path": [
+						"api",
+						"projects",
+						"{{projectId}}"
+					]
+				},
+				"description": "\n### Get Layer Services\n\nThis API endpoint makes an HTTP GET request to retrieve layer services from the NASA Trek Services. It takes a query parameter `uuid` which represents the unique identifier of the layer services.\n\n#### Request Parameters\n- `uuid`: (string) The unique identifier for the layer services.\n\n#### Response\nUpon a successful execution, the API returns a JSON response with the following structure:\n```json\n{\n    \"responseHeader\": {\n        \"status\": 0,\n        \"QTime\": 0,\n        \"params\": {\n            \"q\": \"\",\n            \"indent\": \"\",\n            \"version\": \"\",\n            \"wt\": \"\"\n        }\n    },\n    \"response\": {\n        \"numFound\": 0,\n        \"start\": 0,\n        \"docs\": [\n            {\n                \"serviceType\": \"\",\n                \"endPoint\": \"\",\n                \"protocol\": \"\",\n                \"item_UUID\": \"\",\n                \"wmts_mode\": \"\",\n                \"layerId\": \"\",\n                \"item_DBID\": 0,\n                \"id\": \"\",\n                \"_version_\": 0\n            }\n        ]\n    }\n}\n```\n\n#### Usage\n- Provide the `uuid` query parameter to retrieve the specific layer services.\n\n#### Example\n```\nGET https://trek.nasa.gov/moon/TrekServices/ws/index/getLayerServices?uuid=e546b0ab-b8d7-48da-bddd-e4d82f5f05b4\n```\n"
+			},
+			"response": []
+		},
+		{
+			"name": "api_projects_projectId",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// ==============================================================\r",
+							"\r",
+							"// ........... Returns information about a specific technology project.\r",
+							"\r",
+							"// =============================================================\r",
+							"\r",
+							"const responseData = pm.response.json();\r",
+							"\r",
+							"// Test 1: Validate status code (should be 200)\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"// Test 2: Validate the response time (should be less than 500)\r",
+							"pm.test(\"Response time is less than 500ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+							"});\r",
+							"// Test 3: Validate the response size (should be less than 2KB)\r",
+							"pm.test(\"Response size is less than 36 KB\", function () {\r",
+							"    pm.expect(pm.response.responseSize).to.be.below(36000);\r",
+							"});\r",
+							"//  Test 4: Response should be okay to process\r",
+							"pm.test(\"Response should be okay to process\", function () {\r",
+							"    pm.response.to.not.be.error;\r",
+							"    pm.response.to.be.withBody;\r",
+							"    pm.response.to.be.json;\r",
+							"    pm.response.to.not.have.jsonBody(\"error\");\r",
+							"});\r",
+							"// Test 5: Verify the length of the response data\r",
+							"pm.test(\"The response data length must be greater than zero\", function () {\r",
+							"\r",
+							"    pm.expect(Object.keys(responseData).length).to.be.above(0, \"Response data should not be empty\");\r",
+							"});\r",
+							"// .................................................\r",
+							"\r",
+							"// Test 6: Verify response headers.\r",
+							"pm.test(\"Test: Verify the header keys are present\", function () {\r",
+							"    pm.response.to.have.header(\"Date\");\r",
+							"    pm.response.to.have.header(\"X-Frame-Options\");\r",
+							"    pm.response.to.have.header(\"Server\");\r",
+							"    pm.response.to.have.header(\"Strict-Transport-Security\");\r",
+							"    pm.response.to.have.header(\"Expires\");\r",
+							"    pm.response.to.have.header(\"Content-Language\");\r",
+							"    pm.response.to.have.header(\"Content-Length\");\r",
+							"    pm.response.to.have.header(\"Connection\");\r",
+							"    pm.response.to.have.header(\"Pragma\");\r",
+							"});\r",
+							"// hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh\r",
+							"pm.test(\"Test: Verify the presence of 'project' object\", function () {\r",
+							"    // Check if 'project' object exists\r",
+							"    pm.expect(responseData).to.have.property('project').that.is.an('object');\r",
+							"});\r",
+							"\r",
+							"// hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh\r",
+							"\r",
+							"// //  The FIRST run only: Iterate over the properties of the 'project' object\r",
+							"// Object.keys(project).forEach(function(key) {\r",
+							"//     // Log each property to the console\r",
+							"//     console.log(key);\r",
+							"// });\r",
+							"// hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh\r",
+							"pm.test(\"Test: Verify the presence of properties in the response body\", function () {\r",
+							"    // Extract the 'project' object from the response JSON\r",
+							"    const responseData = pm.response.json().project;\r",
+							"\r",
+							"    // Check if the 'project' object exists and is not undefined\r",
+							"    pm.expect(responseData).to.not.be.undefined;\r",
+							"\r",
+							"    // Array of expected properties\r",
+							"    const expectedProperties = [\r",
+							"        'acronym',\r",
+							"        'projectId',\r",
+							"        'title',\r",
+							"        'primaryTaxonomyNodes',\r",
+							"        'startTrl',\r",
+							"        'currentTrl',\r",
+							"        'endTrl',\r",
+							"        'benefits',\r",
+							"        'description',\r",
+							"        'destinations',\r",
+							"        'startYear',\r",
+							"        'startMonth',\r",
+							"        'endYear',\r",
+							"        'endMonth',\r",
+							"        'statusDescription',\r",
+							"        'principalInvestigators',\r",
+							"        'programDirectors',\r",
+							"        'programExecutives',\r",
+							"        'projectManagers',\r",
+							"        'coInvestigators',\r",
+							"        'website',\r",
+							"        'libraryItems',\r",
+							"        'transitions',\r",
+							"        'primaryImage',\r",
+							"        'responsibleMd',\r",
+							"        'program',\r",
+							"        'leadOrganization',\r",
+							"        'statesWithWork',\r",
+							"        'lastUpdated',\r",
+							"        'releaseStatusString',\r",
+							"        'viewCount',\r",
+							"        'endDateString',\r",
+							"        'startDateString'\r",
+							"    ];\r",
+							"\r",
+							"    // Check if all expected properties exist in the response body\r",
+							"    expectedProperties.forEach(function(property) {\r",
+							"        pm.expect(responseData).to.have.property(property);\r",
+							"    });\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Test: Verify that the 'title' property is not empty\", function () {\r",
+							"    // Check if the 'title' property in the first project is not empty\r",
+							"    pm.expect(responseData.project.title).to.not.be.empty;\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// Create an array of the real Ids to randomly select from:\r",
+							"const ids = [\"116432\", \"94207\", \"94884\", \"97035\", \"146766\", \"94206\"];\r",
+							"\r",
+							"// Get a random index within the range of the array length\r",
+							"const randomIndex = Math.floor(Math.random() * ids.length);\r",
+							"\r",
+							"// Get the random Id from the array using the random index\r",
+							"const randomId = ids[randomIndex];\r",
+							"\r",
+							"// Set the random Id value as an environment variable for later use\r",
+							"pm.environment.set(\"projectId\", randomId);\r",
+							"\r",
+							"// Log the random Id to the console\r",
+							"console.log(\"projectId: \", randomId);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "https://techport.nasa.gov/api/projects/{{projectId}}",
+					"protocol": "https",
+					"host": [
+						"techport",
+						"nasa",
+						"gov"
+					],
+					"path": [
+						"api",
+						"projects",
+						"{{projectId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api_organization_types",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// ==============================================================\r",
+							"\r",
+							"// ...........Returns a list of available organization types, including set-aside and MSI types.\r",
+							"\r",
+							"// =============================================================\r",
+							"\r",
+							"\r",
+							"// Test 1: Validate status code (should be 200)\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"// Test 2: Validate the response time (should be less than 500)\r",
+							"pm.test(\"Response time is less than 500ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+							"});\r",
+							"// Test 3: Validate the response size (should be less than 2KB)\r",
+							"pm.test(\"Response size is less than 2KB\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(2500);\r",
+							"});\r",
+							"//  Test 4: Response should be okay to process\r",
+							"pm.test(\"Response should be okay to process\", function () {\r",
+							"    pm.response.to.not.be.error;\r",
+							"    pm.response.to.be.withBody;\r",
+							"    pm.response.to.be.json;\r",
+							"    pm.response.to.not.have.jsonBody(\"error\");\r",
+							"});\r",
+							"// Test 5: Verify the length of the response data\r",
+							"pm.test(\"The response data length must be greater than zero\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    pm.expect(Object.keys(responseData).length).to.be.above(0, \"Response data should not be empty\");\r",
+							"});\r",
+							"// .................................................\r",
+							"\r",
+							"pm.test(\"Test: Verify the presence of specific headers in the response\", function () {\r",
+							"    pm.response.to.have.header(\"cache-control\", \"no-cache\");\r",
+							"    pm.response.to.have.header(\"connection\", \"keep-alive\");\r",
+							"    pm.response.to.have.header(\"content-language\", \"en-US\");\r",
+							"    pm.response.to.have.header(\"content-length\", \"2001\");\r",
+							"    pm.response.to.have.header(\"content-type\", \"application/json;charset=UTF-8\");\r",
+							"    pm.response.to.have.header(\"cross-origin-embedder-policy-report-only\", \"require-corp\");\r",
+							"    pm.response.to.have.header(\"cross-origin-opener-policy\", \"same-origin\");\r",
+							"    pm.response.to.have.header(\"date\");\r",
+							"    pm.response.to.have.header(\"expires\", \"0\");\r",
+							"    pm.response.to.have.header(\"pragma\", \"No-cache\");\r",
+							"    pm.response.to.have.header(\"server\", \"NASA/1.0\");\r",
+							"    pm.response.to.have.header(\"strict-transport-security\", \"max-age=31536000; includeSubDomains; preload\");\r",
+							"    pm.response.to.have.header(\"vary\", \"Sec-Fetch-Dest,Sec-Fetch-Mode,Sec-Fetch-Site,Sec-Fetch-User\");\r",
+							"    pm.response.to.have.header(\"x-content-type-options\", \"nosniff\");\r",
+							"    pm.response.to.have.header(\"x-frame-options\", \"SAMEORIGIN\");\r",
+							"    pm.response.to.have.header(\"x-xss-protection\", \"1; mode=block\");\r",
+							"});\r",
+							"pm.test(\"Test: Verify response schema for each organizationType\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    // Ensure that the responseData has an array property 'organizationTypes'\r",
+							"    pm.expect(responseData).to.have.property('organizationTypes').that.is.an('array');\r",
+							"    \r",
+							"    // Iterate over each item in the 'organizationTypes' array\r",
+							"    responseData.organizationTypes.forEach(function (organizationType) {\r",
+							"        pm.expect(organizationType).to.have.property('name').that.is.a('string');\r",
+							"        pm.expect(organizationType).to.have.property('name').that.is.not.empty;\r",
+							"        pm.expect(organizationType).to.have.property('hasChildren').that.is.a('boolean');\r",
+							"        pm.expect(organizationType).to.have.property('level').that.is.a('number');\r",
+							"        \r",
+							"    });\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "https://techport.nasa.gov/api/organizations/types",
+					"protocol": "https",
+					"host": [
+						"techport",
+						"nasa",
+						"gov"
+					],
+					"path": [
+						"api",
+						"organizations",
+						"types"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "api_organizations",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// .... Test data:\r",
+							"\r",
+							"const organizations = [\r",
+							"    \"Jet Propulsion Laboratory (JPL)\",\r",
+							"    \"Ames Research Center\",\r",
+							"    \"Glenn Research Center\",\r",
+							"    \"Langley Research Center\",\r",
+							"    \"Marshall Space Flight Center\",\r",
+							"    \"Kennedy Space Center\",\r",
+							"    \"Goddard Space Flight Center\",\r",
+							"    \"Johnson Space Center\",\r",
+							"    \"Stennis Space Center\",\r",
+							"    \"Dryden Flight Research Center\",\r",
+							"    \"moon\"\r",
+							"];\r",
+							"\r",
+							"// Get a random index within the range of the array length\r",
+							"const randomIndex = Math.floor(Math.random() * organizations.length);\r",
+							"\r",
+							"// Get the random organization from the array using the random index\r",
+							"const randomOrganization = organizations[randomIndex];\r",
+							"\r",
+							"// Set the random organization value as an environment variable for later use\r",
+							"pm.environment.set(\"organization\", randomOrganization);\r",
+							"\r",
+							"// Log the random organization to the console\r",
+							"console.log(\"name: \", randomOrganization);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// ==============================================================\r",
+							"\r",
+							"// ........... Returns information about a specific technology project.\r",
+							"\r",
+							"// =============================================================\r",
+							"\r",
+							"const responseData = pm.response.json();\r",
+							"\r",
+							"// Test 1: Validate status code (should be 200)\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"// Test 2: Validate the response time (should be less than 500)\r",
+							"pm.test(\"Response time is less than 600ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(600);\r",
+							"});\r",
+							"// Test 3: Validate the response size (should be less than 2KB)\r",
+							"pm.test(\"Response size is less than 36 KB\", function () {\r",
+							"    pm.expect(pm.response.responseSize).to.be.below(36000);\r",
+							"});\r",
+							"//  Test 4: Response should be okay to process\r",
+							"pm.test(\"Response should be okay to process\", function () {\r",
+							"    pm.response.to.not.be.error;\r",
+							"    pm.response.to.be.withBody;\r",
+							"    pm.response.to.be.json;\r",
+							"    pm.response.to.not.have.jsonBody(\"error\");\r",
+							"});\r",
+							"// Test 5: Verify the length of the response data\r",
+							"pm.test(\"The response data length must be greater than zero\", function () {\r",
+							"\r",
+							"    pm.expect(Object.keys(responseData).length).to.be.above(0, \"Response data should not be empty\");\r",
+							"});\r",
+							"// .................................................\r",
+							"pm.test(\"Verify presence of expected response headers\", function () {\r",
+							"    pm.response.to.have.header(\"cache-control\", \"no-cache\");\r",
+							"    pm.response.to.have.header(\"connection\", \"keep-alive\");\r",
+							"    pm.response.to.have.header(\"content-language\", \"en-US\");\r",
+							"    pm.response.to.have.header(\"content-length\");\r",
+							"    pm.response.to.have.header(\"content-security-policy-report-only\")     // ............ BUG?  ..............\r",
+							"    pm.response.to.have.header(\"content-type\", \"application/json;charset=UTF-8\");\r",
+							"    pm.response.to.have.header(\"cross-origin-embedder-policy-report-only\", \"require-corp\");\r",
+							"    pm.response.to.have.header(\"cross-origin-opener-policy\", \"same-origin\");\r",
+							"    pm.response.to.have.header(\"date\");\r",
+							"    pm.response.to.have.header(\"expires\", \"0\");\r",
+							"    pm.response.to.have.header(\"pragma\", \"No-cache\");\r",
+							"    pm.response.to.have.header(\"server\", \"NASA/1.0\");\r",
+							"    pm.response.to.have.header(\"strict-transport-security\", \"max-age=31536000; includeSubDomains; preload\");\r",
+							"    pm.response.to.have.header(\"vary\", \"Sec-Fetch-Dest,Sec-Fetch-Mode,Sec-Fetch-Site,Sec-Fetch-User\");\r",
+							"    pm.response.to.have.header(\"x-content-type-options\", \"nosniff\");\r",
+							"    pm.response.to.have.header(\"x-frame-options\");\r",
+							"    pm.response.to.have.header(\"x-xss-protection\", \"1; mode=block\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Verify the Name of organization is not empty.\", function () {\r",
+							"\r",
+							"    const organizations = responseData.organizations;\r",
+							"    const numOrganizations = organizations.length;\r",
+							"\r",
+							"    pm.expect(numOrganizations).to.be.above(0, \"No organizations found in the response.\");\r",
+							"\r",
+							"    for (let i = 0; i < numOrganizations; i++) {\r",
+							"        pm.expect(organizations[i].organizationName).to.not.be.empty;\r",
+							"\r",
+							"    };\r",
+							"     pm.test(`Found ${numOrganizations} organizations.`);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "https://techport.nasa.gov/api/organizations?name={{organization}}",
+					"protocol": "https",
+					"host": [
+						"techport",
+						"nasa",
+						"gov"
+					],
+					"path": [
+						"api",
+						"organizations"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "{{organization}}"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "api_organizations",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://techport.nasa.gov/api/organizations?name={{organization}}",
+							"protocol": "https",
+							"host": [
+								"techport",
+								"nasa",
+								"gov"
+							],
+							"path": [
+								"api",
+								"organizations"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "{{organization}}"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Cache-Control",
+							"value": "no-cache"
+						},
+						{
+							"key": "Content-Language",
+							"value": "en-US"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json;charset=UTF-8"
+						},
+						{
+							"key": "Cross-Origin-Embedder-Policy-Report-Only",
+							"value": "require-corp"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 17 May 2024 18:44:33 GMT"
+						},
+						{
+							"key": "Expires",
+							"value": "0"
+						},
+						{
+							"key": "Pragma",
+							"value": "No-cache"
+						},
+						{
+							"key": "Server",
+							"value": "NASA/1.0"
+						},
+						{
+							"key": "Set-Cookie",
+							"value": "fsr.s=''; Domain='.nasa.gov'; Expires='Thu, Jan 01 1970 00:00:00 GMT'; Max-Age=0; Path=/;Secure"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000; includeSubDomains; preload"
+						},
+						{
+							"key": "Vary",
+							"value": "Sec-Fetch-Dest,Sec-Fetch-Mode,Sec-Fetch-Site,Sec-Fetch-User"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "Content-Length",
+							"value": "553"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"organizations\": [\n        {\n            \"acronym\": \"KSC\",\n            \"canUserEdit\": false,\n            \"city\": \"Kennedy Space Center\",\n            \"country\": {\n                \"abbreviation\": \"US\",\n                \"countryId\": 236,\n                \"name\": \"United States\"\n            },\n            \"countryId\": 236,\n            \"external\": false,\n            \"linkCount\": 825,\n            \"organizationId\": 4905,\n            \"organizationName\": \"Kennedy Space Center\",\n            \"organizationType\": \"NASA_Center\",\n            \"stateTerritory\": {\n                \"abbreviation\": \"FL\",\n                \"country\": {\n                    \"abbreviation\": \"US\",\n                    \"countryId\": 236,\n                    \"name\": \"United States\"\n                },\n                \"countryId\": 236,\n                \"name\": \"Florida\",\n                \"stateTerritoryId\": 46\n            },\n            \"stateTerritoryId\": 46,\n            \"naorganization\": false,\n            \"organizationTypePretty\": \"NASA Center\"\n        }\n    ]\n}"
+				},
+				{
+					"name": "api_organizations",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://techport.nasa.gov/api/organizations?name={{organization}}",
+							"protocol": "https",
+							"host": [
+								"techport",
+								"nasa",
+								"gov"
+							],
+							"path": [
+								"api",
+								"organizations"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "{{organization}}"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Cache-Control",
+							"value": "no-cache"
+						},
+						{
+							"key": "Content-Language",
+							"value": "en-US"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json;charset=UTF-8"
+						},
+						{
+							"key": "Cross-Origin-Embedder-Policy-Report-Only",
+							"value": "require-corp"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 17 May 2024 18:44:33 GMT"
+						},
+						{
+							"key": "Expires",
+							"value": "0"
+						},
+						{
+							"key": "Pragma",
+							"value": "No-cache"
+						},
+						{
+							"key": "Server",
+							"value": "NASA/1.0"
+						},
+						{
+							"key": "Set-Cookie",
+							"value": "fsr.s=''; Domain='.nasa.gov'; Expires='Thu, Jan 01 1970 00:00:00 GMT'; Max-Age=0; Path=/;Secure"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=31536000; includeSubDomains; preload"
+						},
+						{
+							"key": "Vary",
+							"value": "Sec-Fetch-Dest,Sec-Fetch-Mode,Sec-Fetch-Site,Sec-Fetch-User"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "Content-Length",
+							"value": "553"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"organizations\": [\n        {\n            \"acronym\": \"KSC\",\n            \"canUserEdit\": false,\n            \"city\": \"Kennedy Space Center\",\n            \"country\": {\n                \"abbreviation\": \"US\",\n                \"countryId\": 236,\n                \"name\": \"United States\"\n            },\n            \"countryId\": 236,\n            \"external\": false,\n            \"linkCount\": 825,\n            \"organizationId\": 4905,\n            \"organizationName\": \"Kennedy Space Center\",\n            \"organizationType\": \"NASA_Center\",\n            \"stateTerritory\": {\n                \"abbreviation\": \"FL\",\n                \"country\": {\n                    \"abbreviation\": \"US\",\n                    \"countryId\": 236,\n                    \"name\": \"United States\"\n                },\n                \"countryId\": 236,\n                \"name\": \"Florida\",\n                \"stateTerritoryId\": 46\n            },\n            \"stateTerritoryId\": 46,\n            \"naorganization\": false,\n            \"organizationTypePretty\": \"NASA Center\"\n        }\n    ]\n}"
+				}
+			]
+		}
+	]
+}
