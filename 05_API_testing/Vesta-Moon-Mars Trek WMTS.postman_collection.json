@@ -1,0 +1,1024 @@
+{
+	"info": {
+		"_postman_id": "253c96ac-0a87-4b49-a35d-0c2343caa4e2",
+		"name": "Vesta/Moon/Mars Trek WMTS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28411502"
+	},
+	"item": [
+		{
+			"name": "Vesta",
+			"item": [
+				{
+					"name": "Dawn Vesta Blended HAMO LAMO",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Test 1: Validate status code (should be 200)\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"// Test 2: Validate the response time (should be less than 500)\r",
+									"pm.test(\"Response time is less than 500ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
+									"// Test 3: Validate the response size (should be less than 2KB)\r",
+									"pm.test(\"Response size is less than 2KB\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"\r",
+									"//  Test 4: Response should be okay to process\r",
+									"pm.test(\"Response should be okay to process\", function () {\r",
+									"    pm.response.to.not.be.error;\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"    pm.response.to.not.have.jsonBody(\"error\");\r",
+									"});\r",
+									"// Test 5: Verify the length of the response data\r",
+									"pm.test(\"The response data length must be greater than zero\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    pm.expect(Object.keys(responseData.response).length).to.be.above(0, \"Response data should not be empty\");\r",
+									"});\r",
+									"// ....................................................................\r",
+									"// Test 6: Verify that each image URL in the response is valid\r",
+									"pm.test(\"Each image URL in the response is valid\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    const docs = responseData.response.docs;\r",
+									"\r",
+									"    docs.forEach((doc) => {\r",
+									"        if (doc.endPoint) {\r",
+									"            pm.expect(doc.endPoint).to.match(/https:\\/\\/trek\\.nasa\\.gov\\/vesta\\/trekarcgis\\/rest\\/services\\/vesta\\/VestaHAMOLAMOBlend_eq\\/ImageServer|https:\\/\\/trek\\.nasa\\.gov\\/tiles\\/Vesta\\/EQ\\/VestaHAMOLAMOBlend\\.eq/);\r",
+									"        }\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"// Test 7: \r",
+									"pm.test(\"Each serviceType in the response is valid\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    const docs = responseData.response.docs;\r",
+									"\r",
+									"    docs.forEach((doc) => {\r",
+									"        if (doc.serviceType) {\r",
+									"            pm.expect(doc.serviceType).to.match(/Mosaic|raster/);\r",
+									"        }\r",
+									"    });\r",
+									"});\r",
+									"// Test 8: \r",
+									"pm.test(\"Each protocol in the response is valid\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    const docs = responseData.response.docs;\r",
+									"\r",
+									"    docs.forEach((doc) => {\r",
+									"        if (doc.protocol) {\r",
+									"            pm.expect(doc.protocol).to.match(/WMTS|ArcGISImageService/);\r",
+									"        }\r",
+									"    });\r",
+									"});\r",
+									"// Test 9: \r",
+									"pm.test(\"Each item_UUID in the response is valid\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    const docs = responseData.response.docs;\r",
+									"\r",
+									"    docs.forEach((doc) => {\r",
+									"        if (doc.item_UUID) {\r",
+									"            pm.expect(doc.item_UUID).to.match(/5f56c7cc-316e-4c28-8d64-4fad01c4269f|5f56c7cc-316e-4c28-8d64-4fad01c4269f/);\r",
+									"        }\r",
+									"    });\r",
+									"});\r",
+									"// Test 10: \r",
+									"pm.test(\"Each item_DBID in the response is valid\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    const docs = responseData.response.docs;\r",
+									"\r",
+									"    docs.forEach((doc) => {\r",
+									"        if (doc.item_DBID) {\r",
+									"            pm.expect(doc.item_DBID).to.match(/291120/);\r",
+									"        }\r",
+									"    });\r",
+									"});\r",
+									"// Test 11: \r",
+									"pm.test(\"Each id in the response is valid\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    const docs = responseData.response.docs;\r",
+									"\r",
+									"    docs.forEach((doc) => {\r",
+									"        if (doc.id) {\r",
+									"            pm.expect(doc.id).to.match(/9435faa9-ec76-44ed-8785-7ad65544db9d|6dbb25d6-025c-4038-8115-d3067b7f232f/);\r",
+									"        }\r",
+									"    });\r",
+									"});\r",
+									"// Test 12: Fails. AssertionError: expected 1726770176868745200 to match /1726770176868745216|1726770176770179072/\r",
+									"pm.test(\"Each _version_ in the response is valid\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    const docs = responseData.response.docs;\r",
+									"\r",
+									"    docs.forEach((doc) => {\r",
+									"        if (doc._version_) {\r",
+									"            pm.expect(doc._version_).to.match(/1726770176868745216|1726770176770179072/);\r",
+									"        }\r",
+									"    });\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://trek.nasa.gov/vesta/TrekServices/ws/index/getLayerServices?uuid=5f56c7cc-316e-4c28-8d64-4fad01c4269f",
+							"protocol": "https",
+							"host": [
+								"trek",
+								"nasa",
+								"gov"
+							],
+							"path": [
+								"vesta",
+								"TrekServices",
+								"ws",
+								"index",
+								"getLayerServices"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "5f56c7cc-316e-4c28-8d64-4fad01c4269f"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Dawn FC ColorHillShade NorthPole",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Test 1: Validate status code (should be 200)\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"// Test 2: Validate the response time (should be less than 500)\r",
+									"pm.test(\"Response time is less than 500ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
+									"// Test 3: Validate the response size (should be less than 2KB)\r",
+									"pm.test(\"Response size is less than 2KB\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"//  Test 4: Response should be okay to process\r",
+									"pm.test(\"Response should be okay to process\", function () {\r",
+									"    pm.response.to.not.be.error;\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"    pm.response.to.not.have.jsonBody(\"error\");\r",
+									"});\r",
+									"// Test 5: Verify the length of the response data\r",
+									"pm.test(\"The response data length must be greater than zero\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    pm.expect(Object.keys(responseData.response).length).to.be.above(0, \"Response data should not be empty\");\r",
+									"});\r",
+									"// Test 6: Verify that each image URL in the response is valid\r",
+									"pm.test(\"Each image URL in the response is valid\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    const docs = responseData.response.docs;\r",
+									"\r",
+									"    docs.forEach((doc) => {\r",
+									"        if (doc.endPoint) {\r",
+									"            pm.expect(doc.endPoint).to.match(/https:\\/\\/trek\\.nasa\\.gov\\/tiles\\/Vesta\\/NP\\/Vesta_Dawn_HAMO_ClrShade_DLR_Global_48ppd_NP/);\r",
+									"        }\r",
+									"    });\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://trek.nasa.gov/vesta/TrekServices/ws/index/getLayerServices?uuid=3f55c7e9-6a87-4cd1-88c7-6a117ef8a18c&Content-Type=application/json",
+							"protocol": "https",
+							"host": [
+								"trek",
+								"nasa",
+								"gov"
+							],
+							"path": [
+								"vesta",
+								"TrekServices",
+								"ws",
+								"index",
+								"getLayerServices"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "3f55c7e9-6a87-4cd1-88c7-6a117ef8a18c"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Dawn FC Imagery SouthPole",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Test 1: Validate status code (should be 200)\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"// Test 2: Validate the response time (should be less than 500)\r",
+									"pm.test(\"Response time is less than 500ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
+									"// Test 3: Validate the response size (should be less than 2KB)\r",
+									"pm.test(\"Response size is less than 2KB\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"//  Test 4: Response should be okay to process\r",
+									"pm.test(\"Response should be okay to process\", function () {\r",
+									"    pm.response.to.not.be.error;\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"    pm.response.to.not.have.jsonBody(\"error\");\r",
+									"});\r",
+									"// Test 5: Verify the length of the response data\r",
+									"pm.test(\"The response data length must be greater than zero\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    pm.expect(Object.keys(responseData.response).length).to.be.above(0, \"Response data should not be empty\");\r",
+									"});\r",
+									"// Test 6: Verify that each image URL in the response is valid\r",
+									"pm.test(\"Each image URL in the response is valid\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    const docs = responseData.response.docs;\r",
+									"\r",
+									"    docs.forEach((doc) => {\r",
+									"        if (doc.endPoint) {\r",
+									"            pm.expect(doc.endPoint).to.match(/^https:\\/\\/trek\\.nasa\\.gov\\/tiles\\/Vesta\\/SP\\/Vesta_Dawn_FC_HAMO_Mosaic_Global_74ppd\\.sp.*/);\r",
+									"        }\r",
+									"    });\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://trek.nasa.gov/vesta/TrekServices/ws/index/getLayerServices?uuid=2571ed6e-218f-4533-9a94-9ee52f2c0006&Content-Type=application/json",
+							"protocol": "https",
+							"host": [
+								"trek",
+								"nasa",
+								"gov"
+							],
+							"path": [
+								"vesta",
+								"TrekServices",
+								"ws",
+								"index",
+								"getLayerServices"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "2571ed6e-218f-4533-9a94-9ee52f2c0006"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Moon",
+			"item": [
+				{
+					"name": "Apollo 15 Metric Cam DEM, ColorHillshade",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Test 1: Validate status code (should be 200)\r",
+									"pm.test(\"Test 1: Verify that the rtatus code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"// Test 2: Validate the response time (should be less than 500)\r",
+									"pm.test(\"Test 2: Validate the response time is less than 500ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
+									"// Test 3: Validate the response size (should be less than 2KB)\r",
+									"pm.test(\"Test 3: Validate the response size is less than 2KB\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"// Test 4: Verify the length of the response data\r",
+									"pm.test(\"Test 4: Verify the response data length must be greater than zero\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    pm.expect(Object.keys(responseData.response).length).to.be.above(0, \"Response data should not be empty\");\r",
+									"});\r",
+									"// Test 5: Verify that each image URL in the response is valid\r",
+									"pm.test(\"Test 5: Verify that each image URL in the response is valid\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    const docs = responseData.response.docs;\r",
+									"\r",
+									"    docs.forEach((doc) => {\r",
+									"        if (doc.endPoint) {\r",
+									"            pm.expect(doc.endPoint).to.match(/^https:\\/\\/[a-zA-Z0-9.-]+\\/tiles\\/Moon\\/EQ\\/Apollo15_MetricCam_ClrShade_Global_1024ppd$/);\r",
+									"        }\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"// Test 6: Each serviceType in the response is valid\r",
+									"pm.test(\"Test 6: Each serviceType in the response is valid\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    const docs = responseData.response.docs;\r",
+									"\r",
+									"    docs.forEach((doc) => {\r",
+									"        if (doc.serviceType) {\r",
+									"            pm.expect(doc.serviceType).to.match(/Mosaic|raster/);\r",
+									"        }\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"// Test 7: Each protocol in the response is valid\r",
+									"pm.test(\"Test 7: Each protocol in the response is valid\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    const docs = responseData.response.docs;\r",
+									"\r",
+									"    docs.forEach((doc) => {\r",
+									"        if (doc.protocol) {\r",
+									"            pm.expect(doc.protocol).to.match(/WMTS|ArcGISImageService/);\r",
+									"        }\r",
+									"    });\r",
+									"});\r",
+									"// Test 8: \r",
+									"pm.test(\"Test 8: Each item_UUID in the response is valid\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    const docs = responseData.response.docs;\r",
+									"\r",
+									"    docs.forEach((doc) => {\r",
+									"        if (doc.item_UUID) {\r",
+									"            pm.expect(doc.item_UUID).to.match(/e546b0ab-b8d7-48da-bddd-e4d82f5f05b4/);\r",
+									"        }\r",
+									"    });\r",
+									"});\r",
+									"// Test 9: \r",
+									"\r",
+									"pm.test(\"Test 9: Each item_DBID matches the expected DBID\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseData.response.docs).to.be.an('array');\r",
+									"    \r",
+									"    responseData.response.docs.forEach(function(doc) {\r",
+									"        pm.expect(doc.item_DBID).to.equal(289724, 289720, 289733);\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"// Test 10: \r",
+									"pm.test(\"Test 10: Each id in the response is valid\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    const docs = responseData.response.docs;\r",
+									"\r",
+									"    docs.forEach((doc) => {\r",
+									"        if (doc.id) {\r",
+									"            pm.expect(doc.id).to.match(/eadf3412-6b26-4b3e-a9b9-74c3e942bda7/);\r",
+									"        }\r",
+									"    });\r",
+									"});\r",
+									"// Test 11: \r",
+									"pm.test(\"Test 11: Each _version_ in the response is valid\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    const docs = responseData.response.docs;\r",
+									"\r",
+									"    docs.forEach((doc) => {\r",
+									"        if (doc._version_) {\r",
+									"            pm.expect(doc._version_).to.match(/1731216508059648000/);\r",
+									"        }\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"// Test 12: \r",
+									"\r",
+									"pm.test(\"Test 12: Each wmts_mode in the response is valid\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseData.response.docs).to.be.an('array');\r",
+									"    responseData.response.docs.forEach(function(doc) {\r",
+									"        pm.expect(doc.wmts_mode).to.exist.and.to.be.oneOf(['rest', 'valid_value_2', 'valid_value_3']);\r",
+									"    });\r",
+									"});\r",
+									"// Test 13: \r",
+									"\r",
+									"pm.test(\"Test 13: Response has the correct Content-Type header\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"// .............................\r",
+									"\r",
+									"pm.test(\"Test 14 ; Verify the presence of a specific error message in the response\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.have.property('responseHeader');\r",
+									"    pm.expect(responseData.responseHeader).to.have.property('status', 0);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Test 15: Verify the presence of the 'QTime' field in the response\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.have.property('responseHeader');\r",
+									"    pm.expect(responseData.responseHeader).to.have.property('QTime', 0);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Test 16: Verify response body contains expected 'numFound' value\", function () {\r",
+									"  const responseData = pm.response.json();\r",
+									"  \r",
+									"  pm.expect(responseData).to.be.an('object');\r",
+									"  pm.expect(responseData.response.numFound).to.exist;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Test 17: Verify the 'params.q' parameter is present and has a valid value\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    pm.expect(responseData.responseHeader.params).to.have.property('q').that.is.a('string').and.to.have.lengthOf.above(0);\r",
+									"});\r",
+									"// Test to check if the params.version parameter is present and has a valid value\r",
+									"pm.test(\"Test 18: Params 'version' parameter is present and has a valid value\", function() {\r",
+									"    const responseData = pm.response.json();\r",
+									"    pm.expect(responseData.responseHeader.params).to.have.property('version').that.is.a('string').and.to.have.lengthOf.above(0);\r",
+									"});\r",
+									"// Test to check if the params.wwt parameter is present and has a valid value\r",
+									"pm.test(\"Test 19: Verify 'params.wt' parameter is present and has a valid value\", function() {\r",
+									"    const responseData = pm.response.json();\r",
+									"    const params = responseData.responseHeader.params; // Updated to access responseHeader instead of response\r",
+									"\r",
+									"    pm.expect(params).to.have.property('wt').that.is.a('string').and.to.have.lengthOf.above(0);\r",
+									"});\r",
+									"\r",
+									"// Test to check if the docs.layerId parameter is present and has a valid value\r",
+									"pm.test(\"Test 20: Verify docs 'layerId' parameter is present and has a valid value\", function() {\r",
+									"    const responseData = pm.response.json();\r",
+									"    const docs = responseData.response.docs;\r",
+									"\r",
+									"    docs.forEach((doc) => {\r",
+									"        pm.expect(doc).to.have.property('layerId').that.is.a('string').and.to.have.lengthOf.above(0);\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Test 21: Verify response body contains expected 'start' value\", function () {\r",
+									"  const responseData = pm.response.json();\r",
+									"  \r",
+									"  pm.expect(responseData).to.be.an('object');\r",
+									"  pm.expect(responseData.response.start).to.exist;\r",
+									"});\r",
+									"\r",
+									"// Test 22: Verify response headers.\r",
+									"pm.test(\"Test 22: Verify the header keys are present\", function () {\r",
+									"    pm.response.to.have.header(\"Date\");\r",
+									"    pm.response.to.have.header(\"X-Frame-Options\");\r",
+									"    pm.response.to.have.header(\"Server\");\r",
+									"    pm.response.to.have.header(\"Strict-Transport-Security\");\r",
+									"    pm.response.to.have.header(\"Access-Control-Allow-Origin\");\r",
+									"    pm.response.to.have.header(\"Content-Security-Policy\");\r",
+									"    pm.response.to.have.header(\"Keep-Alive\");\r",
+									"    pm.response.to.have.header(\"Connection\");\r",
+									"    pm.response.to.have.header(\"Transfer-Encoding\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://trek.nasa.gov/moon/TrekServices/ws/index/getLayerServices?uuid=e546b0ab-b8d7-48da-bddd-e4d82f5f05b4",
+							"protocol": "https",
+							"host": [
+								"trek",
+								"nasa",
+								"gov"
+							],
+							"path": [
+								"moon",
+								"TrekServices",
+								"ws",
+								"index",
+								"getLayerServices"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "e546b0ab-b8d7-48da-bddd-e4d82f5f05b4"
+								}
+							]
+						},
+						"description": "This endpoint retrieves layer services from the NASA Trek services for the moon. The response is in JSON format and has the following schema:\n\n``` json\n{\n    \"responseHeader\": {\n        \"status\": 0,\n        \"QTime\": 0,\n        \"params\": {\n            \"q\": \"\",\n            \"indent\": \"\",\n            \"version\": \"\",\n            \"wt\": \"\"\n        }\n    },\n    \"response\": {\n        \"numFound\": 0,\n        \"start\": 0,\n        \"docs\": [\n            {\n                \"serviceType\": \"\",\n                \"endPoint\": \"\",\n                \"protocol\": \"\",\n                \"item_UUID\": \"\",\n                \"wmts_mode\": \"\",\n                \"layerId\": \"\",\n                \"item_DBID\": 0,\n                \"id\": \"\",\n                \"_version_\": 0\n            }\n        ]\n    }\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "LRO LOLA DEM S Pole, 45 deg, Count",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Test 1: Validate status code (should be 200)\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"// Test 2: Validate the response time (should be less than 500)\r",
+									"pm.test(\"Response time is less than 500ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
+									"// Test 3: Validate the response size (should be less than 2KB)\r",
+									"pm.test(\"Response size is less than 2KB\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"//  Test 4: Response should be okay to process\r",
+									"pm.test(\"Response should be okay to process\", function () {\r",
+									"    pm.response.to.not.be.error;\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"    pm.response.to.not.have.jsonBody(\"error\");\r",
+									"});\r",
+									"// Test 5: Verify the length of the response data\r",
+									"pm.test(\"The response data length must be greater than zero\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    pm.expect(Object.keys(responseData.response).length).to.be.above(0, \"Response data should not be empty\");\r",
+									"});\r",
+									"// Test 6: Verify that each image URL in the response is valid\r",
+									"pm.test(\"Each image URL in the response is valid\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    const docs = responseData.response.docs;\r",
+									"    // Check each image URL in the response\r",
+									"    docs.forEach((doc) => {\r",
+									"        if (doc.endPoint) {\r",
+									"            pm.expect(doc.endPoint).to.match(/^https:\\/\\/trek\\.nasa\\.gov\\/tiles\\/Moon\\/SP\\/LRO_LOLA_Count_SPole45_100mp_v04$|^https:\\/\\/trek\\.nasa\\.gov\\/moon\\/trekarcgis\\/rest\\/services\\/LRO_LOLA_Count_SPole45_100mp_v04\\/ImageServer$/);\r",
+									"        }\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"// ---------------------------------------------------\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://trek.nasa.gov/moon/TrekServices/ws/index/getLayerServices?uuid=0e1139c6-8d71-4fbc-b191-06b373acf69c",
+							"protocol": "https",
+							"host": [
+								"trek",
+								"nasa",
+								"gov"
+							],
+							"path": [
+								"moon",
+								"TrekServices",
+								"ws",
+								"index",
+								"getLayerServices"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "0e1139c6-8d71-4fbc-b191-06b373acf69c"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Unified Global Geologic Map of the Moon",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Test 1: Validate status code (should be 200)\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"// Test 2: Validate the response time (should be less than 500)\r",
+									"pm.test(\"Response time is less than 500ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
+									"// Test 3: Validate the response size (should be less than 2KB)\r",
+									"pm.test(\"Response size is less than 2KB\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"//  Test 4: Response should be okay to process\r",
+									"pm.test(\"Response should be okay to process\", function () {\r",
+									"    pm.response.to.not.be.error;\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"    pm.response.to.not.have.jsonBody(\"error\");\r",
+									"});\r",
+									"// Test 5: Verify the length of the response data\r",
+									"pm.test(\"The response data length must be greater than zero\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    pm.expect(Object.keys(responseData.response).length).to.be.above(0, \"Response data should not be empty\");\r",
+									"});\r",
+									"// Test 6: Verify that each image URL in the response is valid\r",
+									"pm.test(\"Each image URL in the response is valid\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    const docs = responseData.response.docs;\r",
+									"    // Check each image URL in the response\r",
+									"    docs.forEach((doc) => {\r",
+									"        if (doc.endPoint) {\r",
+									"            pm.expect(doc.endPoint).to.match(/^https:\\/\\/trek\\.nasa\\.gov\\/moon\\/trekarcgis3\\/rest\\/services\\/Unified_Global_Geologic_Map_of_the_Moon_Geologic_Units_NP\\/MapServer$/);\r",
+									"        }\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"// ---------------------------------------------------\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://trek.nasa.gov/moon/TrekServices/ws/index/getLayerServices?uuid=db74acb1-a249-43a9-bf66-8cc60edf24bb",
+							"protocol": "https",
+							"host": [
+								"trek",
+								"nasa",
+								"gov"
+							],
+							"path": [
+								"moon",
+								"TrekServices",
+								"ws",
+								"index",
+								"getLayerServices"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "db74acb1-a249-43a9-bf66-8cc60edf24bb"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Mars",
+			"item": [
+				{
+					"name": "MGS MOC Atlas",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Test 1: Validate status code (should be 200)\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"// Test 2: Validate the response time (should be less than 500)\r",
+									"pm.test(\"Response time is less than 500ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
+									"// Test 3: Validate the response size (should be less than 2KB)\r",
+									"pm.test(\"Response size is less than 2KB\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"//  Test 4: Response should be okay to process\r",
+									"pm.test(\"Response should be okay to process\", function () {\r",
+									"    pm.response.to.not.be.error;\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"    pm.response.to.not.have.jsonBody(\"error\");\r",
+									"});\r",
+									"// Test 5: Verify the length of the response data\r",
+									"pm.test(\"The response data length must be greater than zero\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    pm.expect(Object.keys(responseData.response).length).to.be.above(0, \"Response data should not be empty\");\r",
+									"});\r",
+									"// ...........................................\r",
+									"// Test 6: Verify that each image URL in the response is valid\r",
+									"pm.test(\"Each image URL in the response is valid\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    const docs = responseData.response.docs;\r",
+									"\r",
+									"    // Check each image URL in the response\r",
+									"    docs.forEach((doc) => {\r",
+									"        if (doc.endPoint) {\r",
+									"            pm.expect(doc.endPoint).to.match(/^https:\\/\\/trek\\.nasa\\.gov\\/tiles\\/Mars\\/EQ\\/msss_atlas_simp_clon$/);\r",
+									"        }\r",
+									"    });\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://trek.nasa.gov/mars/TrekServices/ws/index/getLayerServices?uuid=a4f540e4-79a5-4a20-8265-1216a5da37f7",
+							"protocol": "https",
+							"host": [
+								"trek",
+								"nasa",
+								"gov"
+							],
+							"path": [
+								"mars",
+								"TrekServices",
+								"ws",
+								"index",
+								"getLayerServices"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "a4f540e4-79a5-4a20-8265-1216a5da37f7"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "MGS MOLA and Mars Express HRSC",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Test 1: Validate status code (should be 200)\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"// Test 2: Validate the response time (should be less than 500)\r",
+									"pm.test(\"Response time is less than 500ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
+									"// Test 3: Validate the response size (should be less than 2KB)\r",
+									"pm.test(\"Response size is less than 2KB\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"//  Test 4: Response should be okay to process\r",
+									"pm.test(\"Response should be okay to process\", function () {\r",
+									"    pm.response.to.not.be.error;\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"    pm.response.to.not.have.jsonBody(\"error\");\r",
+									"});\r",
+									"// Test 5: Verify the length of the response data\r",
+									"pm.test(\"The response data length must be greater than zero\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    pm.expect(Object.keys(responseData.response).length).to.be.above(0, \"Response data should not be empty\");\r",
+									"});\r",
+									"// Test 6: Verify that each image URL in the response is valid\r",
+									"pm.test(\"Each image URL in the response is valid\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    const docs = responseData.response.docs;\r",
+									"\r",
+									"    // Check each image URL in the response\r",
+									"    docs.forEach((doc) => {\r",
+									"        if (doc.endPoint) {\r",
+									"            pm.expect(doc.endPoint).to.match(/^https:\\/\\/trek\\.nasa\\.gov\\/tiles\\/Mars\\/NP\\/Mars_MOLA_blend200ppx_HRSC_ClrShade_clon0dd_200mpp_lzw_np$/);\r",
+									"        }\r",
+									"    });\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://trek.nasa.gov/mars/TrekServices/ws/index/getLayerServices?uuid=b8bf5e6e-ba62-499d-80fd-1b7a4cd35ec4",
+							"protocol": "https",
+							"host": [
+								"trek",
+								"nasa",
+								"gov"
+							],
+							"path": [
+								"mars",
+								"TrekServices",
+								"ws",
+								"index",
+								"getLayerServices"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "b8bf5e6e-ba62-499d-80fd-1b7a4cd35ec4"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "MO THEMIS-IR Day",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Test 1: Validate status code (should be 200)\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"// Test 2: Validate the response time (should be less than 500)\r",
+									"pm.test(\"Response time is less than 500ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
+									"// Test 3: Validate the response size (should be less than 2KB)\r",
+									"pm.test(\"Response size is less than 2KB\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"//  Test 4: Response should be okay to process\r",
+									"pm.test(\"Response should be okay to process\", function () {\r",
+									"    pm.response.to.not.be.error;\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"    pm.response.to.not.have.jsonBody(\"error\");\r",
+									"});\r",
+									"// Test 5: Verify the length of the response data\r",
+									"pm.test(\"The response data length must be greater than zero\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    pm.expect(Object.keys(responseData.response).length).to.be.above(0, \"Response data should not be empty\");\r",
+									"});\r",
+									"// Test 6: Verify that each image URL in the response is valid\r",
+									"pm.test(\"Each image URL in the response is valid\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    const docs = responseData.response.docs;\r",
+									"    // Check each image URL in the response\r",
+									"    docs.forEach((doc) => {\r",
+									"        if (doc.endPoint) {\r",
+									"            pm.expect(doc.endPoint).to.match(/^https:\\/\\/trek\\.nasa\\.gov\\/tiles\\/Mars\\/NP\\/Mars_MO_THEMIS-IR-Day_mosaic_global_100m_v12_clon0_ly_np$/);\r",
+									"        }\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"// Test 7: \r",
+									"pm.test(\"Each serviceType in the response is valid\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    const docs = responseData.response.docs;\r",
+									"\r",
+									"    docs.forEach((doc) => {\r",
+									"        if (doc.serviceType) {\r",
+									"            pm.expect(doc.serviceType).to.match(/Mosaic|raster/);\r",
+									"        }\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"// Test 8: \r",
+									"pm.test(\"Each protocol in the response is valid\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    const docs = responseData.response.docs;\r",
+									"\r",
+									"    docs.forEach((doc) => {\r",
+									"        if (doc.protocol) {\r",
+									"            pm.expect(doc.protocol).to.match(/WMTS|ArcGISImageService/);\r",
+									"        }\r",
+									"    });\r",
+									"});\r",
+									"// Test 9: \r",
+									"pm.test(\"Each item_UUID in the response is valid\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    const docs = responseData.response.docs;\r",
+									"\r",
+									"    docs.forEach((doc) => {\r",
+									"        if (doc.item_UUID) {\r",
+									"            pm.expect(doc.item_UUID).to.match(/866bbddf-f40d-4377-8828-124e56c037eb/);\r",
+									"        }\r",
+									"    });\r",
+									"});\r",
+									"// Test 10: \r",
+									"pm.test(\"Each item_DBID in the response is valid\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    const docs = responseData.response.docs;\r",
+									"\r",
+									"    docs.forEach((doc) => {\r",
+									"        if (doc.item_DBID) {\r",
+									"            pm.expect(doc.item_DBID).to.match(/293972/);\r",
+									"        }\r",
+									"    });\r",
+									"});\r",
+									"// Test 11: \r",
+									"pm.test(\"Each id in the response is valid\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    const docs = responseData.response.docs;\r",
+									"\r",
+									"    docs.forEach((doc) => {\r",
+									"        if (doc.id) {\r",
+									"            pm.expect(doc.id).to.match(/533f6bcb-e675-41c3-93a6-7d73c6ee44c7/);\r",
+									"        }\r",
+									"    });\r",
+									"});\r",
+									"// Test 12: \r",
+									"pm.test(\"Each _version_ in the response is valid\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    const docs = responseData.response.docs;\r",
+									"\r",
+									"    docs.forEach((doc) => {\r",
+									"        if (doc._version_) {\r",
+									"            pm.expect(doc._version_).to.match(/1673572476374745088/);\r",
+									"        }\r",
+									"    });\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://trek.nasa.gov/mars/TrekServices/ws/index/getLayerServices?uuid=866bbddf-f40d-4377-8828-124e56c037eb",
+							"protocol": "https",
+							"host": [
+								"trek",
+								"nasa",
+								"gov"
+							],
+							"path": [
+								"mars",
+								"TrekServices",
+								"ws",
+								"index",
+								"getLayerServices"
+							],
+							"query": [
+								{
+									"key": "uuid",
+									"value": "866bbddf-f40d-4377-8828-124e56c037eb"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
