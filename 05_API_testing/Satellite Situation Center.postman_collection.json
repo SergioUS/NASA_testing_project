@@ -1,0 +1,1001 @@
+{
+	"info": {
+		"_postman_id": "78e39f2b-7d39-44a7-83dd-674cfc728781",
+		"name": "Satellite Situation Center",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28411502"
+	},
+	"item": [
+		{
+			"name": "Negative Tests",
+			"item": [
+				{
+					"name": "Invalid_End_Point-application.wadl",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ===========================================================\r",
+									"// .........    This negative test helps ensure that your API handles invalid endpoints correctly and provides appropriate error messages or responses.\r",
+									"// ............................................................\r",
+									"\r",
+									"const invalidURLs = [\r",
+									"    'application.wadlxyz',\r",
+									"    'application.wad',\r",
+									"    'application.wadl123',\r",
+									"    'app.wadl',\r",
+									"    'applic.wadl',\r",
+									"    'appl.wadl',\r",
+									"    'application.wadl/invalid',\r",
+									"    'application.wadl?test',\r",
+									"    'application.wadl.bad',\r",
+									"    'application.wadl_wrong'\r",
+									"];\r",
+									"\r",
+									"const baseURL = 'https://sscweb.gsfc.nasa.gov/WS/sscr/2/';\r",
+									"\r",
+									"// Initialize testResults environment variable if it doesn't exist\r",
+									"if (!pm.environment.get('testResults')) {\r",
+									"    pm.environment.set('testResults', JSON.stringify([]));\r",
+									"}\r",
+									"\r",
+									"invalidURLs.forEach((invalidURL) => {\r",
+									"    pm.sendRequest({\r",
+									"        url: baseURL + invalidURL,\r",
+									"        method: 'GET'\r",
+									"    }, (err, res) => {\r",
+									"        let testResult = {\r",
+									"            url: baseURL + invalidURL,\r",
+									"            status: res.code,\r",
+									"            statusText: res.status\r",
+									"        };\r",
+									"        \r",
+									"        pm.test(`Testing URL: ${baseURL + invalidURL}`, function () {\r",
+									"            pm.expect(res).to.have.status(404);\r",
+									"            pm.expect(res.status).to.eql(\"Not Found\");\r",
+									"            testResult.passed = true;\r",
+									"        });\r",
+									"\r",
+									"        // Retrieve current test results, parse JSON string to array\r",
+									"        let testResults = pm.environment.get('testResults');\r",
+									"        testResults = JSON.parse(testResults);\r",
+									"\r",
+									"        // Add new test result\r",
+									"        testResults.push(testResult);\r",
+									"\r",
+									"        // Save updated test results back to the environment variable\r",
+									"        pm.environment.set('testResults', JSON.stringify(testResults));\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"// Log the results to the console\r",
+									"setTimeout(() => {\r",
+									"    const testResults = pm.environment.get('testResults');\r",
+									"    console.log('Test Results:', JSON.parse(testResults));\r",
+									"}, 3000);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}{{invalidURL}}",
+							"host": [
+								"{{baseURL}}{{invalidURL}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid_End_Point-all_observatories",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ===========================================================\r",
+									"// .........    This negative test helps ensure that your API handles invalid endpoints correctly and provides appropriate error messages or responses.\r",
+									"// ............................................................\r",
+									"const invalidURLs = [\r",
+									"    'observatoriesxyz',\r",
+									"    'observatorie',\r",
+									"    'observator',\r",
+									"    'observ',\r",
+									"    'observation',\r",
+									"    'observatories/invalid',\r",
+									"    'observatories123',\r",
+									"    'observatories?test',\r",
+									"    'observatories_bad',\r",
+									"    'observatories_wrong'\r",
+									"];\r",
+									"\r",
+									"const baseURL = 'https://sscweb.gsfc.nasa.gov/WS/sscr/2/';\r",
+									"\r",
+									"invalidURLs.forEach((invalidURL) => {\r",
+									"    pm.sendRequest({\r",
+									"        url: baseURL + invalidURL,\r",
+									"        method: 'GET'\r",
+									"    }, (err, res) => {\r",
+									"        let testResult = {\r",
+									"            url: baseURL + invalidURL,\r",
+									"            status: res.code,\r",
+									"            statusText: res.status\r",
+									"        };\r",
+									"        \r",
+									"        pm.test(`Testing URL: ${baseURL + invalidURL}`, function () {\r",
+									"            pm.expect(res).to.have.status(404);\r",
+									"            pm.expect(res.status).to.eql(\"Not Found\");\r",
+									"            testResult.passed = true;\r",
+									"        });\r",
+									"\r",
+									"        // Retrieve current test results, parse JSON string to array\r",
+									"        let testResults = pm.environment.get('testResults');\r",
+									"        if (!testResults) {\r",
+									"            testResults = [];\r",
+									"        } else {\r",
+									"            testResults = JSON.parse(testResults);\r",
+									"        }\r",
+									"\r",
+									"        // Add new test result\r",
+									"        testResults.push(testResult);\r",
+									"\r",
+									"        // Save updated test results back to the environment variable\r",
+									"        pm.environment.set('testResults', JSON.stringify(testResults));\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"// Log the results to the console\r",
+									"setTimeout(() => {\r",
+									"    const testResults = pm.environment.get('testResults');\r",
+									"    console.log('Test Results:', JSON.parse(testResults));\r",
+									"}, 3000);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}{{invalidURL}}",
+							"host": [
+								"{{baseURL}}{{invalidURL}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid_End_Point-all_ground_stations",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ===========================================================\r",
+									"// .........    This negative test helps ensure that your API handles invalid endpoints correctly and provides appropriate error messages or responses.\r",
+									"// ............................................................\r",
+									"const invalidURLs = [\r",
+									"     'groundStation',\r",
+									"    'groundStationz',\r",
+									"    'grndStations',\r",
+									"    'grounStations',\r",
+									"    'groundStatons',\r",
+									"    'groundStation123',\r",
+									"    'ground_Stations',\r",
+									"    'ground-Stations',\r",
+									"    'groundStationsXYZ',\r",
+									"    'groundStationsInvalid',\r",
+									"    'groundStations?test'\r",
+									"];\r",
+									"\r",
+									"const baseURL = 'https://sscweb.gsfc.nasa.gov/WS/sscr/2/';\r",
+									"\r",
+									"invalidURLs.forEach((invalidURL) => {\r",
+									"    pm.sendRequest({\r",
+									"        url: baseURL + invalidURL,\r",
+									"        method: 'GET'\r",
+									"    }, (err, res) => {\r",
+									"        let testResult = {\r",
+									"            url: baseURL + invalidURL,\r",
+									"            status: res.code,\r",
+									"            statusText: res.status\r",
+									"        };\r",
+									"        \r",
+									"        pm.test(`Testing URL: ${baseURL + invalidURL}`, function () {\r",
+									"            pm.expect(res).to.have.status(404);\r",
+									"            pm.expect(res.status).to.eql(\"Not Found\");\r",
+									"            testResult.passed = true;\r",
+									"        });\r",
+									"\r",
+									"        // Retrieve current test results, parse JSON string to array\r",
+									"        let testResults = pm.environment.get('testResults');\r",
+									"        if (!testResults) {\r",
+									"            testResults = [];\r",
+									"        } else {\r",
+									"            testResults = JSON.parse(testResults);\r",
+									"        }\r",
+									"\r",
+									"        // Add new test result\r",
+									"        testResults.push(testResult);\r",
+									"\r",
+									"        // Save updated test results back to the environment variable\r",
+									"        pm.environment.set('testResults', JSON.stringify(testResults));\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"// Log the results to the console\r",
+									"setTimeout(() => {\r",
+									"    const testResults = pm.environment.get('testResults');\r",
+									"    console.log('Test Results:', JSON.parse(testResults));\r",
+									"}, 3000);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}{{invalidURL}}",
+							"host": [
+								"{{baseURL}}{{invalidURL}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "code_406_observatories",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Example Pre-request Script to set the Accept header\r",
+									"pm.request.headers.add({key: 'Accept', value: 'application/unacceptable-type'});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Test to check for status code 406\r",
+									"pm.test(\"Status code is 406\", function () {\r",
+									"    pm.response.to.have.status(406);\r",
+									"    pm.expect(pm.response.status).to.eql(\"Not Acceptable\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://sscweb.gsfc.nasa.gov/WS/sscr/2/observatories",
+							"protocol": "https",
+							"host": [
+								"sscweb",
+								"gsfc",
+								"nasa",
+								"gov"
+							],
+							"path": [
+								"WS",
+								"sscr",
+								"2",
+								"observatories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "code_406_application_wadl",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Example Pre-request Script to set the Accept header\r",
+									"pm.request.headers.add({key: 'Accept', value: 'application/unacceptable-type'});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Test to check for status code 406\r",
+									"pm.test(\"Status code is 406\", function () {\r",
+									"    pm.response.to.have.status(406);\r",
+									"    pm.expect(pm.response.status).to.eql(\"Not Acceptable\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://sscweb.gsfc.nasa.gov/WS/sscr/2/application.wadl",
+							"protocol": "https",
+							"host": [
+								"sscweb",
+								"gsfc",
+								"nasa",
+								"gov"
+							],
+							"path": [
+								"WS",
+								"sscr",
+								"2",
+								"application.wadl"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "code_406_All Ground Stations",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Define the array of unacceptable Accept header values\r",
+									"const notAccept = [\r",
+									"    \"application/xhtml+xml\",\r",
+									"    \"application/octet-stream\", \r",
+									"    \"text/plain\", \r",
+									"    \"text/x-python\", \r",
+									"    \"text/x-idl\",\r",
+									"    \"application/\"\r",
+									"];\r",
+									"\r",
+									"// Retrieve the current index from the environment\r",
+									"let currentIndex = pm.environment.get('currentAcceptIndex');\r",
+									"if (currentIndex === undefined || currentIndex === null) {\r",
+									"    currentIndex = 0; // Initialize if it doesn't exist\r",
+									"} else {\r",
+									"    currentIndex = parseInt(currentIndex, 10);\r",
+									"}\r",
+									"\r",
+									"// Set the Accept header to the current value in the array\r",
+									"let currentAcceptValue = notAccept[currentIndex];\r",
+									"pm.request.headers.add({ key: 'Accept', value: currentAcceptValue });\r",
+									"\r",
+									"// Increment the index for the next request\r",
+									"currentIndex++;\r",
+									"\r",
+									"// Save the updated index back to the environment\r",
+									"pm.environment.set('currentAcceptIndex', currentIndex);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Test to check for status code 406\r",
+									"pm.test(\"Status code is 406\", function () {\r",
+									"    pm.response.to.have.status(406);\r",
+									"    pm.expect(pm.response.status).to.eql(\"Not Acceptable\");\r",
+									"});\r",
+									"\r",
+									"// Retrieve the current index from the environment\r",
+									"let currentIndex = pm.environment.get('currentAcceptIndex');\r",
+									"currentIndex = parseInt(currentIndex, 10);\r",
+									"\r",
+									"// Retrieve the tested values array from the environment\r",
+									"let testedValues = pm.environment.get('testedAcceptValues');\r",
+									"if (!testedValues) {\r",
+									"    testedValues = [];\r",
+									"} else {\r",
+									"    testedValues = JSON.parse(testedValues);\r",
+									"}\r",
+									"\r",
+									"// Add the current value to the array\r",
+									"let currentAcceptValue = pm.request.headers.find(header => header.key === 'Accept').value;\r",
+									"testedValues.push(currentAcceptValue);\r",
+									"\r",
+									"// Save the updated array back to the environment\r",
+									"pm.environment.set('testedAcceptValues', JSON.stringify(testedValues));\r",
+									"\r",
+									"// Define the array of unacceptable Accept header values (needed to check the length)\r",
+									"const notAccept = [\r",
+									"    \"application/xhtml+xml\",\r",
+									"    \"application/octet-stream\", \r",
+									"    \"text/plain\", \r",
+									"    \"text/x-python\", \r",
+									"    \"text/x-idl\"\r",
+									"];\r",
+									"\r",
+									"if (currentIndex < notAccept.length) {\r",
+									"    // Trigger the next request if there are more values to test\r",
+									"    pm.execution.setNextRequest(pm.info.requestName);\r",
+									"} else {\r",
+									"    // If all values have been tested, clean up the environment variables\r",
+									"    pm.environment.unset('currentAcceptIndex');\r",
+									"    \r",
+									"    // Log the tested values\r",
+									"    if (testedValues) {\r",
+									"        console.log(\"Tested Accept header values:\", testedValues);\r",
+									"    }\r",
+									"    pm.environment.unset('testedAcceptValues');\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://sscweb.gsfc.nasa.gov/WS/sscr/2/groundStations",
+							"protocol": "https",
+							"host": [
+								"sscweb",
+								"gsfc",
+								"nasa",
+								"gov"
+							],
+							"path": [
+								"WS",
+								"sscr",
+								"2",
+								"groundStations"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Positive Tests",
+			"item": [
+				{
+					"name": "application_wadl",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// -------------------------------------------------------\r",
+									"\r",
+									"// ........  The service provides the Web Application Description Language (WADL) for these Web services ....\r",
+									"\r",
+									"// ----------------------------------------------------------\r",
+									"\r",
+									"// Test 1: Validate status code (should be 200)\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"// Test 2: Validate the response time (should be less than 500)\r",
+									"pm.test(\"Response time is less than 500ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
+									"// Test 3: Validate the response size (should be less than 11 KB)\r",
+									"pm.test(\"Response size is less than 11 KB\", function () {\r",
+									"    pm.expect(pm.response.responseSize).to.be.below(11000);\r",
+									"});\r",
+									"// Test 4: Response should be okay to process\r",
+									"pm.test(\"Response should be okay to process\", function () {\r",
+									"    pm.response.to.not.be.error;\r",
+									"    pm.response.to.have.body();\r",
+									"});\r",
+									"\r",
+									"// -----------------------------------------------------------\r",
+									"const responseData = pm.response.text();\r",
+									"// --------------------------------------------------------------\r",
+									"\r",
+									"// Test 5: Verify the length of the response data\r",
+									"pm.test(\"The response data length must be greater than zero\", function () {\r",
+									"    pm.expect(Object.keys(responseData).length).to.be.above(0, \"Response data should not be empty\");\r",
+									"});\r",
+									"// Check if the response contains WADL-specific elements\r",
+									"pm.test(\"Response contains WADL-specific elements\", function () {\r",
+									"    pm.expect(responseData).to.include('<application xmlns=\"http://wadl.dev.java.net/2009/02\">');\r",
+									"});\r",
+									"\r",
+									"// Ensure there is no JSON body with an \"error\" field\r",
+									"pm.test(\"Response does not contain JSON body with an 'error' field\", function () {\r",
+									"    pm.response.to.not.have.jsonBody(\"error\");\r",
+									"});\r",
+									"\r",
+									"// .................................................\r",
+									"\r",
+									"// Test: Verify response headers.\r",
+									"pm.test(\"Verify the header keys are present\", function () {\r",
+									"    pm.response.to.have.header(\"Date\");\r",
+									"    pm.response.to.have.header(\"X-Frame-Options\");\r",
+									"    pm.response.to.have.header(\"Server\");\r",
+									"    pm.response.to.have.header(\"Strict-Transport-Security\");\r",
+									"    pm.response.to.have.header(\"Content-Security-Policy\");\r",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/vnd.sun.wadl+xml\");\r",
+									"    pm.response.to.have.header(\"Last-modified\");\r",
+									"    pm.response.to.have.header(\"Keep-Alive\");\r",
+									"    pm.response.to.have.header(\"Connection\");\r",
+									"    pm.response.to.have.header(\"Transfer-Encoding\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://sscweb.gsfc.nasa.gov/WS/sscr/2/application.wadl",
+							"protocol": "https",
+							"host": [
+								"sscweb",
+								"gsfc",
+								"nasa",
+								"gov"
+							],
+							"path": [
+								"WS",
+								"sscr",
+								"2",
+								"application.wadl"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "All Observatories",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// -------------------------------------------------------\r",
+									"\r",
+									"// ........  This service provides example client code to retrieve data for an observatory.  ....\r",
+									"// ...Significant Response Headers: \"ETag\", \"Cache-Control\"\r",
+									"\r",
+									"// ----------------------------------------------------------\r",
+									"\r",
+									"// Test 1: Validate status code (should be 200)\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"// Test 2: Validate the response time (should be less than 500)\r",
+									"pm.test(\"Response time is less than 5500ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(5500);\r",
+									"});\r",
+									"// Log the response size to the console\r",
+									"console.log(\"Response size in bytes:\", pm.response.responseSize);\r",
+									"// ---------------------------------------------------------------\r",
+									"// Test 3: Validate the response size (should be less than 11 KB)\r",
+									"pm.test(\"Response size is less than 11 KB\", function () {\r",
+									"    // 11 KB = 11 * 1024 bytes\r",
+									"    const sizeLimit = 11 * 1024;\r",
+									"    const responseSize = pm.response.responseSize;\r",
+									"\r",
+									"    // Log the size limit and actual response size for debugging\r",
+									"    console.log(\"Response size in bytes:\", responseSize);\r",
+									"    console.log(\"Size limit in bytes:\", sizeLimit);\r",
+									"\r",
+									"    // Perform the assertion\r",
+									"    pm.expect(responseSize).to.be.below(sizeLimit);\r",
+									"});\r",
+									"// ----------------------------------------------\r",
+									"// Test 4: Response should be okay to process\r",
+									"pm.test(\"Response should be okay to process\", function () {\r",
+									"    pm.response.to.not.be.error;\r",
+									"    pm.response.to.have.body();\r",
+									"});\r",
+									"\r",
+									"// -----------------------------------------------------------\r",
+									"const responseData = pm.response.text();\r",
+									"// --------------------------------------------------------------\r",
+									"\r",
+									"// Test 5: Verify the length of the response data\r",
+									"pm.test(\"The response data length must be greater than zero\", function () {\r",
+									"    pm.expect(Object.keys(responseData).length).to.be.above(0, \"Response data should not be empty\");\r",
+									"});\r",
+									"\r",
+									"// Ensure there is no JSON body with an \"error\" field\r",
+									"pm.test(\"Response does not contain JSON body with an 'error' field\", function () {\r",
+									"    pm.response.to.not.have.jsonBody(\"error\");\r",
+									"});\r",
+									"\r",
+									"// .................................................\r",
+									"\r",
+									"// Test: Verify response headers.\r",
+									"pm.test(\"Verify the header keys are present\", function () {\r",
+									"    pm.response.to.have.header(\"ETag\", 'W/\"-810786596-gzip\"');\r",
+									"    pm.response.to.have.header(\"Cache-Control\", \"no-transform, max-age=3600\");\r",
+									"    pm.response.to.have.header(\"Date\");\r",
+									"    pm.response.to.have.header(\"X-Frame-Options\");\r",
+									"    pm.response.to.have.header(\"Server\");\r",
+									"    pm.response.to.have.header(\"Strict-Transport-Security\");\r",
+									"    pm.response.to.have.header(\"Content-Security-Policy\");\r",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/xml\");\r",
+									"    pm.response.to.have.header(\"Keep-Alive\");\r",
+									"    pm.response.to.have.header(\"Content-Encoding\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://sscweb.gsfc.nasa.gov/WS/sscr/2/observatories",
+							"protocol": "https",
+							"host": [
+								"sscweb",
+								"gsfc",
+								"nasa",
+								"gov"
+							],
+							"path": [
+								"WS",
+								"sscr",
+								"2",
+								"observatories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "The_List_of_All_Observatories",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ...... The list of all observatories displayed in the Console  .................\r",
+									"\r",
+									"// The result:\r",
+									"\r",
+									"//====================================================================\r",
+									"// // .... Test data:\r",
+									"// const observatories = [\r",
+									"//   \"ace\", \"active\", \"aec\", \"aed\", \"aee\", \"aerocube6a\", \"aerocube6b\", \"aim\", \"akebono\", \"alouette1\",\r",
+									"//   \"alouette2\", \"apex\", \"aqua\", \"arase\", \"ariel4\", \"artemisp1\", \"artemisp1pred\", \"artemisp2\",\r",
+									"//   \"artemisp2pred\", \"astrid2\", \"aura\", \"barrel1a\", \"barrel1b\", \"barrel1c\", \"barrel1d\", \"barrel1g\",\r",
+									"//   \"barrel1h\", \"barrel1i\", \"barrel1j\", \"barrel1k\", \"barrel1m\", \"barrel1o\", \"barrel1q\", \"barrel1r\",\r",
+									"//   \"barrel1s\", \"barrel1t\", \"barrel1u\", \"barrel1v\", \"barrel2a\", \"barrel2b\", \"barrel2c\", \"barrel2d\",\r",
+									"//   \"barrel2e\", \"barrel2f\", \"barrel2i\", \"barrel2k\", \"barrel2l\", \"barrel2m\", \"barrel2n\", \"barrel2o\",\r",
+									"//   \"barrel2p\", \"barrel2q\", \"barrel2t\", \"barrel2w\", \"barrel2x\", \"barrel2y\", \"barrel3a\", \"barrel3b\",\r",
+									"//   \"barrel3c\", \"barrel3d\", \"barrel3e\", \"barrel3f\", \"barrel3g\", \"barrel4a\", \"barrel4b\", \"barrel4c\",\r",
+									"//   \"barrel4d\", \"barrel4e\", \"barrel4f\", \"barrel4g\", \"barrel4h\", \"barrel5a\", \"barrel6a\", \"barrel7a\",\r",
+									"//   \"bepicolombo\", \"biosentinel\", \"calipso\", \"cassiope\", \"cce\", \"champ\", \"chandra\", \"chibism\", \"cloudsat\",\r",
+									"//   \"cluster1\", \"cluster2\", \"cluster3\", \"cluster4\", \"cnofs\", \"crres\", \"csswe\", \"dawn\", \"de1\", \"de2\",\r",
+									"//   \"demeter\", \"dmea\", \"dmspf06\", \"dmspf07\", \"dmspf08\", \"dmspf09\", \"dmspf10\", \"dmspf11\", \"dmspf12\",\r",
+									"//   \"dmspf13\", \"dmspf14\", \"dmspf15\", \"dmspf16\", \"dmspf17\", \"dmspf18\", \"dmspf19\", \"doublestar1\",\r",
+									"//   \"doublestar2\", \"dscovr\", \"dsxset\", \"elfina\", \"elfinb\", \"equators\", \"explorer45\", \"fast\", \"firebird3\",\r",
+									"//   \"firebird4\", \"freja\", \"gatewayconc\", \"gcomw1\", \"genesis\", \"geotail\", \"geotailpred\", \"gms3\", \"goce\",\r",
+									"//   \"goes10\", \"goes11\", \"goes12\", \"goes13\", \"goes14\", \"goes15\", \"goes16\", \"goes17\", \"goes18\", \"goes6\",\r",
+									"//   \"goes7\", \"goes8\", \"goes9\", \"gold\", \"goldc\", \"gosat\", \"grace1\", \"grace2\", \"gracefo1\", \"gracefo2\",\r",
+									"//   \"hawkeye\", \"hinode\", \"ibex\", \"icon\", \"image\", \"imp7\", \"imp8\", \"interballaurora\", \"interballtail\",\r",
+									"//   \"iris\", \"irm\", \"isee1\", \"isee2\", \"isee3\", \"isis1\", \"isis2\", \"iss\", \"issb\", \"jason2\", \"juice\", \"juno\",\r",
+									"//   \"kepler\", \"kplo\", \"landsat7\", \"landsat8\", \"landsat9\", \"lanl01\", \"lanl02\", \"lanl89\", \"lanl90\", \"lanl91\",\r",
+									"//   \"lanl94\", \"lanl97\", \"lro\", \"mars\", \"maven\", \"mercury\", \"messenger\", \"metop1b\", \"metop2a\", \"mgs\",\r",
+									"//   \"microlab1\", \"mir\", \"mms1\", \"mms1ltpred\", \"mms2\", \"mms3\", \"mms4\", \"moon\", \"mro\", \"msl\", \"msx\",\r",
+									"//   \"newhorizons\", \"noaa10\", \"noaa12\", \"noaa14\", \"noaa15\", \"noaa16\", \"noaa17\", \"noaa18\", \"noaa19\",\r",
+									"//   \"noaa20\", \"noaa21\", \"noaa5\", \"noaa6\", \"noaa7\", \"noaa8\", \"oersted\", \"ogo5\", \"ogo6\", \"ohzora\", \"orx\",\r",
+									"//   \"parasol\", \"parkersp\", \"parkersppred\", \"polar\", \"psyche\", \"rbspa\", \"rbspapred\", \"rbspb\", \"rbspbpred\",\r",
+									"//   \"reimei\", \"rhessi\", \"rocsat1\", \"rosetta\", \"sampex\", \"scatha\", \"sdo\", \"smilepredict\", \"snoe\", \"soho\",\r",
+									"//   \"solarorbiter\", \"sorce\", \"spitzer\", \"sport\", \"sputnik1\", \"st5a\", \"st5b\", \"st5c\", \"stereoa\", \"stereob\",\r",
+									"//   \"sun\", \"suomi\", \"swarma\", \"swarmb\", \"swarmc\", \"tatiana1\", \"tatiana2\", \"themisa\", \"themisapred\",\r",
+									"//   \"themisb\", \"themisbpred\", \"themisc\", \"themiscpred\", \"themisd\", \"themisdpred\", \"themise\", \"themisepred\",\r",
+									"//   \"timed\", \"trace\", \"tse2017c\", \"twins1\", \"twins2\", \"uars\", \"viking\", \"wind\", \"xmm\", \"yohkoh\"\r",
+									"//   ];\r",
+									"//================================================================================\r",
+									"\r",
+									"// Parse the XML response body\r",
+									"const responseXml = pm.response.text();\r",
+									"const parseString = require('xml2js').parseString;\r",
+									"\r",
+									"parseString(responseXml, { explicitArray: false }, function (err, result) {\r",
+									"    if (err) {\r",
+									"        console.log(\"Error parsing XML:\", err);\r",
+									"    } else {\r",
+									"        // Extract Observatory elements\r",
+									"        const observatories = result.ObservatoryResponse.Observatory;\r",
+									"\r",
+									"        // Handle single or multiple observatories\r",
+									"        const observatoryArray = Array.isArray(observatories) ? observatories : [observatories];\r",
+									"\r",
+									"        // Iterate through the observatories and log their Id values\r",
+									"        observatoryArray.forEach(function (observatory) {\r",
+									"            console.log(observatory.Id);\r",
+									"        });\r",
+									"\r",
+									"        // Verify that Id elements are present and print the number of Ids found\r",
+									"        pm.test(\"Verify Id elements are present\", function () {\r",
+									"            pm.expect(observatoryArray.length).to.be.above(0, \"No Id elements found\");\r",
+									"        });\r",
+									"    }\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://sscweb.gsfc.nasa.gov/WS/sscr/2/observatories",
+							"protocol": "https",
+							"host": [
+								"sscweb",
+								"gsfc",
+								"nasa",
+								"gov"
+							],
+							"path": [
+								"WS",
+								"sscr",
+								"2",
+								"observatories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "All Ground Stations",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// -------------------------------------------------------\r",
+									"\r",
+									"// ..  This service provides descriptions of the ground stations that are available from SSC.   ....\r",
+									"// ......... -Significant Response Headers: \"Last-Modified\", \"Cache-Control\"\r",
+									"// ......... -Most Likely Response Codes: 200 - \"Ok\", 406 - \"Not Acceptable\"\r",
+									"\r",
+									"// ----------------------------------------------------------\r",
+									"// Test 1: Check if the response status code is 200\r",
+									"switch (pm.response.code) {\r",
+									"    // ......... Most Likely Response Codes:\r",
+									"    case 200:\r",
+									"        pm.test(\"200 OK. The request has succeeded\", function () {\r",
+									"            pm.expect(pm.response.code).to.equal(200);\r",
+									"        });\r",
+									"        break;\r",
+									"    case 406:\r",
+									"        pm.test(\"406 Not Acceptable\", function () {\r",
+									"            pm.expect(pm.response.code).to.equal(408);\r",
+									"        });\r",
+									"        break;\r",
+									"    // ......... Other Response Codes:\r",
+									"    case 404:\r",
+									"        pm.test(\"404 Not Found\", function () {\r",
+									"            pm.expect(pm.response.code).to.equal(404);\r",
+									"        });\r",
+									"        break;\r",
+									"    case 400:\r",
+									"        pm.test(\"400 Bad Request\", function () {\r",
+									"            pm.expect(pm.response.code).to.equal(400);\r",
+									"        });\r",
+									"        break;\r",
+									"    case 401:\r",
+									"        pm.test(\"401 Unauthorized\", function () {\r",
+									"            pm.expect(pm.response.code).to.equal(401);\r",
+									"        });\r",
+									"        break;\r",
+									"    case 408:\r",
+									"        pm.test(\"408 Request Timeout\", function () {\r",
+									"            pm.expect(pm.response.code).to.equal(408);\r",
+									"        });\r",
+									"        break;\r",
+									"    case 500:\r",
+									"        pm.test(\"500 Internal Server Error\", function () {\r",
+									"            pm.expect(pm.response.code).to.equal(500);\r",
+									"        });\r",
+									"        break;\r",
+									"    case 503:\r",
+									"        pm.test(\"503 Server Unavailable\", function () {\r",
+									"            pm.expect(pm.response.code).to.equal(503);\r",
+									"        });\r",
+									"        break;\r",
+									"    case 502:\r",
+									"        pm.test(\"502 Bad Gateway\", function () {\r",
+									"            pm.expect(pm.response.code).to.equal(502);\r",
+									"        });\r",
+									"        break;\r",
+									"    case 599:\r",
+									"        pm.test(\"599 Network Connect Timeout Error\", function () {\r",
+									"            pm.expect(pm.response.code).to.equal(599);\r",
+									"        });\r",
+									"        break;\r",
+									"\r",
+									"    default:\r",
+									"        pm.test(\"Unknown response code: \" + pm.response.code, function () {\r",
+									"            pm.expect(pm.response.code).to.be.oneOf([200, 404, 400, 401, 500, 503, 502, 599, 408]);\r",
+									"        });\r",
+									"}\r",
+									"\r",
+									"// Test 2: Validate the response time (should be less than 500)\r",
+									"pm.test(\"Response time is less than 5500ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(5500);\r",
+									"});\r",
+									"// Log the response size to the console\r",
+									"console.log(\"Response size in bytes:\", pm.response.responseSize);\r",
+									"// ---------------------------------------------------------------\r",
+									"// Test 3: Validate the response size (should be less than 11 KB)\r",
+									"pm.test(\"Response size is less than 11 KB\", function () {\r",
+									"    // 11 KB = 11 * 1024 bytes\r",
+									"    const sizeLimit = 11 * 1024;\r",
+									"    const responseSize = pm.response.responseSize;\r",
+									"\r",
+									"    // Log the size limit and actual response size for debugging\r",
+									"    console.log(\"Response size in bytes:\", responseSize);\r",
+									"    console.log(\"Size limit in bytes:\", sizeLimit);\r",
+									"\r",
+									"    // Perform the assertion\r",
+									"    pm.expect(responseSize).to.be.below(sizeLimit);\r",
+									"});\r",
+									"// ----------------------------------------------\r",
+									"// Test 4: Response should be okay to process\r",
+									"pm.test(\"Response should be okay to process\", function () {\r",
+									"    pm.response.to.not.be.error;\r",
+									"    pm.response.to.have.body();\r",
+									"});\r",
+									"\r",
+									"// -----------------------------------------------------------\r",
+									"const responseData = pm.response.text();\r",
+									"// --------------------------------------------------------------\r",
+									"\r",
+									"// Test 5: Verify the length of the response data\r",
+									"pm.test(\"The response data length must be greater than zero\", function () {\r",
+									"    pm.expect(Object.keys(responseData).length).to.be.above(0, \"Response data should not be empty\");\r",
+									"});\r",
+									"\r",
+									"// Ensure there is no JSON body with an \"error\" field\r",
+									"pm.test(\"Response does not contain JSON body with an 'error' field\", function () {\r",
+									"    pm.response.to.not.have.jsonBody(\"error\");\r",
+									"});\r",
+									"\r",
+									"// Test: Verify the presence of 'version='1.0'' in the response text\r",
+									"pm.test(\"Verify the response includes version='1.0'\", function () {\r",
+									"    pm.expect(responseData).to.include('version=\"1.0\"');\r",
+									"});\r",
+									"// ...................................................................\r",
+									"\r",
+									"// Test: Check if body containes important fields:\r",
+									"pm.test(\"Body containes important fields\", function () {\r",
+									"    pm.expect(responseData).to.include(\"id\");\r",
+									"    pm.expect(responseData).to.include(\"Name\");\r",
+									"    pm.expect(responseData).to.include(\"Location\");\r",
+									"    pm.expect(responseData).to.include(\"GroundStation\");\r",
+									"    pm.expect(responseData).to.include(\"Latitude\");\r",
+									"    pm.expect(responseData).to.include(\"Longitude\");\r",
+									"});\r",
+									"\r",
+									"// Test: Verify response headers.\r",
+									"pm.test(\"Verify the header keys are present\", function () {\r",
+									"    // ......... Significant Response Headers:\r",
+									"    pm.response.to.have.header(\"Last-Modified\");\r",
+									"    pm.response.to.have.header(\"Cache-Control\", \"no-transform, max-age=86400\");\r",
+									"    // ......... Other Response Headers:\r",
+									"    pm.response.to.have.header(\"Date\");\r",
+									"    pm.response.to.have.header(\"X-Frame-Options\");\r",
+									"    pm.response.to.have.header(\"Server\");\r",
+									"    pm.response.to.have.header(\"Strict-Transport-Security\");\r",
+									"    pm.response.to.have.header(\"Content-Security-Policy\");\r",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/xml\");\r",
+									"    pm.response.to.have.header(\"Keep-Alive\");\r",
+									"    pm.response.to.have.header(\"Content-Encoding\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://sscweb.gsfc.nasa.gov/WS/sscr/2/groundStations",
+							"protocol": "https",
+							"host": [
+								"sscweb",
+								"gsfc",
+								"nasa",
+								"gov"
+							],
+							"path": [
+								"WS",
+								"sscr",
+								"2",
+								"groundStations"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
